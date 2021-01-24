@@ -1,0 +1,11 @@
+1) pow-and-calculate - T2 +
+2) buttons-counter - T2 +
+3) calcWithFunc - T1
+4) methods - T2 +
+5) method-counter - T2 +
+6) calendar - T2 + 
+7) coctails - T2 +
+8) megaCalendar - T3 +
+9) editable-list - T3 +
+10) events - T4
+11) gigaCalendar - T4

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='birthday.css'>
+</head>
+<body>
+    <div id="getInfo" class="getInfo">
+        <h2>Немного о вас:</h2>
+        <p>Ваше имя: <input id="firstname" type="text" name="firstname" placeholder="Иван" maxlength="20" pattern="^[А-Яа-яЁё]+$"></p>
+        <h3>Дата рождения:</h3>
+        <p>Год: <input id="year" type="text" name="year" placeholder="1991" maxlength="4" pattern="[0-9]"></p>
+        <p>Месяц: <input id="month" type="number" min="1" max="12" step="1" name="day" placeholder="1" maxlength="1"></p>
+        <p>День: <input id="day" type="number" min="1" max="31" step="1" name="day" placeholder="1" maxlength="1"></p>
+        <input class="button" id="submit" type="button" value="Ок" onclick="saveInfo()">
+    </div>
+    <div id="birthday" class="birthday">
+        <h2 id="hello" class="hello"></h2>
+        <div id="birthdayInfo" class="birthdayInfo"></div>
+        <input class="button" id="submit" type="button" value="Очистить" onclick="clearBirthday()">
+    </div>
+    
+    <script src='birthday.js'></script>
+</body>
+</html>

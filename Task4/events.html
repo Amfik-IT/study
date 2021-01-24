@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        a {
+            display: inline-block;
+            margin: 10px;
+            height: 20px;
+        }
+        input {
+            margin: 10px;
+        }
+        p {
+            width: 50px;
+            background-color: cadetblue;
+            text-align: center;
+            margin-left: 10px;
+        }
+        /* [data-length="valid"] {
+            border: solid 1px green;
+        }
+        [data-length="unvalid"] {
+            border: solid 1px red;
+        } */
+        .valid {
+            border: solid 1px green;
+        }
+        .unvalid {
+            border: solid 1px red;
+        }
+    </style>
+</head>
+<body>
+    <div id="links">
+        <a href="https://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D1%81%D0%B8" title="Википедия о лосях"><span>Ссылка 1</span></a><br>
+        <a href="https://translate.google.com/?hl=ru" title="Гугл переводчик"><span>Ссылка 2</span></a><br>
+        <a href="https://www.onliner.by/" title="Онлайнер"><span>Ссылка 3</span></a><br>
+        <a href="https://news.tut.by/#ua:top_menu_www.tut.by~185" title="Тут бай. Новости"><span>Ссылка 4</span></a><br>
+        <a href="https://learn.javascript.ru/" title="Современный учебник JavaScript"><span>Ссылка 5</span></a><br>
+    </div>
+    <dit id="inputs">
+        <input type="text" value="Текст 1"><br>
+        <input type="text" value="Текст 2"><br>
+        <input type="text" value="Текст 3"><br>
+        <input type="text" value="Текст 4"><br>
+        <input type="text" value="Текст 5"><br>
+    </dit>
+    <div id="quadratic">
+        <p>2</p>
+        <p>3</p>
+        <p>4</p>
+        <p>5</p>
+        <p>7</p>
+    </div>
+    <div id="validation">
+        <input type="text" data-length="10">
+        <input type="text" data-length="11">
+        <input type="text" data-length="15">
+    </div>
+
+
+    <script src='events.js'></script>
+</body>
+</html>

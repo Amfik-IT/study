@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
+    <link rel='stylesheet' type='text/css' media='screen' href='ping-pong_svg.css'>
+</head>
+<body>
+    <svg id="svg">
+        <defs>
+            <linearGradient id='PLeft' x1='0%' y1='0%' x2='0%' y2='100%'>
+                <stop offset = '0%' stop-color = hsl(32,100%,78%) />
+                <stop offset = '47%' stop-color = hsl(32,100%,90%) />
+                <stop offset = '53%' stop-color = hsl(32,100%,78%) />
+                <stop offset = '100%' stop-color = hsl(32,100%,70%) />
+            </linearGradient>
+            <linearGradient id='PRight' x1='0%' y1='0%' x2='100%' y2='100%'>
+                <stop offset = '0%' stop-color = hsl(110,100%,78%) />
+                <stop offset = '47%' stop-color = hsl(110,100%,90%) />
+                <stop offset = '53%' stop-color =  hsl(110,100%,78%) />
+                <stop offset = '100%' stop-color =  hsl(110,100%,70%) />
+            </linearGradient>
+            <filter id='shadowBall'>
+                <feDropShadow dx='0' dy='0' stdDeviation='2' flood-color='#ff869c' flood-opacity='1'></feDropShadow>
+            </filter>
+            <pattern id="imageBall" height="30" width="30">
+                <image id="rotateBall" class="rotateBall" x="0" y="0" height="30" width="30" xlink:href="fireball30px.png"></image>
+            </pattern>
+        </defs>
+    </svg>
+    <script src='ping-pong_svg.js'></script>
+</body>
+</html>

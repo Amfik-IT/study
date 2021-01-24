@@ -1,0 +1,106 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-flow: wrap;
+    background:
+    radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-size:16px 16px;
+    background-color:#282828;
+    margin: 0px;
+}
+.nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
+input {
+    width: 230px;
+    height: 30px;
+    color: #afafaf;
+    background-color: #000000;
+    border-radius: 10px;
+    box-shadow: 2px 2px 7px #b1b1b1;
+    transition-duration: 0.6s;
+}
+input:hover {
+    box-shadow: 2px 2px 7px #983c4c;
+    color:#ca4d61;
+}
+input:focus {
+    outline-color: inherit;
+    outline-style: none;
+    outline-width: 0px;
+}
+.points {
+    color: #d2d1d1;
+    font-weight: 900;
+    font-size: 40px;
+    text-shadow: 0px 0px 10px #982b2b;
+    line-height: 30px;
+    margin-left: 50px;
+    font-family: 'Hachi Maru Pop', cursive;
+}
+.pingPong {
+    border: solid 3px black;
+    box-shadow: 1px 1px 25px #d8cdcf, 10px 0px 8px -10px #e25972 inset, -10px 0px 8px -10px #e25972 inset;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    background-color:#282828;
+    
+    background-image: linear-gradient(#0000001a 2px, transparent 2px), 
+    linear-gradient(90deg, #0000001a 2px, transparent 2px), 
+    linear-gradient(#0000001a 1px, transparent 1px), 
+    linear-gradient(90deg, #0000001a 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+.player {
+    border: solid 1px black;
+    position: absolute;
+}
+.playerOne {
+    border-color: #bf9768;
+    background-image: 
+        linear-gradient(180deg, hsl(32,100%,78%)  0%, 
+        hsl(32,100%,90%) 47%, 
+        hsl(32,100%,78%) 53%,
+        hsl(32,100%,70%)100%);
+}
+.playerTwo {
+    border-color: hsl(110, 83%, 60%)100%;
+    background-image: 
+        linear-gradient(180deg, hsl(110, 100%, 78%)  0%, 
+        hsl(110,100%,90%) 47%, 
+        hsl(110,100%,78%) 53%,
+        hsl(110, 100%, 70%)100%);
+}
+@keyframes rotator{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+}
+.ball {
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px #ff869c;
+    position: absolute;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 550;
+    line-height: 22px;
+    color: black;
+    text-shadow: 0px 0px 10px white;
+    transition-duration: .4s;
+    transition-property: transform;
+    transform: scale(1);
+    background: url('fireball.png');
+    background-position: center;
+    background-size: 280%;
+    background-position-y: 43%;
+    font-family: 'Hachi Maru Pop', cursive;
+}

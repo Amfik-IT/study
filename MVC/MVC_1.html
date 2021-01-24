@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MVC example</title>
+    <style>
+        body {
+            font-size: 21px;
+            text-align: center;
+        }
+
+        input {
+            min-width: 180px;
+            padding: 8px 12px;
+            border: 1px gray solid;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+
+        button {
+            font-size: 18px;
+            line-height: 21px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Пример решения задачи "подход MVC"</h1>
+
+    <h3>пример вычисления результата двух чисел</h3>
+    <form>
+        <fieldset>
+            <legend>Магия чисел</legend>
+            <p>
+                <input type="number" placeholder="Введите первое значение" name="inputValue_1" id="inputValue_1">
+                <select id="mySelect">
+                    <option>*</option>
+                    <option>/</option>
+                    <option>+</option>
+                    <option>-</option>
+                </select>
+                <input type="number" placeholder="Введите второе значение" name="inputValue_2" id="inputValue_2">
+            </p>
+            <p>
+                <button id="calculateBtn">Вычислить</button>
+            </p>
+            <div id="showResult"></div>
+        </fieldset>
+    </form>
+
+<script>
+    const input1 = document.querySelector('#inputValue_1');
+    const input2 = document.querySelector('#inputValue_2');
+    const btn = document.querySelector('#calculateBtn');
+    const form = document.querySelector("form");
+    const result = document.querySelector('#showResult');
+    const select = document.querySelector('#mySelect');
+
+    btn.disabled = true;
+
+    // Controller
+    form.addEventListener('click', function (event) {
+        let target = event.target;
+
+        if (target.tagName == "INPUT") {
+            target.addEventListener("input", () => {
+                if (input1.value && input2.value){
+                    btn.disabled = false;
+                } else {
+                    btn.disabled = true;
+                }
+            });
+        }
+
+        if (target.tagName == "BUTTON") {
+            event.preventDefault();
+            objParam.updateParam();
+        }
+    });
+
+    // Model
+    const objParam = {
+        num1: 0,
+        num2: 0,
+        signOperation: null,
+        res: 0,
+
+        updateParam: function() {
+            this.num1 = +input1.value;
+            this.num2 = +input2.value;
+            this.signOperation = select.value;
+            this.calculate();
+        },
+
+        calculate: function() {
+            switch (this.signOperation) {
+                case "+":
+                    this.res = this.num1 + this.num2;
+                    webPageView.update();
+                    break;
+                case "-":
+                    this.res = this.num1 - this.num2;
+                    webPageView.update();
+                    break;
+                case "*":
+                    this.res = this.num1 * this.num2;
+                    webPageView.update();
+                    break;
+                case "/":
+                    if (+this.num2 == 0) {
+                        this.res = "error (на ноль делить нельзя)";
+                        webPageView.update();
+                    } else {
+                        this.res = this.num1 / this.num2;
+                        webPageView.update();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
+    }
+
+    // View
+    const webPageView = {
+        update: function (r) {
+            result.innerHTML = `Результат вычислений = ${objParam.res}`;
+            input1.value = "";
+            input2.value = "";
+            btn.disabled = true;
+        },
+    }
+    
+    
+    /*
+    Здесь пишем скрипт, который позволит решить поставленную задачу:
+        1) кнопка "вычислить" должна быть не активна, пока не введены оба числа;
+        2) Если введены оба числа (т.е. инпуты не пустые), то по событию "blur", "change" или "input" (обосновать выбор события и предложить оптимизацию) делаем кнопку активной;
+        3) по клику на эту кнопку - произвести вычисление и вывод результата в div с id="showResult" в формате "Результат вычислений = " + результат.
+    */
+</script>
+</body>
+</html>

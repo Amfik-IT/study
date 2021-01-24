@@ -1,0 +1,202 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-flow: wrap;
+    background:
+    radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-size:16px 16px;
+    background-color:#282828;
+    margin: 0px;
+    overflow: hidden;
+}
+@keyframes rotator{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+}
+@keyframes inversRotator{
+    from{ transform: rotate(360deg); }
+    to{ transform: rotate(0deg); }
+}
+.getInfo {
+    border: #00000078 solid 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 400px;
+    height: 400px;
+    background-color: #292929;
+    box-shadow: 1px 1px 25px #d8cdcf;
+    flex-wrap: wrap;
+    flex-direction: column;
+    color: burlywood;
+    position: absolute;
+    transform: translateX(0);
+}
+h2, h3 {
+    margin-bottom: 10px;
+}
+p {
+    margin: 10px 0px;
+}
+.button {
+    width: 50px;
+    height: 30px;
+    font-weight: 600;
+    color: #000000;
+    background-color: burlywood;
+    border-radius: 10px;
+    box-shadow: 2px 2px 7px #b1b1b1;
+    transition-duration: 0.6s;
+    z-index: 1;
+}
+.button:hover {
+    box-shadow: 2px 2px 7px #983c4c;
+}
+.button:focus {
+    outline-color: inherit;
+    outline-style: none;
+    outline-width: 0px;
+}
+.birthday {
+    border: #00000078 solid 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 400px;
+    height: 400px;
+    background-color: #292929;
+    box-shadow: 1px 1px 25px #d8cdcf;
+    flex-wrap: wrap;
+    flex-direction: column;
+    color: burlywood;
+    position: absolute;
+    transform: translateX(0);
+}
+#birthday input {
+    width: 80px;
+}
+.birthdayInfo {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.birthdayInfo p {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.birthdayInfo p span {
+    display: inline-block;
+    width: 30px;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    border: solid black 1px;
+    box-shadow: 0px 0px 10px #d8cdcf;
+    border-radius: 5px;
+    margin: 0px 5px;
+}
+.hello {
+    margin-bottom: 20px;
+}
+img {
+    position: fixed;
+}
+.starter {
+    width: 200px;
+    height: 200px;
+    top: -100px;
+    left: -100px;
+    animation: rotator linear 60s infinite;
+}
+.starter2 {
+    width: 200px;
+    height: 200px;
+    top: 87px;
+    left: -47px;
+    animation: rotator linear 60s infinite reverse;
+}
+.starter3 {
+    width: 200px;
+    height: 200px;
+    top: -112px;
+    right: 37px;
+    animation: rotator linear 45s infinite reverse;
+}
+.starter4 {
+    width: 200px;
+    height: 200px;
+    top: 16px;
+    right: -110px;
+    animation: rotator linear 45s infinite;
+}
+.starter5 {
+    width: 112%;
+    height: 112%;
+    top: -26px;
+    left: -26px;
+}
+input, p, h2, h3 {
+    z-index: 3;
+}
+.starter6 {
+    width: 107px;
+    height: 107px;
+    left: 46px;
+    bottom: -38px;
+    animation: rotator linear 30s infinite;
+}
+.starter7 {
+    width: 107px;
+    height: 107px;
+    left: 210px;
+    bottom: -52px;
+    animation: rotator linear 30s infinite;
+}
+.starter8 {
+    width: 77px;
+    height: 77px;
+    left: 141px;
+    bottom: -46px;
+    animation: rotator linear 30s infinite reverse;
+}
+.thepix {
+    width: 50px;
+    height: 50px;
+    top: 162px;
+    left: 28px;
+}
+.texture {
+    left: 0px;
+    bottom: 50px;
+    position: absolute;
+    transform: rotate(-45deg);
+}
+.texture2 {
+    right: 0px;
+    top: 100px;
+    position: absolute;
+    transform: rotate(75deg);
+}
+.truba {
+    width: 400px;
+    left: -15px;
+    bottom: 0px;
+    opacity: 0.9;
+}
+.truba2 {
+    width: 170px;
+    right: 0px;
+    bottom: 0px;
+    opacity: 0.9;
+}

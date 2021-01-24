@@ -1,0 +1,115 @@
+body {
+    background: url(b3.jpg);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+.circleBig {
+    border: #00000078 solid 1px;
+    position: relative;
+    border-radius: 50%;
+    width: 500px;
+    height: 500px;
+    margin-top: 50px;
+    background-color: #292929;
+    background: url('catOne.png') no-repeat 50% 50%;
+    /* background: url(catOne.png) no-repeat 50% 50%, radial-gradient(circle, #242025, #252226, #262527, #272728, #292929); */
+    background-size: 50%;
+    box-shadow: 1px 1px 25px #d8cdcf;
+}
+.circleSmall {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    color: #afafaf;
+    font-weight: 900;
+    font-size: 50px;
+    text-shadow: 0px 0px 10px #000000;
+}
+.hourHand {
+    position: absolute;
+    background-color: #afafaf;
+    width: 10px;
+    border: solid black 1px;
+    border-radius: 5px;
+    transform-origin: bottom center;
+    box-shadow: 0px -1px 3px #000000;
+}
+.minuteHand {
+    position: absolute;
+    background-color: #afafaf;
+    width: 6px;
+    border: solid black 1px;
+    border-radius: 5px;
+    transform-origin: bottom center;
+    box-shadow: 0px -1px 3px #000000;
+    z-index: 1;
+}
+.secondHand {
+    position: absolute;
+    background-color: #afafaf;
+    width: 2px;
+    border: solid black 1px;
+    border-radius: 1px;
+    transform-origin: bottom center;
+    box-shadow: 0px -1px 3px #000000;
+    z-index: 1;
+}
+.dotSmall {
+    position: absolute;
+    background-color: #000000c2;
+    border-radius: 50%;
+    height: 3px;
+    width: 3px;
+}
+.dotBig {
+    position: absolute;
+    background-color: #000000c2;
+    border-radius: 50%;
+    height: 5px;
+    width: 5px;
+}
+.litleCenterCircle {
+    position: absolute;
+    background-color: #afafaf;
+    width: 15px;
+    height: 15px;
+    border: solid black 1px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px #000000;
+    z-index: 1;
+}
+svg {
+    margin-top: 50px;
+    border: #00000078 solid 1px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 25px #d8cdcf;
+    background-color: #292929;
+    background: url('catOne.png') no-repeat 50% 50%;
+    background-size: 50%;
+}
+.circleSvgBig {
+    fill: transparent;
+}
+.numeral {
+    width: 50px;
+    height: 50px;
+    fill: #afafaf;
+    font-weight: 900;
+    font-size: 50px;
+    text-shadow: 0px 0px 10px #000000;
+    text-align: center;
+}
+#digitalClock {
+    width: 100px;
+    height: 50px;
+    fill: #afafaf;
+    font-weight: 600;
+    font-size: 30px;
+    text-shadow: 0px 0px 5px #000000;
+    text-align: center;
+}

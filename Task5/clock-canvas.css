@@ -1,0 +1,13 @@
+body {
+    background: url(b3.jpg);
+    background-size: cover;
+}
+.clock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+#photo {
+    display: none;
+}
