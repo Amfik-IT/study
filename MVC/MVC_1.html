@@ -58,18 +58,18 @@
     const result = document.querySelector('#showResult');
     const select = document.querySelector('#mySelect');
 
-    btn.disabled = true;
-
     // Controller
     form.addEventListener('click', function (event) {
         let target = event.target;
 
+        objParam.updateDisabled(true);
+
         if (target.tagName == "INPUT") {
             target.addEventListener("input", () => {
-                if (input1.value && input2.value){
-                    btn.disabled = false;
+                if (input1.value && input2.value) {
+                    objParam.updateDisabled(false);
                 } else {
-                    btn.disabled = true;
+                    objParam.updateDisabled(true);
                 }
             });
         }
@@ -86,6 +86,12 @@
         num2: 0,
         signOperation: null,
         res: 0,
+        disabled: null,
+
+        updateDisabled: function(d) {
+            this.disabled = d;
+            webPageView.update(d);
+        },
 
         updateParam: function() {
             this.num1 = +input1.value;
@@ -98,23 +104,23 @@
             switch (this.signOperation) {
                 case "+":
                     this.res = this.num1 + this.num2;
-                    webPageView.update();
+                    webPageView.update(this.res);
                     break;
                 case "-":
                     this.res = this.num1 - this.num2;
-                    webPageView.update();
+                    webPageView.update(this.res);
                     break;
                 case "*":
                     this.res = this.num1 * this.num2;
-                    webPageView.update();
+                    webPageView.update(this.res);
                     break;
                 case "/":
                     if (+this.num2 == 0) {
                         this.res = "error (на ноль делить нельзя)";
-                        webPageView.update();
+                        webPageView.update(this.res);
                     } else {
                         this.res = this.num1 / this.num2;
-                        webPageView.update();
+                        webPageView.update(this.res);
                     }
                     break;
                 default:
@@ -126,10 +132,14 @@
     // View
     const webPageView = {
         update: function (r) {
-            result.innerHTML = `Результат вычислений = ${objParam.res}`;
-            input1.value = "";
-            input2.value = "";
-            btn.disabled = true;
+            if (r === true || r === false) {
+                btn.disabled = r;
+            } else {
+                result.innerHTML = `Результат вычислений = ${r}`;
+                input1.value = "";
+                input2.value = "";
+                btn.disabled = true;
+            }
         },
     }
     // hi

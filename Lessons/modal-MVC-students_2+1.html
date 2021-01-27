@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Modal default MVC</title>
+  <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Создание уже и не такого простого модального окошка!</h1>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+    <p class="btn"><a href="#" id="modal-open" class="modal-open" title="Покажите мне модальное окошко">Открыть окно</a></p>
+
+    <div class="modal-data"></div>
+    <p class="btn"><a href="#" id="clear-data" class="clear-data" style="display: none;">Очистить данные</a></p>
+  </div>
+
+  <div class="modal-overlay modal_closed" id="modal-overlay"></div>
+  <div class="modal modal_closed" id="modal">
+    <header class="modal__header">
+      <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+      <h2>Введите данные</h2>
+    </header>
+
+    <main class="modal__content">
+      <div class="form-field">
+        <label for="name">Ваше имя:</label>
+        <input required class="input__default" type="text" id="name" name="name">
+      </div>
+      <div class="form-field">
+        <label>Ваш день рождения:</label>
+        <input required type="number" class="input__date-birth" id="birth-day" name="name" placeholder="День"> -
+        <input required type="number" class="input__date-birth" id="birth-month" name="name" placeholder="Месяц"> -
+        <input required type="number" class="input__date-birth" id="birth-year" name="name" placeholder="Год">
+      </div>
+    </main>
+
+    <footer class="modal__footer">
+      <button id="modal-cancel" class="modal__cancel" title="Отмена">Отмена</button>
+      <button id="modal-save" class="modal__save" title="Сохранить">Сохранить данные</button>
+    </footer>
+  </div>
+
+<script>
+
+/* ------- begin view -------- */
+  function ModalView() {
+    let myModal = null;
+    let myModalOverlay = null; // элемент для затемненя окна
+    let btnSave = null; // кнопка модалки
+
+    this.init = function(container) { // инициализация данных
+      myModal = container;
+
+      // элемент для затемненя окна
+      myModalOverlay = document.querySelector('#modal-overlay');
+
+      // кнопка модалки
+      btnSave = myModal.querySelector('#modal-save'); 
+    }
+
+    this.show = function () { // удаляет класс с display: none
+      myModal.classList.remove('modal_closed');
+      myModalOverlay.classList.remove('modal_closed');
+    }
+
+    this.hide = function () { // добавляет класс с display: none
+      myModal.classList.add('modal_closed');
+      myModalOverlay.classList.add('modal_closed');
+    }
+
+    this.buttonDisabled = function(state){ // блокируе кнопку сохранения
+      if (state){
+        btnSave.disabled = false;
+        }  else {
+        btnSave.disabled = true;
+        }
+    }
+
+    // this.printViewData = function () { // вывести данные из хранилища в div.modal-data
+    // }
+
+    // this.clearViewData = function () { // очистить или выдать дефолтное сообщение только для div.modal-data
+    // }
+    this.clearView = function (inputsInfo) {
+      for (item of inputsInfo){
+        item.value = '';
+      }
+    }
+
+  };
+/* -------- end view --------- */
+
+/* ------- begin model ------- */
+  function ModalModel () {
+    let myModalContainer = null;
+    let myModalView = null;
+    let userData = {}; // объект для хранения данных о пользователе
+    let inputsInfo = null; // для коллекция импутов модалки
+    let btnDis = null; // для значения блокировки кнопки сохранения
+
+    this.init = function(view, container) { // инициализация данных
+      myModalContainer = container;
+      myModalView = view;
+
+      // собираем все импуты в модалке
+      inputsInfo = myModalContainer.querySelectorAll('input');
+    }
+
+    this.openModal = function() { // вызывает методы View
+      myModalView.show();
+    }
+
+    this.closeModal = function() { // вызывает методы View
+      myModalView.hide();
+    }
+
+    this.saveModalData = function() { //получить данные из модалки и сохранить
+      for (item of inputsInfo) {
+        userData[item.id] = item.value;
+      }
+      this.storeData();
+    }
+
+    this.storeData = function() { // сохранить данные в localStorage, а если не доступно, то в cookies
+      window.localStorage.setItem('userInfo', JSON.stringify(userData));
+      this.clearForm();
+    }
+
+    // this.getData = function() { //достать данные из хранилища
+    //   let getInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+    // }
+
+    // this.updateData = function() {
+    // }
+
+    // this.clearData = function() { //очистить данные в хранилище
+    //   window.localStorage.removeItem("userInfo");
+    // }
+
+    this.clearForm = function() { //очистить данные в форме
+      myModalView.clearView(inputsInfo);
+    }
+
+    this.isActiveButton = function() { // логика блокировки кнопки сохранения
+      let check = new Set(); // коллекция уникальных значений
+
+      for (item of inputsInfo) { // проверка заполненности value импутов
+        if (item.value) {
+          check.add(true); // добавить в коллекцию true
+        } else check.add(false); // добавить в коллекцию false
+      }
+
+      check.has(false)? btnDis = false: btnDis = true; // сохраняет данные о состоянии кнопки сохранения
+      myModalView.buttonDisabled(btnDis); // вызывает методы View
+    }
+  }
+/* -------- end model -------- */
+
+/* ----- begin controller ---- */
+  function ModalController () {
+    let myModalContainer = null;
+    let myModalModel = null;
+
+    this.init = function(model, container) { // получаем кнопки и вешаем обработчики
+      myModalContainer = container;
+      myModalModel = model;
+
+      // кнопка открыть модалку
+      const btnOpen = document.querySelector('#modal-open');
+      btnOpen.addEventListener('click', this.openModal);
+
+      // кнопка закрыть модалку
+      const modalClose = myModalContainer.querySelector('#modal-close');
+      modalClose.addEventListener('click', this.hideModal);
+
+      // кнопка отмена модалки
+      const modalCancel = myModalContainer.querySelector('#modal-cancel');
+      modalCancel.addEventListener('click', this.hideModal);
+
+      // кнопка сохранить инфо из модалки
+      const modalSave = myModalContainer.querySelector('#modal-save');
+      modalSave.addEventListener('click', this.saveModal);
+
+      // вешаем обработчик на все модальное окно и слушаем импуты
+      myModalContainer.addEventListener('input', function() {
+        myModalModel.isActiveButton();
+      }); 
+
+    }
+
+    this.openModal = function () { // вызывает методы модели
+      myModalModel.openModal();
+      myModalModel.isActiveButton();
+    }
+
+    this.hideModal = function () { // вызывает методы модели
+      myModalModel.closeModal();
+    }
+
+    this.saveModal = function () { // вызывает методы модели
+      myModalModel.closeModal();
+      myModalModel.saveModalData();
+    }
+
+    // this.clearData = function () {
+    //   myModalModel.clearData();
+    // }
+  };
+/* ------ end controller ----- */
+
+// глобальная инициализация
+  const appModalView = new ModalView();
+  const appModalModel = new ModalModel();
+  const appModalController = new ModalController();
+
+//вызвать init-методы...
+  const containerElem = document.getElementById("modal");
+  appModalView.init(containerElem);
+  appModalModel.init(appModalView, containerElem);
+  appModalController.init(appModalModel, containerElem);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Modal default</title>
+    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Создание простейшего модального окошка!</h1>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam fuga sunt voluptas, ullam, sed consequuntur ab illo veniam ad totam alias voluptatibus sequi officiis, unde autem reiciendis magnam labore voluptatum?</p>
+        <p class="btn"><a href="#" id="modalopen" class="modal-open" title="Покажите мне модальное окошко">Открыть окно</a></p>
+    </div>
+
+    <div class="modal-overlay modal_closed" id="modal-overlay"></div>
+    <div class="modal modal_closed" id="modal">
+        <header class="modal__header">
+            <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+            <h2>Введите данные</h2>
+        </header>
+
+        <main class="modal__content">
+            <div class="form-field">
+                <label for="name">Ваше имя:</label>
+                <input class="input__default" type="text" id="name" name="name">
+            </div>
+            <div class="form-field">
+                <label>Ваш день рождения:</label>
+                <input type="text" class="input__date-birth" id="birth-day" name="name" placeholder="День"> -
+                <input type="text" class="input__date-birth" id="birth-month" name="name" placeholder="Месяц"> -
+                <input type="text" class="input__date-birth" id="birth-year" name="name" placeholder="Год">
+            </div>
+        </main>
+
+        <footer class="modal__footer">
+            <button id="modal-cancel" class="modal__cancel" title="Отмена">Отмена</button>
+            <button id="modal-save" class="modal__save" title="Сохранить">Сохранить данные</button>
+        </footer>
+    </div>
+
+<script>
+/***
+TODO: Необходимо, чтобы открывалось модальное окно по клику на ссылку "Открыть окно".
+      Данные из формы по кнопке "Сохранить" собирались из инпутов и сохранялись в LocalStorage.
+      При открытии модального окна снова, форма (инпуты) должна быть чистой.
+      Кнопки "Отмена" и "крестик" должны просто закрывать модальное окно.
+
+      *Лучше когда кнопка "Сохранить" будет задизейблена пока не введены
+      все значения инпутов.
+
+!!!решение задачи в лоб, быстро!
+***/
+
+let btnOpen = document.querySelector('#modalopen');
+let modalOverlay = document.querySelector('#modal-overlay');
+let modal = document.querySelector('#modal');
+let modalClose = document.querySelector('#modal-close');
+let modalCancel = document.querySelector('#modal-cancel');
+let modalSave = document.querySelector('#modal-save');
+let inputName = document.querySelector('#name');
+let inputDay = document.querySelector('#birth-day');
+let inputMonth = document.querySelector('#birth-month');
+let inputYear = document.querySelector('#birth-year');
+let inputs = document.querySelectorAll('input');
+
+modalSave.disabled = true;
+
+
+btnOpen.addEventListener('click', function (){
+    modalState(true);
+});
+
+modalClose.addEventListener('click', function(){
+    modalState(false);
+})
+
+modalCancel.addEventListener('click', function(){
+    modalState(false);
+})
+
+modalSave.addEventListener('click', function(){
+    let user = {};
+    for (item of inputs) {
+        user[item.id] = item.value;
+        item.value = '';
+        }
+    window.localStorage.setItem('userInfo', JSON.stringify(user));
+    modalState(false);
+    }
+)
+
+modal.addEventListener('input', function(e){
+        if (inputName.value && inputDay.value && inputMonth.value && inputYear.value){
+        modalSave.disabled = false;
+        }  else {modalSave.disabled = true}
+    })
+
+
+function modalState (state){
+    if (state){
+        modalOverlay.classList.remove('modal_closed');
+        modal.classList.remove('modal_closed');
+    } else {
+        modalOverlay.classList.add('modal_closed');
+        modal.classList.add('modal_closed');
+    }
+}
+
+</script>
+</body>
+</html>
