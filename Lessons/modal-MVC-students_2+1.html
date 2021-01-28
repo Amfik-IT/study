@@ -74,12 +74,13 @@
       myModalOverlay.classList.add('modal_closed');
     }
 
-    this.buttonDisabled = function(state){ // блокируе кнопку сохранения (в btnSave.disabled можно стразу передать state, поговори с девчатами)
-      if (state){
-        btnSave.disabled = false;
-        }  else {
-        btnSave.disabled = true;
-        }
+    this.buttonDisabled = function(state){ // блокируе кнопку сохранения
+      // if (state){
+      //   btnSave.disabled = false;
+      //   }  else {
+      //   btnSave.disabled = true;
+      //   }
+      btnSave.disabled = !state;
     }
 
     // this.printViewData = function () { // вывести данные из хранилища в div.modal-data
