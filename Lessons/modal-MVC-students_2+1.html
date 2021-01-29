@@ -53,6 +53,7 @@
   </div>
 
   <script>
+    "use strict";
     /* ------- begin view -------- */
     function ModalView() {
       let myModal = null;
@@ -93,7 +94,7 @@
       // this.clearViewData = function () { // очистить или выдать дефолтное сообщение только для div.modal-data
       // }
       this.clearView = function () {
-        for (item of inputsArr) {
+        for (let item of inputsArr) {
           item.value = '';
         }
       }
@@ -183,14 +184,14 @@
         myModalContainer.addEventListener('input', function () {
           let check = new Set(); // коллекция уникальных значений
 
-          for (item of inputsArr) { // проверка заполненности value импутов
+          for (let item of inputsArr) { // проверка заполненности value импутов
             if (item.value) {
               check.add(true); // добавить в коллекцию true
             } else check.add(false); // добавить в коллекцию false
           }
 
           check.has(false) ? myModalModel.isActiveButton(true) : myModalModel.isActiveButton(
-          false); // передает данные о состоянии кнопки сохранения
+            false); // передает данные о состоянии кнопки сохранения
         });
 
       }
@@ -206,7 +207,7 @@
 
       this.saveModal = function () { // вызывает методы модели
         let inputsInfo = {};
-        for (item of inputsArr) {
+        for (let item of inputsArr) {
           inputsInfo[item.id] = item.value;
         }
         myModalModel.closeModal();

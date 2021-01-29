@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='modal-plugin.css'>
+</head>
+
+<body>
+    <div class="container">
+        <p class="btn">
+            <a href="#" data-supermodal="modal" id="modal-open" class="modal-open" title="Показать">Открыть №1</a>
+        </p>
+        <p class="btn">
+            <a href="#" data-supermodal="modal" data-supermodal-title="Привет" data-supermodal-content="Чё надо?"
+                id="modal-open" class="modal-open" title="Показать">Открыть №2</a>
+        </p>
+        <p class="btn">
+            <a href="#" data-supermodal="modal" data-supermodal-title="Привет" data-supermodal-content="Чё надо?"
+                id="modal-open" class="modal-open" title="Показать">Открыть №3</a>
+        </p>
+    </div>
+
+    <div class="modal-overlay modal__closed" id="modal-overlay"></div>
+    <div class="modal modal__closed" id="modal">
+        <header class="modal__header">
+            <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+            <h2>Введите данные</h2>
+        </header>
+
+        <main class="modal__content">
+            <div class="form-field">
+                <label for="name">Ваше имя:</label>
+                <input required class="input__default" type="text" id="name" name="name">
+            </div>
+            <div class="form-field">
+                <label>Ваш день рождения:</label>
+                <input required type="number" class="input__date-birth" id="birth-day" name="name" placeholder="День"> -
+                <input required type="number" class="input__date-birth" id="birth-month" name="name"
+                    placeholder="Месяц"> -
+                <input required type="number" class="input__date-birth" id="birth-year" name="name" placeholder="Год">
+            </div>
+        </main>
+
+        <footer class="modal__footer">
+            <button id="modal-cancel" class="modal__cancel" title="Отмена">Отмена</button>
+            <button id="modal-save" class="modal__save" title="Сохранить">Сохранить данные</button>
+        </footer>
+    </div>
+
+    <script src='modal-plugin.js'></script>
+</body>
+
+</html>
