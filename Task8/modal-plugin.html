@@ -11,44 +11,159 @@
 
 <body>
     <div class="container">
+        <h1 class="shadow">Как установить плагин?</h1>
+        <p>Скачать два файла "modal-plugin.css" и "modal-plugin.js" и установить:<br>
+            <pre><code>в &lt;head&gt; --&gt; &lt;link rel='stylesheet' type='text/css' media='screen' href='modal-plugin.css'&gt;</code></pre>
+            <pre><code>в конец вашего &lt;body&gt; --&gt; &lt;script src='modal-plugin.js'&gt;&lt;/script&gt;</code></pre>
+        </p>
+        <h2 class="shadow">Как пользовваться плагином?</h2>
+        <h3 class="shadow">Что бы получить редактируемое модальное окно, скопируйте себе на страницу следующий код:</h3>
+        <p>
+            <pre><code>
+        &lt;p class=&quot;btn&quot;&gt;
+        &lt;a href=&quot;#&quot; data-supermodal=&quot;modal&quot; class=&quot;modal-open&quot; title=&quot;Показать&quot;&gt;Кнопка&lt;/a&gt;
+        &lt;/p&gt;
+        &lt;div class=&quot;modal-overlay modal__closed&quot; id=&quot;modal&quot;&gt;
+            &lt;div class=&quot;modal&quot;&gt;
+                &lt;header class=&quot;modal__header&quot;&gt;
+                    &lt;a href=&quot;#&quot; class=&quot;modal__close&quot; id=&quot;modal-close&quot; title=&quot;Закрыть модальное окно&quot;&gt;Закрыть&lt;/a&gt;
+                    &lt;h2&gt;... ваш title ...&lt;/h2&gt;
+                &lt;/header&gt;
+                &lt;main class=&quot;modal__content&quot;&gt;
+                    ... Ваш контент ...
+                &lt;/main&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        </code></pre>
+            значение data-supermodal должно быть равно id модально окна как в примере выше.</p>
         <p class="btn">
-            <a href="#" data-supermodal="modal" id="modal-open" class="modal-open" title="Показать">Открыть №1</a>
+            <!-- Вариант 1 только "data-supermodal" -->
+            <span class="shadow">Пример: </span><a href="#" data-supermodal="modal" class="modal-open"
+                title="Показать">supermodal &
+                userForm</a>
+        </p><br>
+        <h3 class="shadow">Что бы получить "быстрое" модальное окно, скопируйте себе на страницу следующий код:</h3>
+        <p>
+            <pre><code>
+            &lt;p class=&quot;btn&quot;&gt;
+            &lt;!-- Вариант 2 все три data-атрибута --&gt;
+            &lt;a href=&quot;#&quot; data-supermodal=&quot;modal-user&quot; data-supermodal-title=&quot;Привет&quot; data-supermodal-content=&quot;Чё надо?&quot;
+                class=&quot;modal-open&quot; title=&quot;Показать&quot;&gt;supermodal, title,
+                content&lt;/a&gt;
+            &lt;/p&gt;
+            &lt;div class=&quot;modal-overlay modal__closed&quot; id=&quot;modal-user&quot;&gt;
+                &lt;div class=&quot;modal&quot;&gt;
+                    &lt;header class=&quot;modal__header&quot;&gt;
+                        &lt;a href=&quot;#&quot; class=&quot;modal__close&quot; id=&quot;modal-close&quot; title=&quot;Закрыть модальное окно&quot;&gt;Закрыть&lt;/a&gt;
+                        &lt;h2&gt;...Тут будет контент из data-supermodal-title...&lt;/h2&gt;
+                    &lt;/header&gt;
+                    &lt;main class=&quot;modal__content&quot;&gt;
+                        ...Тут будет контент из data-supermodal-content...
+                    &lt;/main&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;</code></pre>
         </p>
         <p class="btn">
-            <a href="#" data-supermodal="modal" data-supermodal-title="Привет" data-supermodal-content="Чё надо?"
-                id="modal-open" class="modal-open" title="Показать">Открыть №2</a>
+            <!-- Вариант 2 все три data-атрибута -->
+            <span class="shadow">Пример: </span><a href="#" data-supermodal="modal-user" data-supermodal-title="Привет"
+                data-supermodal-content="Чё надо?" class="modal-open" title="Показать">supermodal, title,
+                content</a>
+        </p><br>
+        <h3 class="shadow">Что бы получить "очень быстрое" модальное окно (без контейнера), скопируйте себе на страницу
+            следующий код:
+        </h3>
+        <p>
+            <pre><code>
+            &lt;p class=&quot;btn&quot;&gt;
+            &lt;!-- Вариант 3 контейнер появится сам --&gt;
+                &lt;a href=&quot;#&quot; data-supermodal=&quot;modal-easy&quot; data-supermodal-title=&quot;Досвидос&quot;
+                data-supermodal-content=&quot;Чтоб я вас больше не видел&quot; class=&quot;modal-open&quot; title=&quot;Показать&quot;&gt;No container&lt;/a&gt;
+            &lt;/p&gt;</code></pre>
+            ваш title и content модального ока заполнится автоматически из data-supermodal-title и
+            data-supermodal-content соответственно.</p>
+        <p class="btn">
+            <!-- Вариант 3 контейнер появится сам -->
+            <span class="shadow">Пример: </span><a href="#" data-supermodal="modal-easy"
+                data-supermodal-title="Досвидос" data-supermodal-content="Чтоб я вас больше не видел" class="modal-open"
+                title="Показать">No
+                container</a>
+        </p><br>
+        <h3 class="shadow">Пример вставки видео с YouTube в ваше модальное окно:</h3>
+        <p>
+            <pre><code>
+                &lt;p class=&quot;btn&quot;&gt;
+                    &lt;!-- Вариант 4 только &quot;data-supermodal&quot; для видео--&gt;
+                    &lt;a href=&quot;#&quot; data-supermodal=&quot;modal-video&quot; class=&quot;modal-open&quot; title=&quot;Показать&quot;&gt;supermodal &amp; video&lt;/a&gt;
+                &lt;/p&gt;
+                &lt;div class=&quot;modal-overlay modal__closed&quot; id=&quot;modal-video&quot;&gt;
+                    &lt;div class=&quot;modal&quot;&gt;
+                        &lt;a href=&quot;#&quot; class=&quot;modal__close&quot; id=&quot;modal-close&quot; title=&quot;Закрыть модальное окно&quot;&gt;Закрыть&lt;/a&gt;
+                        &lt;iframe width=&quot;100%&quot; height=&quot;100%&quot; src=&quot;https://www.youtube.com/embed/dysgCRkz7PI&quot; frameborder=&quot;0&quot;
+                        allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot;
+                        allowfullscreen&gt;&lt;/iframe&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;</code></pre>
         </p>
         <p class="btn">
-            <a href="#" data-supermodal="modal" data-supermodal-title="Привет" data-supermodal-content="Чё надо?"
-                id="modal-open" class="modal-open" title="Показать">Открыть №3</a>
+            <!-- Вариант 4 только "data-supermodal" и видео-->
+            <span class="shadow">Пример: </span><a href="#" data-supermodal="modal-video" class="modal-open"
+                title="Показать">supermodal & video</a>
         </p>
     </div>
 
-    <div class="modal-overlay modal__closed" id="modal-overlay"></div>
-    <div class="modal modal__closed" id="modal">
-        <header class="modal__header">
+    <!-- Вариант 1 только "data-supermodal" -->
+    <div class="modal-overlay modal__closed" id="modal">
+        <div class="modal">
+            <header class="modal__header">
+                <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+                <h2>Введите данные</h2>
+            </header>
+            <main class="modal__content">
+                <div class="form-field">
+                    <label for="name">Ваше имя:</label>
+                    <input required class="input__default" type="text" id="name" name="name">
+                </div>
+                <div class="form-field">
+                    <label>Ваш день рождения:</label>
+                    <input required type="number" class="input__date-birth" id="birth-day" name="name"
+                        placeholder="День"> -
+                    <input required type="number" class="input__date-birth" id="birth-month" name="name"
+                        placeholder="Месяц"> -
+                    <input required type="number" class="input__date-birth" id="birth-year" name="name"
+                        placeholder="Год">
+                </div>
+            </main>
+
+            <footer class="modal__footer">
+                <button id="modal-cancel" class="modal__cancel" title="Отмена">Отмена</button>
+                <button id="modal-save" class="modal__save" title="Сохранить">Сохранить данные</button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Вариант 2 все три data-атрибута -->
+    <div class="modal-overlay modal__closed" id="modal-user">
+        <div class="modal">
+            <header class="modal__header">
+                <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+                <h2>...Тут будет контент из data-supermodal-title...</h2>
+            </header>
+            <main class="modal__content">
+                ...Тут будет контент из data-supermodal-content...
+            </main>
+        </div>
+    </div>
+    <!-- Вариант 3 появится сам -->
+
+
+    <!-- Вариант 4 только "data-supermodal" и видео-->
+    <div class="modal-overlay modal__closed" id="modal-video">
+        <div class="modal">
             <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
-            <h2>Введите данные</h2>
-        </header>
-
-        <main class="modal__content">
-            <div class="form-field">
-                <label for="name">Ваше имя:</label>
-                <input required class="input__default" type="text" id="name" name="name">
-            </div>
-            <div class="form-field">
-                <label>Ваш день рождения:</label>
-                <input required type="number" class="input__date-birth" id="birth-day" name="name" placeholder="День"> -
-                <input required type="number" class="input__date-birth" id="birth-month" name="name"
-                    placeholder="Месяц"> -
-                <input required type="number" class="input__date-birth" id="birth-year" name="name" placeholder="Год">
-            </div>
-        </main>
-
-        <footer class="modal__footer">
-            <button id="modal-cancel" class="modal__cancel" title="Отмена">Отмена</button>
-            <button id="modal-save" class="modal__save" title="Сохранить">Сохранить данные</button>
-        </footer>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dysgCRkz7PI" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
     </div>
 
     <script src='modal-plugin.js'></script>

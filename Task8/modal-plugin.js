@@ -1,49 +1,26 @@
 "use strict";
-let myModyl = (function () {
+let myModule = (function () {
 
     /* ------- begin view -------- */
     function ModalView() {
         let myModal = null;
-        let myModalOverlay = null; // элемент для затемненя окна
-        let btnSave = null; // кнопка модалки
-        let inputsArr = null;
 
         this.init = function (container) { // инициализация данных
-        myModal = container;
-
-        // элемент для затемненя окна
-        myModalOverlay = document.querySelector('#modal-overlay');
-
-        // кнопка модалки
-        btnSave = myModal.querySelector('#modal-save');
-
-        // собираем все импуты в модалке
-        inputsArr = myModal.querySelectorAll('input');
+            myModal = container;
         }
 
         this.show = function () { // удаляет класс с display: none
-        myModal.classList.remove('modal__closed');
-        myModalOverlay.classList.remove('modal__closed');
+            myModal.classList.remove('modal__closed');
         }
 
         this.hide = function () { // добавляет класс с display: none
-        myModal.classList.add('modal__closed');
-        myModalOverlay.classList.add('modal__closed');
+            myModal.classList.add('modal__closed');
         }
-
-        this.buttonDisabled = function (state) { // блокируе кнопку сохранения
-        btnSave.disabled = state;
-        }
-
-        // this.printViewData = function () { // вывести данные из хранилища в div.modal-data
-        // }
-
-        // this.clearViewData = function () { // очистить или выдать дефолтное сообщение только для div.modal-data
-        // }
-        this.clearView = function () {
-        for (let item of inputsArr) {
-            item.value = '';
-        }
+        this.updateModal = function (title, content) {
+            let h2 = myModal.querySelector('.modal__header h2');
+            h2.innerHTML = title;
+            let mainModal = myModal.querySelector('.modal__content');
+            mainModal.innerHTML = content;
         }
 
     };
@@ -55,45 +32,23 @@ let myModyl = (function () {
         let userData = null; // объект для хранения данных о пользователе
 
         this.init = function (view) { // инициализация данных
-        myModalView = view;
+            myModalView = view;
 
         }
 
         this.openModal = function () { // вызывает методы View
-        myModalView.show();
+            myModalView.show();
         }
 
         this.closeModal = function () { // вызывает методы View
-        myModalView.hide();
+            myModalView.hide();
         }
 
-        this.saveModalData = function (info) { //получить данные из модалки и сохранить
-        userData = info;
-        this.storeData();
+        this.createModal = function () {
+            myModalView.createModal();
         }
-
-        this.storeData = function () { // сохранить данные в localStorage, а если не доступно, то в cookies
-        window.localStorage.setItem('userInfo', JSON.stringify(userData));
-        this.clearForm();
-        }
-
-        this.getData = function () { //достать данные из хранилища
-        let getInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-        }
-
-        // this.updateData = function() {
-        // }
-
-        this.clearData = function () { //очистить данные в хранилище
-        window.localStorage.removeItem("userInfo");
-        }
-
-        this.clearForm = function () { //очистить данные в форме
-        myModalView.clearView();
-        }
-
-        this.isActiveButton = function (check) { // логика блокировки кнопки сохранения
-        myModalView.buttonDisabled(check); // вызывает методы View
+        this.updateView = function (title, content) {
+            myModalView.updateModal(title, content);
         }
     }
     /* -------- end model -------- */
@@ -102,88 +57,87 @@ let myModyl = (function () {
     function ModalController() {
         let myModalContainer = null;
         let myModalModel = null;
-        let inputsArr = null; // для коллекция импутов модалки
 
         this.init = function (model, container) { // получаем кнопки и вешаем обработчики
-        myModalContainer = container;
-        myModalModel = model;
+            myModalContainer = container;
+            myModalModel = model;
 
-        // кнопка открыть модалку
-        const btnOpen = document.querySelector('#modal-open');
-        btnOpen.addEventListener('click', this.openModal);
-
-        // кнопка закрыть модалку
-        const modalClose = myModalContainer.querySelector('#modal-close');
-        modalClose.addEventListener('click', this.hideModal);
-
-        // кнопка отмена модалки
-        const modalCancel = myModalContainer.querySelector('#modal-cancel');
-        modalCancel.addEventListener('click', this.hideModal);
-
-        // кнопка сохранить инфо из модалки
-        const modalSave = myModalContainer.querySelector('#modal-save');
-        modalSave.addEventListener('click', this.saveModal);
-
-        // собираем все импуты в модалке
-        inputsArr = myModalContainer.querySelectorAll('input');
-
-        // вешаем обработчик на все модальное окно и слушаем импуты
-        myModalContainer.addEventListener('input', function () {
-            let check = new Set(); // коллекция уникальных значений
-
-            for (let item of inputsArr) { // проверка заполненности value импутов
-            if (item.value) {
-                check.add(true); // добавить в коллекцию true
-            } else check.add(false); // добавить в коллекцию false
+            // кнопка открыть модалку
+            // debugger
+            const btnOpen = document.querySelector('[data-supermodal="' + container.id + '"]');
+            if (btnOpen.dataset.supermodalTitle && btnOpen.dataset.supermodalContent) {
+                myModalModel.updateView(btnOpen.dataset.supermodalTitle, btnOpen.dataset.supermodalContent);
             }
+            btnOpen.addEventListener('click', this.openModal);
 
-            check.has(false) ? myModalModel.isActiveButton(true) : myModalModel.isActiveButton(
-            false); // передает данные о состоянии кнопки сохранения
-        });
-
+            // кнопка закрыть модалку
+            const modalClose = myModalContainer.querySelector('#modal-close');
+            modalClose.addEventListener('click', this.hideModal);
         }
 
         this.openModal = function () { // вызывает методы модели
-        myModalModel.openModal();
-        myModalModel.isActiveButton(true);
+            myModalModel.openModal();
         }
 
         this.hideModal = function () { // вызывает методы модели
-        myModalModel.closeModal();
-        myModalModel.clearForm();
-        }
-
-        this.saveModal = function () { // вызывает методы модели
-        let inputsInfo = {};
-        for (let item of inputsArr) {
-            inputsInfo[item.id] = item.value;
-        }
-        myModalModel.closeModal();
-        myModalModel.saveModalData(inputsInfo);
-        }
-
-        this.clearData = function () {
-        myModalModel.clearData();
+            myModalModel.closeModal();
         }
     };
     /* ------ end controller ----- */
 
-    return function() {
-        this.initial = function() {
-            // debugger
-            // глобальная инициализация
-            const appModalView = new ModalView();
-            const appModalModel = new ModalModel();
-            const appModalController = new ModalController();
+    function _initial(id) {
+        // глобальная инициализация
+        const appModalView = new ModalView();
+        const appModalModel = new ModalModel();
+        const appModalController = new ModalController();
+        //вызвать init-методы...
+        const containerElem = document.getElementById(id);
+        appModalView.init(containerElem);
+        appModalModel.init(appModalView);
+        appModalController.init(appModalModel, containerElem);
+    }
 
-            //вызвать init-методы...
-            const containerElem = document.getElementById("modal");
-            appModalView.init(containerElem);
-            appModalModel.init(appModalView);
-            appModalController.init(appModalModel, containerElem);
+    function _createContainer(id) {
+        let modalOverlay = document.createElement('div');
+        modalOverlay.classList.add("modal-overlay", "modal__closed");
+        modalOverlay.setAttribute('id', id);
+
+        let divModal = document.createElement('div');
+        divModal.classList.add("modal");
+        modalOverlay.append(divModal);
+
+        let headerModal = document.createElement('header');
+        headerModal.classList.add("modal__header");
+        headerModal.innerHTML = '<a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a><h2></h2>'
+        divModal.append(headerModal);
+
+        let mainModal = document.createElement('div');
+        mainModal.classList.add("modal__content");
+        divModal.append(mainModal);
+        document.body.prepend(modalOverlay);
+
+        _initial(id);
+    }
+    return function () {
+        this.search = function () {
+            // debugger
+            let arrButtonModal = document.querySelectorAll('a');
+
+            for (let item of arrButtonModal) {
+                if (item.dataset.supermodal) {
+                    let isNull = document.getElementById(item.dataset.supermodal);
+                    if (isNull) {
+                        _initial(item.dataset.supermodal);
+                    } else {
+                        if (item.dataset.supermodalTitle && item.dataset.supermodalContent) {
+                            _createContainer(item.dataset.supermodal);
+                        }
+                    }
+                }
+            }
         }
     }
-   }());
+}());
 
-let modyl = new myModyl;
-modyl.initial();
+const module = new myModule;
+module.search();
