@@ -2,7 +2,7 @@
 let myModule = (function () {
 
     /* ------- begin view -------- */
-    function ModalView() {
+    function _ModalView() {
         let myModal = null;
 
         this.init = function (container) { // инициализация данных
@@ -27,9 +27,8 @@ let myModule = (function () {
     /* -------- end view --------- */
 
     /* ------- begin model ------- */
-    function ModalModel() {
+    function _ModalModel() {
         let myModalView = null;
-        let userData = null; // объект для хранения данных о пользователе
 
         this.init = function (view) { // инициализация данных
             myModalView = view;
@@ -54,7 +53,7 @@ let myModule = (function () {
     /* -------- end model -------- */
 
     /* ----- begin controller ---- */
-    function ModalController() {
+    function _ModalController() {
         let myModalContainer = null;
         let myModalModel = null;
 
@@ -87,9 +86,9 @@ let myModule = (function () {
 
     function _initial(id) {
         // глобальная инициализация
-        const appModalView = new ModalView();
-        const appModalModel = new ModalModel();
-        const appModalController = new ModalController();
+        const appModalView = new _ModalView();
+        const appModalModel = new _ModalModel();
+        const appModalController = new _ModalController();
         //вызвать init-методы...
         const containerElem = document.getElementById(id);
         appModalView.init(containerElem);
@@ -108,7 +107,7 @@ let myModule = (function () {
 
         let headerModal = document.createElement('header');
         headerModal.classList.add("modal__header");
-        headerModal.innerHTML = '<a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a><h2></h2>'
+        headerModal.innerHTML = '<a class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a><h2></h2>'
         divModal.append(headerModal);
 
         let mainModal = document.createElement('div');
@@ -120,24 +119,23 @@ let myModule = (function () {
     }
     return function () {
         this.search = function () {
-            // debugger
-            let arrButtonModal = document.querySelectorAll('a');
+            let arrButtonOpenModal = document.querySelectorAll('[data-supermodal]');
 
-            for (let item of arrButtonModal) {
-                if (item.dataset.supermodal) {
-                    let isNull = document.getElementById(item.dataset.supermodal);
-                    if (isNull) {
-                        _initial(item.dataset.supermodal);
-                    } else {
-                        if (item.dataset.supermodalTitle && item.dataset.supermodalContent) {
-                            _createContainer(item.dataset.supermodal);
-                        }
+            for (let item of arrButtonOpenModal) {
+
+                let searchDivModal = document.getElementById(item.dataset.supermodal);
+                if (searchDivModal) {
+                    _initial(item.dataset.supermodal);
+                } else {
+                    if (item.dataset.supermodalTitle && item.dataset.supermodalContent) {
+                        _createContainer(item.dataset.supermodal);
                     }
                 }
+
             }
         }
     }
 }());
 
 const module = new myModule;
-module.search();
+// module.search();

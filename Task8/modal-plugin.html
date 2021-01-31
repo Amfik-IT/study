@@ -11,7 +11,7 @@
 
 <body>
     <div class="container">
-        <h1 class="shadow">Как установить плагин?</h1>
+        <h1 class="shadow">Как установить плагин 2+1?</h1>
         <p>Скачать два файла "modal-plugin.css" и "modal-plugin.js" и установить:<br>
             <pre><code>в &lt;head&gt; --&gt; &lt;link rel='stylesheet' type='text/css' media='screen' href='modal-plugin.css'&gt;</code></pre>
             <pre><code>в конец вашего &lt;body&gt; --&gt; &lt;script src='modal-plugin.js'&gt;&lt;/script&gt;</code></pre>
@@ -38,7 +38,7 @@
             значение data-supermodal должно быть равно id модально окна как в примере выше.</p>
         <p class="btn">
             <!-- Вариант 1 только "data-supermodal" -->
-            <span class="shadow">Пример: </span><a href="#" data-supermodal="modal" class="modal-open"
+            <span class="shadow">Пример: </span><a data-supermodal="modal" class="modal-open"
                 title="Показать">supermodal &
                 userForm</a>
         </p><br>
@@ -65,7 +65,7 @@
         </p>
         <p class="btn">
             <!-- Вариант 2 все три data-атрибута -->
-            <span class="shadow">Пример: </span><a href="#" data-supermodal="modal-user" data-supermodal-title="Привет"
+            <span class="shadow">Пример: </span><a data-supermodal="modal-user" data-supermodal-title="Привет"
                 data-supermodal-content="Чё надо?" class="modal-open" title="Показать">supermodal, title,
                 content</a>
         </p><br>
@@ -83,9 +83,8 @@
             data-supermodal-content соответственно.</p>
         <p class="btn">
             <!-- Вариант 3 контейнер появится сам -->
-            <span class="shadow">Пример: </span><a href="#" data-supermodal="modal-easy"
-                data-supermodal-title="Досвидос" data-supermodal-content="Чтоб я вас больше не видел" class="modal-open"
-                title="Показать">No
+            <span class="shadow">Пример: </span><a data-supermodal="modal-easy" data-supermodal-title="Досвидос"
+                data-supermodal-content="Чтоб я вас больше не видел" class="modal-open" title="Показать">No
                 container</a>
         </p><br>
         <h3 class="shadow">Пример вставки видео с YouTube в ваше модальное окно:</h3>
@@ -106,7 +105,7 @@
         </p>
         <p class="btn">
             <!-- Вариант 4 только "data-supermodal" и видео-->
-            <span class="shadow">Пример: </span><a href="#" data-supermodal="modal-video" class="modal-open"
+            <span class="shadow">Пример: </span><a data-supermodal="modal-video" class="modal-open"
                 title="Показать">supermodal & video</a>
         </p>
     </div>
@@ -115,7 +114,7 @@
     <div class="modal-overlay modal__closed" id="modal">
         <div class="modal">
             <header class="modal__header">
-                <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+                <a class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
                 <h2>Введите данные</h2>
             </header>
             <main class="modal__content">
@@ -145,7 +144,7 @@
     <div class="modal-overlay modal__closed" id="modal-user">
         <div class="modal">
             <header class="modal__header">
-                <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+                <a class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
                 <h2>...Тут будет контент из data-supermodal-title...</h2>
             </header>
             <main class="modal__content">
@@ -159,7 +158,7 @@
     <!-- Вариант 4 только "data-supermodal" и видео-->
     <div class="modal-overlay modal__closed" id="modal-video">
         <div class="modal">
-            <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
+            <a class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dysgCRkz7PI" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
@@ -167,6 +166,9 @@
     </div>
 
     <script src='modal-plugin.js'></script>
+    <script>
+        module.search();
+    </script>
 </body>
 
 </html>
