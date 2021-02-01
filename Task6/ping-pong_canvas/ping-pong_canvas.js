@@ -63,8 +63,8 @@ window.onload = function () {
     settings.patternCtx.fillStyle = settings.blankColor;
     settings.patternCtx.fillRect(0, 0, settings.pattern.width, settings.pattern.height);
 
-        for (let i = 20; i < settings.patternCtx.canvas.width; i+=20) {
-        for (let j = 20; j< settings.patternCtx.canvas.height; j+=20) {
+    for (let i = 20; i < settings.patternCtx.canvas.width; i += 20) {
+        for (let j = 20; j < settings.patternCtx.canvas.height; j += 20) {
             if (i % 100 == 0 && j % 100 == 0) {
                 settings.patternCtx.save();
                 settings.patternCtx.globalAlpha = 0.1;
@@ -112,14 +112,14 @@ window.onload = function () {
     settings.patternCtx.restore();
 
     // Cтартовыe параметры платформ
-  
+
     const platformWidth = 10;
     const platformHeight = 100;
     let LeftStartPozX = 0;
-    let LeftStartPozY = Canvas.offsetHeight/2 - 50;
+    let LeftStartPozY = Canvas.offsetHeight / 2 - 50;
     let RightStartPozX = Canvas.offsetWidth - 10;
-    let RightStartPozY = Canvas.offsetHeight/2 - 50;
-    
+    let RightStartPozY = Canvas.offsetHeight / 2 - 50;
+
     // Массив параметров поля
     let area = {
         width: Canvas.offsetWidth,
@@ -127,8 +127,8 @@ window.onload = function () {
     }
     // Массив параметров мяча
     let ball = {
-        posX: area.width/2,
-        posY: area.height/2,
+        posX: area.width / 2,
+        posY: area.height / 2,
         width: 30,
         height: 30,
         r: 15,
@@ -139,76 +139,86 @@ window.onload = function () {
     }
 
     // Функция перерисовки canvas
-    
-    const drawMultiAnimations = function() {
 
+    settings.bufferCtx.drawImage(settings.pattern, 0, 0, settings.bufferCanvas.width, settings.bufferCanvas.height);
+
+    function blank() {
         settings.bufferCtx.drawImage(settings.pattern, 0, 0, settings.bufferCanvas.width, settings.bufferCanvas.height);
+    }
 
-        function blank() {
-            settings.bufferCtx.drawImage(settings.pattern, 0, 0, settings.bufferCanvas.width, settings.bufferCanvas.height);
-        }
+    function gradients() {
+        // debugger
+        settings.LeftColor = settings.bufferCtx.createLinearGradient(LeftStartPozX, LeftStartPozY, platformWidth, LeftStartPozY + platformHeight);
+        settings.LeftColor.addColorStop(0, "hsl(32,100%,78%)");
+        settings.LeftColor.addColorStop(0.47, "hsl(32,100%,90%)");
+        settings.LeftColor.addColorStop(0.53, "hsl(32,100%,78%)");
+        settings.LeftColor.addColorStop(1, "hsl(32,100%,70%)");
 
-        function gradients() {
-            // debugger
-            settings.LeftColor = settings.bufferCtx.createLinearGradient(LeftStartPozX, LeftStartPozY, platformWidth, LeftStartPozY + platformHeight);
-            settings.LeftColor.addColorStop(0, "hsl(32,100%,78%)");
-            settings.LeftColor.addColorStop(0.47, "hsl(32,100%,90%)");
-            settings.LeftColor.addColorStop(0.53, "hsl(32,100%,78%)");
-            settings.LeftColor.addColorStop(1, "hsl(32,100%,70%)");
+        settings.RightColor = settings.bufferCtx.createLinearGradient(RightStartPozX, RightStartPozY, RightStartPozX + platformWidth, RightStartPozY + platformHeight);
+        settings.RightColor.addColorStop(0, "hsl(110,100%,78%)");
+        settings.RightColor.addColorStop(0.47, "hsl(110,100%,90%)");
+        settings.RightColor.addColorStop(0.53, "hsl(110,100%,78%)");
+        settings.RightColor.addColorStop(1, "hsl(110,100%,70%)");
+    }
 
-            settings.RightColor = settings.bufferCtx.createLinearGradient(RightStartPozX, RightStartPozY, RightStartPozX + platformWidth, RightStartPozY + platformHeight);
-            settings.RightColor.addColorStop(0, "hsl(110,100%,78%)");
-            settings.RightColor.addColorStop(0.47, "hsl(110,100%,90%)");
-            settings.RightColor.addColorStop(0.53, "hsl(110,100%,78%)");
-            settings.RightColor.addColorStop(1, "hsl(110,100%,70%)");
-        }
+    function leftPlatformDraw() {
+        // debugger
+        settings.bufferCtx.fillStyle = settings.LeftColor;
+        settings.bufferCtx.strokeStyle = 'rgb(191, 151, 104)';
+        settings.bufferCtx.lineWidth = 2;
+        settings.bufferCtx.strokeRect(LeftStartPozX, LeftStartPozY, platformWidth, platformHeight);
+        settings.bufferCtx.fillRect(LeftStartPozX, LeftStartPozY, platformWidth, platformHeight);
+    }
 
-        function leftPlatformDraw() {
-            // debugger
-            settings.bufferCtx.fillStyle = settings.LeftColor;
-            settings.bufferCtx.strokeStyle = 'rgb(191, 151, 104)';
-            settings.bufferCtx.lineWidth = 2;
-            settings.bufferCtx.strokeRect(LeftStartPozX, LeftStartPozY, platformWidth, platformHeight);
-            settings.bufferCtx.fillRect(LeftStartPozX, LeftStartPozY, platformWidth, platformHeight);
-        }
-        function RightPlatformDraw() {
-            // debugger
-            settings.bufferCtx.fillStyle = settings.RightColor;
-            settings.bufferCtx.strokeStyle = 'rgb(97, 238, 68)';
-            settings.bufferCtx.lineWidth = 2;
-            settings.bufferCtx.strokeRect(RightStartPozX, RightStartPozY, platformWidth, platformHeight);
-            settings.bufferCtx.fillRect(RightStartPozX, RightStartPozY, platformWidth, platformHeight);
-        }
-        function BallDraw() {
-            // debugger
-            settings.bufferCtx.save();
-            settings.bufferCtx.fillStyle = '#940e26';
-            settings.bufferCtx.strokeStyle = '#ab102c';
-            settings.bufferCtx.shadowColor = '#c71535';
-            settings.bufferCtx.shadowOffsetX = 0;
-            settings.bufferCtx.shadowOffsetY = 0;
-            settings.bufferCtx.shadowBlur = 5;
-            settings.bufferCtx.lineWidth = 1;
-            settings.bufferCtx.beginPath();
-            settings.bufferCtx.arc(ball.posX, ball.posY, ball.r, 0, 2*Math.PI);
-            settings.bufferCtx.fill();
-            settings.bufferCtx.stroke();
-            settings.bufferCtx.restore();
-        }
+    function RightPlatformDraw() {
+        // debugger
+        settings.bufferCtx.fillStyle = settings.RightColor;
+        settings.bufferCtx.strokeStyle = 'rgb(97, 238, 68)';
+        settings.bufferCtx.lineWidth = 2;
+        settings.bufferCtx.strokeRect(RightStartPozX, RightStartPozY, platformWidth, platformHeight);
+        settings.bufferCtx.fillRect(RightStartPozX, RightStartPozY, platformWidth, platformHeight);
+    }
 
-        function animate() {
-            blank();
-            gradients();
-            leftPlatformDraw();
-            RightPlatformDraw();
-            BallDraw();
-            settings.ctx.drawImage(settings.bufferCanvas, 0, 0, settings.canvas.width, settings.canvas.height);
-            requestAnimationFrame(animate);
-        }
-        // animate();
+    function BallDraw() {
+        // debugger
+        settings.bufferCtx.save();
+        settings.bufferCtx.fillStyle = '#940e26';
+        settings.bufferCtx.strokeStyle = '#ab102c';
+        settings.bufferCtx.shadowColor = '#d8cdcf';
+        settings.bufferCtx.shadowOffsetX = 0;
+        settings.bufferCtx.shadowOffsetY = 0;
+        settings.bufferCtx.shadowBlur = 5;
+        settings.bufferCtx.lineWidth = 1;
+        settings.bufferCtx.beginPath();
+        settings.bufferCtx.arc(ball.posX, ball.posY, ball.r, 0, 2 * Math.PI);
+        settings.bufferCtx.fill();
+        settings.bufferCtx.stroke();
+        settings.bufferCtx.restore();
+    }
+
+    let strCountdown = "";
+
+    function countdownDraw(strCountdown) {
+        let theString = `${strCountdown}`;
+        settings.bufferCtx.save();
+        settings.bufferCtx.font = '30px Hachi Maru Pop';
+        settings.bufferCtx.fillStyle = 'white';
+        settings.bufferCtx.fillText(theString, ball.posX - 10, ball.posY + 10);
+        settings.bufferCtx.restore();
+    }
+
+    function animate() {
+        blank();
+        gradients();
+        leftPlatformDraw();
+        RightPlatformDraw();
+        BallDraw();
+        countdownDraw(strCountdown);
+        settings.ctx.drawImage(settings.bufferCanvas, 0, 0, settings.canvas.width, settings.canvas.height);
         requestAnimationFrame(animate);
     }
-    drawMultiAnimations();
+    // animate();
+    requestAnimationFrame(animate);
 
     // -------------------------------------------------------
     // Движение платформ:
@@ -216,44 +226,44 @@ window.onload = function () {
     let timerMoovePlayerTwo;
 
     // Слушатель нажатия кнопок
-    document.addEventListener("keydown", function(event) {
+    document.addEventListener("keydown", function (event) {
         if (event.repeat == false) {
             switch (event.key + " " + event.location) {
                 case "Shift 1":
                     event.preventDefault(); // отмена действия по умолчанию
-                    timerMoovePlayerOne = window.requestAnimationFrame(function() { // Запуск функции движения через интервал, чтобы выкинуть из стека задач (левая вверх)
+                    timerMoovePlayerOne = window.requestAnimationFrame(function () { // Запуск функции движения через интервал, чтобы выкинуть из стека задач (левая вверх)
                         moovePlayerOne(1);
                     });
                     break;
                 case "Control 1":
                     event.preventDefault(); // --||--
-                    timerMoovePlayerOne = window.requestAnimationFrame(function() { // --||--
+                    timerMoovePlayerOne = window.requestAnimationFrame(function () { // --||--
                         moovePlayerOne(-1);
                     });
                     break;
                 case "ArrowUp 0":
                     event.preventDefault(); // --||--
-                    timerMoovePlayerTwo = window.requestAnimationFrame(function() { // --||--
+                    timerMoovePlayerTwo = window.requestAnimationFrame(function () { // --||--
                         moovePlayerTwo(1);
                     });
                     break;
                 case "ArrowDown 0":
                     event.preventDefault(); // --||--
-                    timerMoovePlayerTwo = window.requestAnimationFrame(function() { // --||--
+                    timerMoovePlayerTwo = window.requestAnimationFrame(function () { // --||--
                         moovePlayerTwo(-1);
                     });
                     break;
                 case "  0":
                     event.preventDefault(); // Отмена действия по умолчанию у пробела (прокрутка страницы)
                     break;
-            default:
+                default:
                     break;
-            }      
+            }
         }
     });
 
     // Слушатель отжатия кнопок
-    document.addEventListener("keyup", function(event) {
+    document.addEventListener("keyup", function (event) {
         switch (event.key + " " + event.location) {
             case "Shift 1":
                 moovePlayerOne(0); // Запуск функции движения с аргументом остановки движения
@@ -266,10 +276,10 @@ window.onload = function () {
                 break;
             case "ArrowDown 0":
                 moovePlayerTwo(0); // --||--
-                break;   
+                break;
             case "  0":
                 start(); // Старт по нажатию на пробел
-                break; 
+                break;
             default:
                 break;
         }
@@ -282,7 +292,7 @@ window.onload = function () {
                 LeftStartPozY = LeftStartPozY - 4; // Сдвинуть левую платформу вверх
                 if (LeftStartPozY < 0) LeftStartPozY = 0; // Чтобы не вылезал за край
                 window.cancelAnimationFrame(timerMoovePlayerOne); // Остановка интервала
-                timerMoovePlayerOne = window.requestAnimationFrame(function() {
+                timerMoovePlayerOne = window.requestAnimationFrame(function () {
                     moovePlayerOne(1);
                 });
                 break;
@@ -291,7 +301,7 @@ window.onload = function () {
                 let maxPositionY = Canvas.offsetHeight - platformHeight; // До куда может мах опуститься
                 if (LeftStartPozY > maxPositionY) LeftStartPozY = maxPositionY; // Чтобы не вылезал за край
                 window.cancelAnimationFrame(timerMoovePlayerOne); // Остановка интервала
-                timerMoovePlayerOne = window.requestAnimationFrame(function() {
+                timerMoovePlayerOne = window.requestAnimationFrame(function () {
                     moovePlayerOne(-1);
                 });
                 break;
@@ -311,7 +321,7 @@ window.onload = function () {
                 RightStartPozY = RightStartPozY - 4; // Сдвинуть правую платформу вверх
                 if (RightStartPozY < 0) RightStartPozY = 0; // Чтобы не вылезал за край
                 window.cancelAnimationFrame(timerMoovePlayerTwo); // Остановка интервала
-                timerMoovePlayerTwo = window.requestAnimationFrame(function() {
+                timerMoovePlayerTwo = window.requestAnimationFrame(function () {
                     moovePlayerTwo(1);
                 });
                 break;
@@ -320,7 +330,7 @@ window.onload = function () {
                 let maxPositionY = area.height - platformHeight; // До куда может мах опуститься
                 if (RightStartPozY > maxPositionY) RightStartPozY = maxPositionY; // Чтобы не вылезал за край
                 window.cancelAnimationFrame(timerMoovePlayerTwo); // Остановка интервала
-                timerMoovePlayerTwo = window.requestAnimationFrame(function() {
+                timerMoovePlayerTwo = window.requestAnimationFrame(function () {
                     moovePlayerTwo(-1);
                 });
                 break;
@@ -328,12 +338,12 @@ window.onload = function () {
                 window.cancelAnimationFrame(timerMoovePlayerTwo); // Остановка интервала
                 break;
             default:
-            break;
+                break;
         };
     }
 
     // -------------------------------------------------------
- 
+
     // Запуск анимации движения мяча
 
     // Функция рандома рандома при старте и ударе о платформу 
@@ -361,21 +371,23 @@ window.onload = function () {
 
     // Функция старта игры и отсчета времени
     let requestId;
+
     function start() {
-        
+
         random("win");
 
         let count = 3;
+
         function countdown() { // Отсчет времени
             // debugger
             if (count > 0) {
                 setTimeout(() => {
-                    paramCount = count;
+                    strCountdown = count;
                     count--;
                 }, 0);
                 setTimeout(countdown, 1000);
             } else {
-                paramCount = "";
+                strCountdown = "";
                 count = 3;
                 requestId = requestAnimationFrame(mooveBall);
                 return;
@@ -390,51 +402,51 @@ window.onload = function () {
         ball.posX += ball.speedX; // Смещение мяча по оси X
 
         // попадание в правую платформу (отбил)
-        if (ball.posX + (ball.width/2) > area.width - platformWidth) {
-            if (ball.posY + (ball.height/2) > RightStartPozY && ball.posY - (ball.height/2) < RightStartPozY + platformHeight) {
-                if (ball.posY + (ball.height/2) < RightStartPozY + 6 || ball.posY - (ball.height/2) > RightStartPozY + platformHeight - 6) { // попало в уголок платформы, "+ 6" - увеличил площадь уголка платформы
+        if (ball.posX + (ball.width / 2) > area.width - platformWidth) {
+            if (ball.posY + (ball.height / 2) > RightStartPozY && ball.posY - (ball.height / 2) < RightStartPozY + platformHeight) {
+                if (ball.posY + (ball.height / 2) < RightStartPozY + 6 || ball.posY - (ball.height / 2) > RightStartPozY + platformHeight - 6) { // попало в уголок платформы, "+ 6" - увеличил площадь уголка платформы
                     ball.speedY = ball.speedY * -1; // инверсия направления
                     ball.speedX += ball.accelX; // увеличение скорости
                     ball.speedX = ball.speedX * -1; // инверсия направления
-                    ball.posX = area.width - platformWidth - (ball.width/2);
+                    ball.posX = area.width - platformWidth - (ball.width / 2);
                     random("hit"); // Рандомный угол движения мяча по оси Y, для более интересной логики
                 } else { // попало не в уголок платформы
                     ball.speedX += ball.accelX; // увеличение скорости
                     ball.speedX = ball.speedX * -1; // инверсия направления
-                    ball.posX = area.width - platformWidth - (ball.width/2);
+                    ball.posX = area.width - platformWidth - (ball.width / 2);
                     random("hit"); // Рандомный угол движения мяча по оси Y, для более интересной логики
                 }
             }
         }
 
         // попадание в правую стену (не отбил)
-        if ( ball.posX + (ball.width/2) > area.width) {
-            ball.posX = area.width - (ball.width/2);
+        if (ball.posX + (ball.width / 2) > area.width) {
+            ball.posX = area.width - (ball.width / 2);
             playerWin(1); // засчитать победу и начать новый раунд
             return;
         }
 
-        
+
         // попадание в левую платформу (отбил)
-        if ( ball.posX - (ball.width/2) < platformWidth ) {
-            if (ball.posY + (ball.height/2) > LeftStartPozY && ball.posY - (ball.height/2) < LeftStartPozY + platformHeight) {
-                if (ball.posY + (ball.height/2) < LeftStartPozY + 6 || ball.posY - (ball.height/2) > LeftStartPozY + platformHeight - 6) { // попало у уголок платформы, "+ 6" - увеличил площадь уголка платформы
+        if (ball.posX - (ball.width / 2) < platformWidth) {
+            if (ball.posY + (ball.height / 2) > LeftStartPozY && ball.posY - (ball.height / 2) < LeftStartPozY + platformHeight) {
+                if (ball.posY + (ball.height / 2) < LeftStartPozY + 6 || ball.posY - (ball.height / 2) > LeftStartPozY + platformHeight - 6) { // попало у уголок платформы, "+ 6" - увеличил площадь уголка платформы
                     ball.speedY = ball.speedY * -1; // инверсия направления
                     ball.speedX -= ball.accelX; // увеличение скорости
                     ball.speedX = ball.speedX * -1; // инверсия направления
-                    ball.posX = platformWidth + (ball.width/2);
+                    ball.posX = platformWidth + (ball.width / 2);
                     random("hit"); // Рандомный угол движения мяча по оси Y, для более интересной логики
                 } else { // попало не в уголок платформы
                     ball.speedX -= ball.accelX; // увеличение скорости
                     ball.speedX = ball.speedX * -1; // инверсия направления
-                    ball.posX = platformWidth + (ball.width/2);
+                    ball.posX = platformWidth + (ball.width / 2);
                     random("hit"); // Рандомный угол движения мяча по оси Y, для более интересной логики
                 }
             }
-        } 
+        }
         // попадание в левую стену (не отбил)
-        if (ball.posX - (ball.width/2) < 0) {
-            ball.posX = ball.width/2;
+        if (ball.posX - (ball.width / 2) < 0) {
+            ball.posX = ball.width / 2;
             playerWin(2); // засчитать победу и начать новый раунд
             return;
         }
@@ -442,14 +454,14 @@ window.onload = function () {
         ball.posY += ball.speedY; // Смещение мяча по оси Y
 
         // вылетел ли мяч ниже пола?
-        if ( ball.posY + (ball.height/2) > area.height) {
+        if (ball.posY + (ball.height / 2) > area.height) {
             ball.speedY = ball.speedY * -1; // инверсия направления
-            ball.posY = area.height - (ball.height/2);
+            ball.posY = area.height - (ball.height / 2);
         }
         // вылетел ли мяч выше потолка?
-        if ( ball.posY - (ball.height/2) < 0 ) {
+        if (ball.posY - (ball.height / 2) < 0) {
             ball.speedY = ball.speedY * -1; // инверсия направления
-            ball.posY = (ball.height/2);
+            ball.posY = (ball.height / 2);
         }
 
         requestId = requestAnimationFrame(mooveBall); // Рекурсия анимации
@@ -459,8 +471,8 @@ window.onload = function () {
     function playerWin(player) {
 
         // Сброс параметров мяча
-        ball.posX = area.width/2;
-        ball.posY = area.height/2;
+        ball.posX = area.width / 2;
+        ball.posY = area.height / 2;
         ball.speedX = 2.5;
         cancelAnimationFrame(requestId); // Стоп анимации движения мяча
 
@@ -474,7 +486,7 @@ window.onload = function () {
                 } else {
                     pointPlayerOne = 0; // сбросить очки
                     pointPlayerTwo = 0; // сбросить очки
-                    spanPoints.innerHTML = `${pointPlayerOne}:${pointPlayerTwo}`;  // записать очки
+                    spanPoints.innerHTML = `${pointPlayerOne}:${pointPlayerTwo}`; // записать очки
                 }
                 break;
             case 2: // выиграл игрок 2
@@ -489,7 +501,7 @@ window.onload = function () {
                 }
                 break;
             default:
-            break;
+                break;
         };
     }
 }

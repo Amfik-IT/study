@@ -138,4 +138,4 @@ let myModule = (function () {
 }());
 
 const module = new myModule;
-// module.search();
+module.search();
