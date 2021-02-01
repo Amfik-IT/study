@@ -26,8 +26,8 @@
     <p class="btn"><a href="#" id="clear-data" class="clear-data" style="display: none;">Очистить данные</a></p>
   </div>
 
-  <div class="modal-overlay modal_closed" id="modal-overlay"></div>
-  <div class="modal modal_closed" id="modal">
+  <div class="modal-overlay modal__closed" id="modal-overlay"></div>
+  <div class="modal modal__closed" id="modal">
     <header class="modal__header">
       <a href="#" class="modal__close" id="modal-close" title="Закрыть модальное окно">Закрыть</a>
       <h2>Введите данные</h2>
@@ -75,13 +75,13 @@
       }
 
       this.show = function () { // удаляет класс с display: none
-        myModal.classList.remove('modal_closed');
-        myModalOverlay.classList.remove('modal_closed');
+        myModal.classList.remove('modal__closed');
+        myModalOverlay.classList.remove('modal__closed');
       }
 
       this.hide = function () { // добавляет класс с display: none
-        myModal.classList.add('modal_closed');
-        myModalOverlay.classList.add('modal_closed');
+        myModal.classList.add('modal__closed');
+        myModalOverlay.classList.add('modal__closed');
       }
 
       this.buttonDisabled = function (state) { // блокируе кнопку сохранения

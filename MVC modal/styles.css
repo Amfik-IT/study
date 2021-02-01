@@ -79,7 +79,7 @@ body {
   box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
 }
 
-.modal_closed {
+.modal__closed {
   display: none;
 }
 
@@ -114,8 +114,6 @@ body {
 .form-field {
   padding: 0 0 10px;
 }
-
-.form-field label {}
 
 .form-field input {
   border: 1px gray solid;
