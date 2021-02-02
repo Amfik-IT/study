@@ -14,10 +14,6 @@ let myModule = (function () {
         let containerCreate = null;
         let containerCreateWidth = null;
 
-        // let hourHand = null;
-        // let minuteHand = null;
-        // let secondHand = null;
-
         this.init = function (container) { // инициализация данных
             myClockContainer = container;
 
