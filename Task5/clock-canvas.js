@@ -1,10 +1,10 @@
 window.onload = function () {
-    
+
     function drawClock() {
         blank();
         const clock = document.getElementById('clock');
         let halfWidthClock = clock.offsetWidth / 2;
-        
+
         if (clock && clock.getContext('2d')) {
             let ctx = clock.getContext('2d');
 
@@ -18,7 +18,7 @@ window.onload = function () {
             ctx.beginPath();
             ctx.fillStyle = '#282828';
             ctx.strokeStyle = '#00000078';
-            ctx.arc(halfWidthClock, halfWidthClock, 250, 0, 2*Math.PI);
+            ctx.arc(halfWidthClock, halfWidthClock, 250, 0, 2 * Math.PI);
             ctx.stroke();
             ctx.fill();
             ctx.restore();
@@ -30,12 +30,12 @@ window.onload = function () {
 
             // Рисуем 12 цифр
             for (let angle = 30; angle <= 360; angle += 30) {
-                
+
                 let radius = halfWidthClock - 65;
-                let angleRadians = parseFloat(angle)/180*Math.PI;
+                let angleRadians = parseFloat(angle) / 180 * Math.PI;
                 let numeralCenterX = halfWidthClock + radius * Math.sin(angleRadians);
                 let numeralCenterY = (halfWidthClock + 5) - radius * Math.cos(angleRadians);
-            
+
                 ctx.shadowColor = 'rgba(0,0,0,1)';
                 ctx.shadowOffsetX = 0;
                 ctx.shadowOffsetY = 0;
@@ -51,21 +51,21 @@ window.onload = function () {
             // Создание 60ти маленьких минутных точек:
             ctx.save();
             for (let angle = 6; angle <= 360; angle += 6) {
-                
+
                 let radius = halfWidthClock - 35;
-                let angleRadians = parseFloat(angle)/180*Math.PI;
+                let angleRadians = parseFloat(angle) / 180 * Math.PI;
                 let CenterX = halfWidthClock + radius * Math.sin(angleRadians);
                 let CenterY = halfWidthClock - radius * Math.cos(angleRadians);
 
                 ctx.beginPath();
                 ctx.fillStyle = 'rgba(0,0,0,0.75)';
                 if (angle % 30 == 0) {
-                    ctx.arc(CenterX, CenterY, 2.5, 0, 2*Math.PI);
+                    ctx.arc(CenterX, CenterY, 2.5, 0, 2 * Math.PI);
                 } else {
-                    ctx.arc(CenterX, CenterY, 1.5, 0, 2*Math.PI);
+                    ctx.arc(CenterX, CenterY, 1.5, 0, 2 * Math.PI);
                 };
                 ctx.fill();
-                
+
             }
             ctx.restore();
 
@@ -111,7 +111,7 @@ window.onload = function () {
             ctx.moveTo(halfWidthClock, halfWidthClock);
 
             radius = halfWidthClock * 0.55;
-            angleRadians = parseFloat((hour*30) + (minute/2))/180*Math.PI;
+            angleRadians = parseFloat((hour * 30) + (minute / 2)) / 180 * Math.PI;
             X = halfWidthClock + radius * Math.sin(angleRadians);
             Y = (halfWidthClock) - radius * Math.cos(angleRadians);
 
@@ -134,7 +134,7 @@ window.onload = function () {
             ctx.moveTo(halfWidthClock, halfWidthClock);
 
             radius = halfWidthClock * 0.65;
-            angleRadians = parseFloat((minute*6) + (second/10))/180*Math.PI;
+            angleRadians = parseFloat((minute * 6) + (second / 10)) / 180 * Math.PI;
             X = halfWidthClock + radius * Math.sin(angleRadians);
             Y = (halfWidthClock) - radius * Math.cos(angleRadians);
 
@@ -157,7 +157,7 @@ window.onload = function () {
             ctx.moveTo(halfWidthClock, halfWidthClock);
 
             radius = halfWidthClock * 0.75;
-            angleRadians = parseFloat((6 * second))/180*Math.PI;
+            angleRadians = parseFloat((6 * second)) / 180 * Math.PI;
             X = halfWidthClock + radius * Math.sin(angleRadians);
             Y = (halfWidthClock) - radius * Math.cos(angleRadians);
 
@@ -177,7 +177,7 @@ window.onload = function () {
             ctx.lineWidth = 3;
             ctx.fillStyle = '#afafaf';
             ctx.strokeStyle = '#000000cc';
-            ctx.arc(halfWidthClock, halfWidthClock, 8, 0, 2*Math.PI);
+            ctx.arc(halfWidthClock, halfWidthClock, 8, 0, 2 * Math.PI);
             ctx.stroke();
             ctx.fill();
         }
