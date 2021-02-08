@@ -339,7 +339,12 @@ const WheatherWidget = (function () {
             }
 
             function error() {
-                alert(`Не удалось определить ваше местоположение`);
+                alert(`Не удалось определить ваше местоположение. Загружаем для Минска.`);
+                const coords = {
+                    latitude: 53.900002,
+                    longitude: 27.566668,
+                }
+                _createContainer(coords);
             }
         }
     }
