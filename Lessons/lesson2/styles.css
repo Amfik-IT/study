@@ -1,0 +1,74 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #C34A36;
+}
+
+#main {
+  padding-top: 60vh;
+  min-height: 180px;
+  background-color: lightgreen;
+  border-bottom: 40px brown solid;
+  position: relative;
+}
+
+#main::before {
+  content: "";
+  display: block;
+  height: 60vh;
+  background-color: cyan;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.knight {
+  position: absolute;
+  bottom: 0;
+  left: 15vw;
+  width: 260px;
+  height: 210px;
+  background: url(wraith_attack.png) 0px 0px no-repeat;
+}
+
+.jump {
+  animation: jump 1.2s ease-out;
+}
+
+.jumping {
+  background-position: -260px 0;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-25px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.right,
+.left {
+  animation: run 1s steps(11) infinite;
+}
+
+.left {
+  transform: scaleX(-1);
+}
+
+@keyframes run {
+  from {
+    background: url(wraith_attack.png) 0px 0px;
+  }
+
+  to {
+    background: url(wraith_attack.png) -2860px 0px;
+  }
+}

@@ -7,5 +7,6 @@
 7) coctails - T2 +
 8) megaCalendar - T3 +
 9) editable-list - T3 +
-10) events - T4
-11) gigaCalendar - T4
+10) events - T4 +
+11) clock (dom, svg, canvas) +
+12) gigaCalendar - T4

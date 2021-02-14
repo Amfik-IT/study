@@ -28,7 +28,7 @@ let circleBigCenterY = circleBig.offsetTop + (circleBig.offsetHeight / 2); // --
 
 // Положение стрелок и маленького круга:
 
-hourHand.style.left = (circleBig.offsetWidth / 2) - (hourHand.offsetWidth / 2) + 1 + 'px'; 
+hourHand.style.left = (circleBig.offsetWidth / 2) - (hourHand.offsetWidth / 2) + 1 + 'px';
 hourHand.style.top = (circleBig.offsetHeight / 2) + 'px';
 hourHand.style.marginTop = -(circleBig.offsetHeight / 2) + 90 + 'px';
 
@@ -53,13 +53,13 @@ for (let angle = 30; angle <= 360; angle += 30) {
 
 
     let radius = (circleBig.offsetWidth / 2) - (circleSmall.offsetWidth / 2) - 15;
-    let angleRadians = parseFloat(angle)/180*Math.PI;
+    let angleRadians = parseFloat(angle) / 180 * Math.PI;
 
     let circleSmallCenterX = (circleBig.offsetWidth / 2) + radius * Math.sin(angleRadians);
     let circleSmallCenterY = (circleBig.offsetHeight / 2) - radius * Math.cos(angleRadians);
 
-    circleSmall.style.left = Math.round(circleSmallCenterX-circleSmall.offsetWidth/2) + "px";
-    circleSmall.style.top = Math.round(circleSmallCenterY-circleSmall.offsetHeight/2) + "px";
+    circleSmall.style.left = Math.round(circleSmallCenterX - circleSmall.offsetWidth / 2) + "px";
+    circleSmall.style.top = Math.round(circleSmallCenterY - circleSmall.offsetHeight / 2) + "px";
 
 }
 
@@ -74,13 +74,13 @@ for (let angle = 6; angle <= 360; angle += 6) {
 
 
     let radius = (circleBig.offsetWidth / 2) - (dot.offsetWidth / 2) - 5;
-    let angleRadians = parseFloat(angle)/180*Math.PI;
+    let angleRadians = parseFloat(angle) / 180 * Math.PI;
 
     let dotCenterX = (circleBig.offsetWidth / 2) + radius * Math.sin(angleRadians);
     let dotCenterY = (circleBig.offsetHeight / 2) - radius * Math.cos(angleRadians);
 
-    dot.style.left = Math.round(dotCenterX-dot.offsetWidth/2) - 1 + "px";
-    dot.style.top = Math.round(dotCenterY-dot.offsetHeight/2) + "px";
+    dot.style.left = Math.round(dotCenterX - dot.offsetWidth / 2) - 1 + "px";
+    dot.style.top = Math.round(dotCenterY - dot.offsetHeight / 2) + "px";
 
 }
 
@@ -98,3 +98,4 @@ function tick() {
     minuteHand.style.transform = `rotate(${(minute*6) + (second/10)}deg)`;
     secondHand.style.transform = `rotate(${second*6}deg)`;
 }
+window.onload = () => tick();

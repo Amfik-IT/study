@@ -263,7 +263,7 @@ const WheatherWidget = (function () {
                     // console.log(infoWheather);
                     myViewWheather.createWidget(infoWheather);
                 })
-                .catch(error => console.error("Ошибка получения погоды. Причина: " + error));
+                .catch(error => alert("Ошибка получения погоды. Причина: " + error));
         }
     }
 
