@@ -8,7 +8,9 @@ body {
 
 #container {
     height: 100vh;
-    background-color: black;
+    /* background-color: black; */
+    background-image: url(../img/game_background/game_background.png);
+    background-size: cover;
 }
 
 #canvas1 {
@@ -19,4 +21,7 @@ body {
     transform: translate(-50%, -50%);
     width: 900px;
     height: 600px;
+    border: solid black 1px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 25px #d8cdcf;
 }

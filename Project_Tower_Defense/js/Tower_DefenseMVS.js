@@ -22,11 +22,11 @@ class GameView {
     }
 
     drawControlsBar(width, height) {
-        this.ctx.fillStyle = '#595959a3';
+        this.ctx.fillStyle = '#7d7d7d80';
         this.ctx.fillRect(0, 0, width, height);
     }
 
-    handleGameStatus(score, numberOfResources, winningScore, enemiesLength, gameOver) {
+    drawGameStatus(score, numberOfResources, winningScore, enemiesLength, gameOver) {
         this.ctx.fillStyle = 'gold';
         this.ctx.font = '30px Arial';
         this.ctx.fillText(`Очки: ${score}`, 20, 40);
@@ -43,38 +43,71 @@ class GameView {
         }
     }
 
-    drawEnemy(x, y, width, height, health) {
-        this.ctx.fillStyle = 'red';
-        this.ctx.fillRect(x, y, width, height);
-        this.ctx.fillStyle = 'black';
-        this.ctx.font = '20px Arial';
-        this.ctx.fillText(Math.floor(health), x + 20, y + 20)
+    drawEnemy(i, health) {
+        this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
+
+        // шкала здоровья
+        this.ctx.save();
+        this.ctx.strokeStyle = 'rgba(0,0,0,0.77)';
+        this.ctx.lineCap = 'round';
+        this.ctx.lineWidth = 5.5;
+        this.ctx.beginPath();
+        this.ctx.moveTo(i[5] + 80, i[6] + 60);
+        this.ctx.lineTo(i[5] + 80, i[6] + (50 - (health / 2)) + 10);
+        this.ctx.stroke();
+
+        this.ctx.strokeStyle = 'red';
+        this.ctx.lineCap = 'round';
+        this.ctx.lineWidth = 3.5;
+        this.ctx.beginPath();
+        this.ctx.moveTo(i[5] + 80, i[6] + 60);
+        this.ctx.lineTo(i[5] + 80, i[6] + (50 - (health / 2)) + 10);
+        this.ctx.stroke();
+        this.ctx.restore();
     }
 
 
     drawCell(x, y, width, height) {
-        this.ctx.strokeStyle = 'black';
+        this.ctx.strokeStyle = '#cbcbcbbd';
         this.ctx.strokeRect(x, y, width, height);
     }
 
-    drawDefender(x, y, width, height, health) {
-        this.ctx.fillStyle = 'blue';
-        this.ctx.fillRect(x, y, width, height);
-        this.ctx.fillStyle = 'gold';
-        this.ctx.font = '20px Arial';
-        this.ctx.fillText(Math.floor(health), x + 20, y + 20);
+    drawDefender(i, health) {
+        this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
+
+        // шкала здоровья
+        this.ctx.save();
+        this.ctx.strokeStyle = 'rgba(0,0,0,0.77)';
+        this.ctx.lineCap = 'round';
+        this.ctx.lineWidth = 5.5;
+        this.ctx.beginPath();
+        this.ctx.moveTo(i[5] + 20, i[6] + 60);
+        this.ctx.lineTo(i[5] + 20, i[6] + (50 - (health / 2)) + 10);
+        this.ctx.stroke();
+
+        this.ctx.strokeStyle = 'green';
+        this.ctx.lineCap = 'round';
+        this.ctx.lineWidth = 3.5;
+        this.ctx.beginPath();
+        this.ctx.moveTo(i[5] + 20, i[6] + 60);
+        this.ctx.lineTo(i[5] + 20, i[6] + (50 - (health / 2)) + 10);
+        this.ctx.stroke();
+        this.ctx.restore();
     }
 
     drawProjectile(img, x, y, width, height) {
         this.ctx.drawImage(img, x, y, width, height);
     }
 
-    drawResource(x, y, width, height, amount) {
-        this.ctx.fillStyle = 'yellow';
-        this.ctx.fillRect(x, y, width, height);
-        this.ctx.fillStyle = 'black';
-        this.ctx.font = '20px Arial';
-        this.ctx.fillText(amount, x + 10, y + 30);
+    drawResource(i, amount) {
+
+        this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
+
+        // this.ctx.fillStyle = 'yellow';
+        // this.ctx.fillRect(x, y, width, height);
+        // this.ctx.fillStyle = 'black';
+        // this.ctx.font = '20px Arial';
+        // this.ctx.fillText(amount, x + 10, y + 30);
     }
 };
 /* -------- end view --------- */
@@ -106,10 +139,23 @@ class GameModel {
         this.winningScore = 100;
 
         // изображения
-        this.imgBackground_1 = new Image();
-        this.imgSpellsEffect_1 = new Image();
-        this.imgBackground_1.src = 'img/battle-backgrounds/game_background_2.jpg';
-        this.imgSpellsEffect_1.src = 'img/attacking_char/Spells-Effect/Spells-Effect_1.png';
+        this.images = {};
+
+        this.addImage = (name, src) => {
+            this.images[name] = new Image();
+            this.images[name].src = src;
+        }
+
+        this.addImage('background_1', 'img/battle-backgrounds/game_background_1.jpg');
+        this.addImage('background_2', 'img/battle-backgrounds/game_background_2.jpg');
+        this.addImage('background_3', 'img/battle-backgrounds/game_background_3.jpg');
+        this.addImage('background_4', 'img/battle-backgrounds/game_background_4.jpg');
+        this.addImage('spellsEffect_1', 'img/protecting_char/Spells-Effect/Spells-Effect_1.png');
+        this.addImage('spellsEffect_2', 'img/protecting_char/Spells-Effect/Spells-Effect_2.png');
+        this.addImage('spellsEffect_3', 'img/protecting_char/Spells-Effect/Spells-Effect_3.png');
+        this.addImage('wraith_01', 'img/protecting_char/Wraith_01.png');
+        this.addImage('fallen_Angels_01', 'img/attacking_char/Fallen_Angels_01.png');
+        this.addImage('coin', 'img/coins/coin.png');
 
         // массивы данных
         this.gameGrid = []; // массив объектов (ячеек) игрового поля, с методом отрисовки
@@ -131,16 +177,16 @@ class GameModel {
         // параметры статусбара
         this.controlsBar = { // Массив параметров поля управления
             width: this.canvasWidth,
-            height: this.cellSize * 3,
+            height: this.cellSize * 1.5,
         }
 
-        // --------------------------------------- ОСНОВА -----------------------------------------------------------
+        // --------------------------------------- РЫЧАГИ УПРАВЛЕНИЯ ----------------------------------------------------
 
         // ------игровое поле
 
         this.blank = () => { // функция очистки канваса
             // debugger
-            this.view.blank(this.imgBackground_1);
+            this.view.blank(this.images.background_1);
         }
 
         this.handleGameGrid = () => { // функция отрисовки всех ячеек
@@ -150,7 +196,7 @@ class GameModel {
         }
 
         this.handleGameStatus = () => { // показываеем в навбаре сколько у игрока бабла и очков
-            this.view.handleGameStatus(this.score, this.numberOfResources, this.winningScore, this.enemies.length, this.gameOver);
+            this.view.drawGameStatus(this.score, this.numberOfResources, this.winningScore, this.enemies.length, this.gameOver);
         }
 
 
@@ -161,8 +207,8 @@ class GameModel {
 
             for (let i = 0; i < this.enemies.length; i++) {
 
-                this.enemies[i].update();
                 this.enemies[i].draw();
+                this.enemies[i].update();
 
                 if (this.enemies[i].x < 0) { // игра заканчивается если противник дошел то левого края поля
                     this.gameOver = true;
@@ -199,7 +245,7 @@ class GameModel {
                 this.defenders[i].draw(); // вызываю метод отрисовки защитника
                 this.defenders[i].update();
 
-                if (this.enemyPosition.indexOf(this.defenders[i].y) !== -1) { // если положение по высоте зашитника будет найдено в массиве врагов вернет 1 - значит враги на этой строке есть
+                if (this.enemyPosition.indexOf(this.defenders[i].y) !== -1 && this.defenders[i].health > 3.5) { // если положение по высоте зашитника будет найдено в массиве врагов вернет 1 - значит враги на этой строке есть
                     this.defenders[i].shooting = true; // начать стрельбу
                 } else {
                     this.defenders[i].shooting = false; // остановить стрельбу
@@ -213,13 +259,15 @@ class GameModel {
                     }
 
                     if (this.defenders[i] && this.defenders[i].health <= 0) { // если здоровье защитника меньше или равно 0, то вырезаем его из массыва защитников
+
                         this.defenders.splice(i, 1); // вырезать с позиции i один элемент
                         i--; // для корректировки индекса цикла
 
                         for (let k = 0; k < this.enemies.length; k++) { // все враги продолжают двигаться, что бы не застремали если оба врага убили одного защитника
                             this.enemies[k].movement = this.enemies[k].speed;
                         }
-                        // enemies[j].movement = enemies[j].speed; // враг продолжает двигаться
+
+
                     }
                 }
             }
@@ -257,7 +305,10 @@ class GameModel {
             }
 
             for (let i = 0; i < this.resources.length; i++) {
+
                 this.resources[i].draw(); // отрисовка ресурсов
+                this.resources[i].update();
+
                 if (this.resources[i] && this.mouse.x && this.mouse.y && this.collision(this.resources[i], this.mouse)) { // если есть ресурс, мышь на канвасом, и координаты мышки сталкиваются с ресурсом - то забрать его и удалить из массива
                     this.numberOfResources += this.resources[i].amount;
                     this.resources.splice(i, 1);
@@ -266,14 +317,15 @@ class GameModel {
             }
         }
 
-        // ------ запуск машины
+        // ---------------------------------------- ЗАПУСК МАШИНЫ
         this.animate = () => {
 
             this.blank(this.imgBackground_1); // задний фон
             this.view.drawControlsBar(this.controlsBar.width, this.controlsBar.height); // контролбар
             this.handleGameGrid(); // сетка поля
-            this.handleProjectiles(); // снаряды
+
             this.handleDefenders(); // защитники
+            this.handleProjectiles(); // снаряды
             this.handleEnemies(); // враги
             this.handleResources(); // ресурсы
             this.handleGameStatus(); // статус (выиграл\проиграл)
@@ -287,7 +339,7 @@ class GameModel {
     init() {
         this.createGrid();
     }
-    // ------------------------------------------------ ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ --------------------------------
+    // ------------------------------------------------ ВНУТРЕННОСТИ МАШИНЫ --------------------------------
 
     // -------------------------------------------------- игровое поле
 
@@ -320,7 +372,7 @@ class GameModel {
 
     newEnemy(verticalPosition, model) {
         class Enemy {
-            constructor(verticalPosition) {
+            constructor(verticalPosition, model) {
                 this.x = model.canvasWidth; // что бы появлялись за пределами канваса
                 this.y = verticalPosition; // параметр определяется рандомом ниже покоду
                 this.width = model.cellSize - model.cellGap * 2; // ширина ячейки минус двойной отступ
@@ -329,13 +381,42 @@ class GameModel {
                 this.movement = this.speed; // переменная для того что бы моги остановить врага
                 this.health = 100; // здоровье врага
                 this.maxHealth = this.health; // сохранение максимального здоровья для расчетов очков и наград
+
+                this.frameX = 267.916667;
+                this.frameY = 170;
+                this.charFrameX = 0;
+                this.charFrameY = 0;
+                this.image = [model.images.fallen_Angels_01, 0, 0, this.frameX, this.frameY, this.x, this.y, 90, this.height];
             }
+
+            draw() { // рисует врага и его здоровье
+                model.view.drawEnemy(this.image, this.health);
+            }
+
             update() {
+                //--- анимация персанажа
+                this.image[1] = this.frameX * this.charFrameX;
+                this.image[2] = this.frameY * this.charFrameY;
+                this.image[5] = this.x;
+                this.image[6] = this.y;
+
+                if (this.charFrameX < 11 && model.frame % 6 === 0) {
+                    this.charFrameX++;
+                }
+                if (this.charFrameX >= 11) {
+                    this.charFrameX = 0;
+                }
+
+                //--- атака
+                if (this.movement === 0) {
+
+                    this.charFrameY = 1;
+                } else this.charFrameY = 0;
+
+                //--- смещение
                 this.x -= this.movement; // смещает врага влево
             }
-            draw() { // рисует врага и его здоровье
-                model.view.drawEnemy(this.x, this.y, this.width, this.height, this.health);
-            }
+
         }
         return new Enemy(verticalPosition, model);
     }
@@ -352,21 +433,51 @@ class GameModel {
                 this.shooting = false; // стреляет или нет
                 this.health = 100; // кол-во здоровья
                 this.projectiles = []; // массив снарядов
-                this.timer = 0; // таймер выстрела(скорость стрельбы) 
+                this.timer = 0; // таймер выстрела(скорость стрельбы)
+                this.powerAtack = 10;
+
+                this.frameX = 267.916667;
+                this.frameY = 170;
+                this.charFrameX = 0;
+                this.charFrameY = 0;
+                this.image = [model.images.wraith_01, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height];
             }
+
             draw() { // отрисовка защаитника
-                model.view.drawDefender(this.x, this.y, this.width, this.height, this.health);
+
+                model.view.drawDefender(this.image, this.health);
             }
+
             update() {
+                //--- анимация персанажа
+                this.image[1] = this.frameX * this.charFrameX;
+                this.image[2] = this.frameY * this.charFrameY;
+
+                if (this.charFrameX < 11 && model.frame % 6 === 0) {
+                    this.charFrameX++;
+                }
+                if (this.charFrameX >= 11) {
+                    this.charFrameX = 0;
+                }
+
+                //--- стрельба и смерть
                 if (this.shooting) { // если true но начинает увеличивать таймет и по определенным значениям добавлять снаряды
 
+                    this.charFrameY = 1;
                     this.timer++;
-                    if (this.timer % 100 === 0) {
-                        model.projectiles.push(model.newProjectile(this.x + 20, this.y + 20, model.imgSpellsEffect_1, 20, model));
+
+                    if (this.timer % 66 === 0) { // как только сменится фрейм, то должно пройти 66 кадров чтобы анимация была на месте выстрела
+                        model.projectiles.push(model.newProjectile(this.x + 55, this.y + 30, model.images.spellsEffect_1, this.powerAtack, model));
                     }
 
                 } else {
-                    this.timer = 0;
+                    if (this.health <= 3.5) {
+                        this.charFrameY = 2; //--- смерть
+                    } else {
+                        this.timer = 0;
+                        this.charFrameY = 0;
+                    }
+
                 }
             }
         }
@@ -398,8 +509,8 @@ class GameModel {
                 // debugger
                 this.x = x;
                 this.y = y;
-                this.width = 30;
-                this.height = 30;
+                this.width = 25;
+                this.height = 25;
                 this.power = power;
                 this.speed = 5;
             }
@@ -420,12 +531,29 @@ class GameModel {
             constructor(model) {
                 this.x = Math.random() * (model.canvasWidth - model.cellSize); // ширина канваса минус одна ячейка сетки, что бы не появлялись за краем
                 this.y = (Math.floor(Math.random() * 4) + 3) * model.cellSize + 25;
-                this.width = model.cellSize * 0.6;
-                this.height = model.cellSize * 0.6;
+                this.width = model.cellSize * 0.4;
+                this.height = model.cellSize * 0.4;
                 this.amount = model.amounts[Math.floor(Math.random() * model.amounts.length)]; // рандом умножит на длинну массива сумм наград
+
+                this.frameX = 103.5;
+                this.frameY = 90;
+                this.charFrameX = 0;
+                this.image = [model.images.coin, 0, 0, this.frameX, this.frameY, this.x, this.y, 35, this.height];
             }
             draw() {
-                model.view.drawResource(this.x, this.y, this.width, this.height, this.amount);
+                // model.view.drawResource(this.x, this.y, this.width, this.height, this.amount);
+                model.view.drawResource(this.image, this.amount);
+            }
+            update() {
+                //--- анимация бабла
+                this.image[1] = this.frameX * this.charFrameX;
+
+                if (this.charFrameX < 5 && model.frame % 12 === 0) {
+                    this.charFrameX++;
+                }
+                if (this.charFrameX >= 5) {
+                    this.charFrameX = 0;
+                }
             }
         }
         return new Resource(model);
@@ -440,9 +568,9 @@ class GameModel {
     }
 
     // расчет коллизий
-    collision(first, second) { // функция коллизии столкновения
-        if (!(first.x > second.x + second.width ||
-                first.x + first.width < second.x ||
+    collision(first, second) { // функция коллизии столкновения (если что-то сломается, то убери тут "-10")
+        if (!(first.x - 10 > second.x + second.width ||
+                first.x - 10 + first.width < second.x ||
                 first.y > second.y + second.height ||
                 first.y + first.height < second.y)) {
             return true;
