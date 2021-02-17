@@ -17,32 +17,36 @@ class GameView {
 
     }
 
+    // задний фон
     blank(img) {
         this.ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
     }
 
+    // контролбар
     drawControlsBar(width, height) {
         this.ctx.fillStyle = '#7d7d7d80';
         this.ctx.fillRect(0, 0, width, height);
     }
 
+    // элементы статуса игрока
     drawGameStatus(score, numberOfResources, winningScore, enemiesLength, gameOver) {
         this.ctx.fillStyle = 'gold';
-        this.ctx.font = '30px Arial';
+        this.ctx.font = '30px Lineage2Font';
         this.ctx.fillText(`Очки: ${score}`, 20, 40);
-        this.ctx.fillText(`Бабло: ${numberOfResources}`, 20, 80);
+        this.ctx.fillText(`Золото: ${numberOfResources}`, 20, 80);
         if (gameOver) {
             this.ctx.fillStyle = 'black';
-            this.ctx.font = '50px Arial';
+            this.ctx.font = '50px Lineage2Font';
             this.ctx.fillText(`Game Over`, 350, 330)
         }
         if (score >= winningScore && enemiesLength === 0) {
             this.ctx.fillStyle = 'black';
-            this.ctx.font = '50px Arial';
+            this.ctx.font = '50px Lineage2Font';
             this.ctx.fillText(`Level Complete`, 300, 330)
         }
     }
 
+    // враги
     drawEnemy(i, health) {
         this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
 
@@ -66,12 +70,17 @@ class GameView {
         this.ctx.restore();
     }
 
+    drawDyingEnemy(i) {
+        this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
+    }
 
+    // сетка игрового поля
     drawCell(x, y, width, height) {
         this.ctx.strokeStyle = '#cbcbcbbd';
         this.ctx.strokeRect(x, y, width, height);
     }
 
+    // защитники
     drawDefender(i, health) {
         this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
 
@@ -95,19 +104,19 @@ class GameView {
         this.ctx.restore();
     }
 
+    drawDyingDefender(i) {
+        this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
+    }
+
+    // снаряды
     drawProjectile(img, x, y, width, height) {
         this.ctx.drawImage(img, x, y, width, height);
     }
 
+    // ресурсы
     drawResource(i, amount) {
 
         this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
-
-        // this.ctx.fillStyle = 'yellow';
-        // this.ctx.fillRect(x, y, width, height);
-        // this.ctx.fillStyle = 'black';
-        // this.ctx.font = '20px Arial';
-        // this.ctx.fillText(amount, x + 10, y + 30);
     }
 };
 /* -------- end view --------- */
@@ -133,7 +142,7 @@ class GameModel {
         // настройки
         this.enemiesInterval = 600; // интервал появления врагов
         this.frame = 0; // кадры - как долго идет игра
-        this.numberOfResources = 300; // количество ресурсов игрока
+        this.numberOfResources = 300; // стартовое количество ресурсов игрока
         this.gameOver = false;
         this.score = 0; // очки игрока
         this.winningScore = 100;
@@ -150,21 +159,43 @@ class GameModel {
         this.addImage('background_2', 'img/battle-backgrounds/game_background_2.jpg');
         this.addImage('background_3', 'img/battle-backgrounds/game_background_3.jpg');
         this.addImage('background_4', 'img/battle-backgrounds/game_background_4.jpg');
-        this.addImage('spellsEffect_1', 'img/protecting_char/Spells-Effect/Spells-Effect_1.png');
-        this.addImage('spellsEffect_2', 'img/protecting_char/Spells-Effect/Spells-Effect_2.png');
-        this.addImage('spellsEffect_3', 'img/protecting_char/Spells-Effect/Spells-Effect_3.png');
+
+        this.addImage('spellsEffect_1', 'img/protecting_char/Spells-Effect_1.png');
+        this.addImage('spellsEffect_2', 'img/protecting_char/Spells-Effect_2.png');
+        this.addImage('spellsEffect_3', 'img/protecting_char/Spells-Effect_3.png');
+
         this.addImage('wraith_01', 'img/protecting_char/Wraith_01.png');
+        this.addImage('wraith_02', 'img/protecting_char/Wraith_02.png');
+        this.addImage('wraith_03', 'img/protecting_char/Wraith_03.png');
+
         this.addImage('fallen_Angels_01', 'img/attacking_char/Fallen_Angels_01.png');
+        this.addImage('fallen_Angels_02', 'img/attacking_char/Fallen_Angels_02.png');
+        this.addImage('fallen_Angels_03', 'img/attacking_char/Fallen_Angels_03.png');
+
+        this.addImage('golem_01', 'img/attacking_char/Golem_01.png');
+        this.addImage('golem_02', 'img/attacking_char/Golem_02.png');
+        this.addImage('golem_03', 'img/attacking_char/Golem_03.png');
+
+        this.addImage('reaper_Man_01', 'img/attacking_char/Reaper_Man_01.png');
+        this.addImage('reaper_Man_02', 'img/attacking_char/Reaper_Man_02.png');
+        this.addImage('reaper_Man_03', 'img/attacking_char/Reaper_Man_03.png');
+
+        this.addImage('Orc_01', 'img/attacking_char/Orc_01.png');
+        this.addImage('Orc_02', 'img/attacking_char/Orc_02.png');
+        this.addImage('Orc_03', 'img/attacking_char/Orc_03.png');
+
         this.addImage('coin', 'img/coins/coin.png');
 
         // массивы данных
         this.gameGrid = []; // массив объектов (ячеек) игрового поля, с методом отрисовки
         this.defenders = []; // массив защитников
+        this.dyingDefenders = []; // массив умирающих защитников
         this.enemies = []; // массив врагов
+        this.dyingEnemies = []; // массив умирающийх врагов
         this.enemyPosition = []; // массив местоположения врагов
         this.projectiles = []; // массив снарядов для защитников
         this.resources = []; // массив ресурсов
-        this.amounts = [20, 30, 40]; // массив ачивок
+        this.amounts = [20, 30, 40]; // массив данных для ресурсов
 
         // параметры мышки
         this.mouse = {
@@ -180,7 +211,7 @@ class GameModel {
             height: this.cellSize * 1.5,
         }
 
-        // --------------------------------------- РЫЧАГИ УПРАВЛЕНИЯ ----------------------------------------------------
+        // ------------------------------------------ РЫЧАГИ УПРАВЛЕНИЯ ----------------------------------------------------
 
         // ------игровое поле
 
@@ -205,7 +236,7 @@ class GameModel {
 
         this.handleEnemies = () => { // функция создания смещения и логики врага
 
-            for (let i = 0; i < this.enemies.length; i++) {
+            for (let i = 0; i < this.enemies.length; i++) { // перебор массива врагов
 
                 this.enemies[i].draw();
                 this.enemies[i].update();
@@ -213,7 +244,7 @@ class GameModel {
                 if (this.enemies[i].x < 0) { // игра заканчивается если противник дошел то левого края поля
                     this.gameOver = true;
                 }
-                if (this.enemies[i].health <= 0) { // если здоровье враг убит
+                if (this.enemies[i].health <= 0) { // если здоровье меньше или равно 0 - враг убит
 
                     let geinedResources = this.enemies[i].maxHealth / 10; // игрок получает ресурс в кол-ве 0.1 часть от здоровья противника 
 
@@ -221,6 +252,9 @@ class GameModel {
                     this.score += geinedResources; // игрок получает очки в кол-ве 0.1 часть от здоровья противника 
 
                     const findThisIndex = this.enemyPosition.indexOf(this.enemies[i].y) // ищет позицию убитого врага
+
+                    // для анимации смерти
+                    this.dyingEnemies.push(this.newDyingEnemies(this.enemies[i].x, this.enemies[i].y, this.enemies[i].image[0], this)) // добавить врага в массив убитых врагов
 
                     this.enemyPosition.splice(findThisIndex, 1); // удаляет позицию убитого врага
                     this.enemies.splice(i, 1); // удаляет убитого врага
@@ -237,6 +271,22 @@ class GameModel {
             }
         }
 
+
+        this.handleDyingEnemies = () => { // умирающие враги
+
+            for (let i = 0; i < this.dyingEnemies.length; i++) {
+                this.dyingEnemies[i].draw();
+                this.dyingEnemies[i].update();
+
+                if (this.dyingEnemies[i].animDying) {
+
+                    this.dyingEnemies.splice(i, 1); // вырезать с позиции i умершего противника
+                    i--; // для корректировки индекса цикла
+                }
+            }
+        }
+
+
         // ------ защитники
 
         this.handleDefenders = () => { // функция создания и логики защитников
@@ -245,7 +295,7 @@ class GameModel {
                 this.defenders[i].draw(); // вызываю метод отрисовки защитника
                 this.defenders[i].update();
 
-                if (this.enemyPosition.indexOf(this.defenders[i].y) !== -1 && this.defenders[i].health > 3.5) { // если положение по высоте зашитника будет найдено в массиве врагов вернет 1 - значит враги на этой строке есть
+                if (this.enemyPosition.indexOf(this.defenders[i].y) !== -1) { // если положение по высоте зашитника будет найдено в массиве врагов вернет 1 - значит враги на этой строке есть
                     this.defenders[i].shooting = true; // начать стрельбу
                 } else {
                     this.defenders[i].shooting = false; // остановить стрельбу
@@ -260,6 +310,9 @@ class GameModel {
 
                     if (this.defenders[i] && this.defenders[i].health <= 0) { // если здоровье защитника меньше или равно 0, то вырезаем его из массыва защитников
 
+                        // для анимации смерти
+                        this.dyingDefenders.push(this.newDyingDefender(this.defenders[i].x, this.defenders[i].y, this.defenders[i].image[0], this)) // добавить защитника в массив убитых защитников
+
                         this.defenders.splice(i, 1); // вырезать с позиции i один элемент
                         i--; // для корректировки индекса цикла
 
@@ -273,24 +326,37 @@ class GameModel {
             }
         }
 
+        this.handleDyingDefenders = () => { // умирающие защитники
+
+            for (let i = 0; i < this.dyingDefenders.length; i++) {
+                this.dyingDefenders[i].draw();
+                this.dyingDefenders[i].update();
+
+                if (this.dyingDefenders[i].animDying) {
+
+                    this.dyingDefenders.splice(i, 1); // вырезать с позиции i умершего противника
+                    i--; // для корректировки индекса цикла
+                }
+            }
+        }
         // ------ снаряды
 
         this.handleProjectiles = () => {
-            for (let i = 0; i < this.projectiles.length; i++) {
+            for (let i = 0; i < this.projectiles.length; i++) { // перебирает массив снарядов и вызывает их методы перерисовки и смещения
                 this.projectiles[i].update();
                 this.projectiles[i].draw();
 
-                for (let j = 0; j < this.enemies.length; j++) {
-                    if (this.enemies[j] && this.projectiles[i] && this.collision(this.projectiles[i], this.enemies[j])) {
+                for (let j = 0; j < this.enemies.length; j++) { // пребор массива врагов
+                    if (this.enemies[j] && this.projectiles[i] && this.collision(this.projectiles[i], this.enemies[j])) { // если существует враг и снаряд проверяет их столкновение
 
-                        this.enemies[j].health -= this.projectiles[i].power;
-                        this.projectiles.splice(i, 1);
-                        i--;
+                        this.enemies[j].health -= this.projectiles[i].power; // если столкнулись онять здоровье у врага на силу снаряда
+                        this.projectiles.splice(i, 1); // вырезать снаряд из массива снарядов
+                        i--; // сделать поправку счетчика
                     }
                 }
 
-                if (this.projectiles[i] && this.projectiles[i].x > this.canvasWidth - this.cellSize) {
-                    this.projectiles.splice(i, 1);
+                if (this.projectiles[i] && this.projectiles[i].x > this.canvasWidth - this.cellSize) { // если снаряд ударился о край канваса
+                    this.projectiles.splice(i, 1); // вырезать снаряд из массива снарядов
                     i--; // для корректировки индекса цикла
                 }
             }
@@ -317,7 +383,7 @@ class GameModel {
             }
         }
 
-        // ---------------------------------------- ЗАПУСК МАШИНЫ
+        // --------------------------------------------- ЗАПУСК МАШИНЫ
         this.animate = () => {
 
             this.blank(this.imgBackground_1); // задний фон
@@ -325,8 +391,10 @@ class GameModel {
             this.handleGameGrid(); // сетка поля
 
             this.handleDefenders(); // защитники
+            this.handleDyingDefenders();
             this.handleProjectiles(); // снаряды
             this.handleEnemies(); // враги
+            this.handleDyingEnemies();
             this.handleResources(); // ресурсы
             this.handleGameStatus(); // статус (выиграл\проиграл)
             this.frame++; // увеличение счетчика кадров
@@ -368,7 +436,7 @@ class GameModel {
         }
     }
 
-    // --------------------------------------------------------- враги
+    // ------------------------------------------------------ враги
 
     newEnemy(verticalPosition, model) {
         class Enemy {
@@ -386,7 +454,7 @@ class GameModel {
                 this.frameY = 170;
                 this.charFrameX = 0;
                 this.charFrameY = 0;
-                this.image = [model.images.fallen_Angels_01, 0, 0, this.frameX, this.frameY, this.x, this.y, 90, this.height];
+                this.image = [model.images.fallen_Angels_01, 30, 0, this.frameX, this.frameY, this.x, this.y, 90, this.height];
             }
 
             draw() { // рисует врага и его здоровье
@@ -395,7 +463,7 @@ class GameModel {
 
             update() {
                 //--- анимация персанажа
-                this.image[1] = this.frameX * this.charFrameX;
+                this.image[1] = (this.frameX * this.charFrameX) + 20;
                 this.image[2] = this.frameY * this.charFrameY;
                 this.image[5] = this.x;
                 this.image[6] = this.y;
@@ -421,7 +489,42 @@ class GameModel {
         return new Enemy(verticalPosition, model);
     }
 
-    // ------------------------------------------------------- защитники
+    newDyingEnemies(x, y, img, model) {
+        class DyingEnemy {
+            constructor(x, y, img, model) {
+                this.x = x;
+                this.y = y;
+                this.height = model.cellSize - model.cellGap * 2; // высота ячейки минус двойной отступ
+                this.animDying = false;
+
+                this.frameX = 267.916667;
+                this.frameY = 170;
+                this.charFrameX = 0;
+                this.charFrameY = 2;
+                this.image = [img, 20, 0, this.frameX, this.frameY, this.x, this.y, 90, this.height];
+            }
+
+            draw() { // рисует врага и его здоровье
+                model.view.drawDyingEnemy(this.image);
+            }
+
+            update() {
+                //--- анимация персанажа
+                this.image[1] = (this.frameX * this.charFrameX) + 20;
+                this.image[2] = (this.frameY * this.charFrameY) + 10;
+
+                if (this.charFrameX < 11 && model.frame % 6 === 0) {
+                    this.charFrameX++;
+                }
+                if (this.charFrameX >= 11) {
+                    this.animDying = true;
+                }
+            }
+
+        }
+        return new DyingEnemy(x, y, img, model);
+    }
+    // ---------------------------------------------------- защитники
 
     newDefender(x, y, model) {
         class Defender { // класс создания защитников
@@ -460,28 +563,60 @@ class GameModel {
                     this.charFrameX = 0;
                 }
 
-                //--- стрельба и смерть
+                //--- стрельба
                 if (this.shooting) { // если true но начинает увеличивать таймет и по определенным значениям добавлять снаряды
 
                     this.charFrameY = 1;
                     this.timer++;
 
                     if (this.timer % 66 === 0) { // как только сменится фрейм, то должно пройти 66 кадров чтобы анимация была на месте выстрела
-                        model.projectiles.push(model.newProjectile(this.x + 55, this.y + 30, model.images.spellsEffect_1, this.powerAtack, model));
+                        model.projectiles.push(model.newProjectile(this.x + 55, this.y + 35, model.images.spellsEffect_1, this.powerAtack, model));
                     }
 
                 } else {
-                    if (this.health <= 3.5) {
-                        this.charFrameY = 2; //--- смерть
-                    } else {
-                        this.timer = 0;
-                        this.charFrameY = 0;
-                    }
 
+                    this.timer = 0;
+                    this.charFrameY = 0;
                 }
             }
         }
         return new Defender(x, y, model)
+    }
+
+    newDyingDefender(x, y, img, model) {
+        class DyingDefender {
+            constructor(x, y, img, model) {
+                this.x = x;
+                this.y = y;
+                this.height = model.cellSize - model.cellGap * 2; // высота ячейки минус двойной отступ
+                this.animDying = false;
+
+                this.frameX = 267.916667;
+                this.frameY = 170;
+                this.charFrameX = 0;
+                this.charFrameY = 2;
+                this.image = [img, 20, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height];
+            }
+
+            draw() { // рисует врага и его здоровье
+                model.view.drawDyingDefender(this.image);
+            }
+
+            update() {
+                //--- анимация персанажа
+                this.image[1] = (this.frameX * this.charFrameX);
+                this.image[2] = (this.frameY * this.charFrameY);
+
+                if (this.charFrameX < 11 && model.frame % 6 === 0) {
+                    this.charFrameX++;
+                }
+                if (this.charFrameX >= 11) {
+                    this.animDying = true;
+                }
+            }
+
+        }
+        return new DyingDefender(x, y, img, model);
     }
 
     createDefender() {
@@ -501,7 +636,7 @@ class GameModel {
             this.numberOfResources -= defenderCost; // вычесть стоимость защитника
         }
     }
-    // ------------------------------------------------------- снаряды
+    // ------------------------------------------------------ снаряды
 
     newProjectile(x, y, img, power, model) {
         class Projectile {
@@ -509,8 +644,8 @@ class GameModel {
                 // debugger
                 this.x = x;
                 this.y = y;
-                this.width = 25;
-                this.height = 25;
+                this.width = 20;
+                this.height = 20;
                 this.power = power;
                 this.speed = 5;
             }
@@ -524,7 +659,7 @@ class GameModel {
         return new Projectile(x, y, img, power, model);
     }
 
-    // -------------------------------------------------------- ресурсы
+    // ------------------------------------------------------ ресурсы
 
     newResource(model) {
         class Resource { // класс создания ресурсов
@@ -569,8 +704,8 @@ class GameModel {
 
     // расчет коллизий
     collision(first, second) { // функция коллизии столкновения (если что-то сломается, то убери тут "-10")
-        if (!(first.x - 10 > second.x + second.width ||
-                first.x - 10 + first.width < second.x ||
+        if (!(first.x > second.x + second.width ||
+                first.x + first.width < second.x ||
                 first.y > second.y + second.height ||
                 first.y + first.height < second.y)) {
             return true;
@@ -612,11 +747,12 @@ class GameController {
         window.addEventListener('resize', () => { // изменение вычислений при ресайзе окна
             canvasPosition = this.canvas.getBoundingClientRect()
         })
-        this.model.start()
 
         this.canvas.addEventListener('click', () => { // клик по канвасу, размещение защитника
             this.model.createDefender();
         })
+
+        this.model.start();
     }
 };
 /* ------ end controller ----- */

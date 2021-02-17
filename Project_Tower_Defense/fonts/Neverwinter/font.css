@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'RUSNeverwinter';
+  src: url('RUSNeverwinter.eot');
+  src: url('RUSNeverwinter.eot?#iefix') format('embedded-opentype'),
+       url('RUSNeverwinter.svg#RUSNeverwinter') format('svg'),
+       url('RUSNeverwinter.ttf') format('truetype'),
+       url('RUSNeverwinter.woff') format('woff'),
+       url('RUSNeverwinter.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+

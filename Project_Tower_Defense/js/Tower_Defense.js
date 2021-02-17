@@ -15,11 +15,6 @@ let gameOver = false;
 let score = 0; // очки игрока
 const winningScore = 100;
 
-const imgBackground_1 = new Image();
-imgBackground_1.src = 'img/battle-backgrounds/game_background_2.jpg';
-const imgSpellsEffect_1 = new Image();
-imgSpellsEffect_1.src = 'img/attacking_char/Spells-Effect/Spells-Effect_1.png';
-
 const gameGrid = []; // массив объектов (ячеек) игрового поля, с методом отрисовки
 const defenders = []; // массив защитников
 const enemies = []; // массив врагов
@@ -92,7 +87,8 @@ function handleGameGrid() { // функция отрисовки всех яче
 }
 
 function blank() { // функция очистки канваса
-    ctx.drawImage(imgBackground_1, 0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 
@@ -111,7 +107,8 @@ class Projectile {
         this.x += this.speed;
     }
     draw() {
-        ctx.drawImage(imgSpellsEffect_1, this.x, this.y, this.width, this.height);
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(this.x, this.y, this.width + 20, this.height + 20);
     }
 }
 

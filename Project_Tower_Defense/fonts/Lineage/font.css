@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Lineage 2 Font';
+  src: url('Lineage 2 Font.eot');
+  src: url('Lineage 2 Font.eot?#iefix') format('embedded-opentype'),
+       url('Lineage 2 Font.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lineage2Font';
+  src: url('Lineage2Font.svg#Lineage2Font') format('svg'),
+       url('Lineage2Font.ttf') format('truetype'),
+       url('Lineage2Font.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
