@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Example for SPA</title>
+  <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+  <style>
+    body {
+      padding: 20px;
+      margin: 0;
+      font-family: "Exo 2", sans-serif;
+      box-sizing: border-box;
+    }
+
+    .title {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .mainmenu__list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      border: 1px gray solid;
+      display: flex;
+    }
+
+    .mainmenu li {
+      list-style: none;
+    }
+
+    .mainmenu__link {
+      display: block;
+      padding: 10px 25px;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .mainmenu__link:hover {
+      text-decoration: none;
+      background-color: darkgray;
+      color: #fff;
+    }
+
+    .mainmenu__link.active {
+      text-decoration: none;
+      background-color: #000;
+      color: #fff;
+    }
+
+    .content {
+      padding: 1.5em 0;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="title">Пример реализации SPA как модуля c использованием MVC</p>
+
+  <div id="app">
+    <nav class="mainmenu" id="mainmenu">
+      <ul class="mainmenu__list">
+        <li><a class="mainmenu__link" href="#main">Главная</a></li>
+        <li><a class="mainmenu__link" href="#about">О нас</a></li>
+        <li><a class="mainmenu__link" href="#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+
+    <div class="content" id="content"></div>
+  </div>
+
+<script>
+/* ----- spa init module --- */
+const mySPA = (function() {
+
+  /* ------- begin view -------- */
+  function ModuleView() {
+    let myModuleContainer = null;
+    let menu = null;
+    let contentContainer = null;
+
+    const HomeComponent = {
+      id: "main",
+      title: "Главная страница примера SPA",
+      render: (className = "container", ...rest) => {
+        return `
+          <section class="${className}">
+            <h1>Главная</h1>
+            <p>Здесь будет контент <strong>Главной</strong> страницы.</p>
+          </section>
+        `;
+      }
+    };
+
+    const AboutComponent = {
+      id: "about",
+      title: "Какой-то описательный текст данного SPA",
+      render: (className = "container", ...rest) => {
+        return `
+          <section class="${className}">
+            <h1>О нас</h1>
+            <p>А здесь что-то как бы <strong>О нас</strong> или о них =)</p>
+          </section>
+        `;
+      }
+    };
+
+    const ContactsComponent = {
+      id: "contacts",
+      title: "Ну и страница Контакты, как без нее?",
+      render: (className = "container", ...rest) => {
+        return `
+          <section class="${className}">
+            <h1>Контакты</h1>
+            <p>Ну а тут классически будет страница <strong>Контакты</strong>.</p>
+          </section>
+        `;
+      }
+    };
+
+    const ErrorComponent = {
+      id: "error",
+      title: "Achtung, warning, kujdes, attenzione, pozornost...",
+      render: (className = "container", ...rest) => {
+        return `
+          <section class="${className}">
+            <h1>Ошибка 404</h1>
+            <p>Страница не найдена, попробуйте вернуться на <a href="#main">главную</a>.</p>
+          </section>
+        `;
+      }
+    };
+
+    const router = {
+      main: HomeComponent,
+      about: AboutComponent,
+      contacts: ContactsComponent,
+      default: HomeComponent,
+      error: ErrorComponent
+    };
+
+    this.init = function(container) {
+      myModuleContainer = container;
+      menu = myModuleContainer.querySelector("#mainmenu");
+      contentContainer = myModuleContainer.querySelector("#content");
+    }
+
+    this.updateButtons = function(currentPage) {
+      const menuLinks = menu.querySelectorAll(".mainmenu__link");
+
+      for (let i = 0, menuLinksCount = menuLinks.length; i < menuLinksCount; i++) {
+        if (currentPage === menuLinks[i].getAttribute("href").slice(1)){
+          menuLinks[i].classList.add("active");
+        } else {
+          menuLinks[i].classList.remove("active");
+        }
+      }
+    }
+
+    this.renderContent = function(hashPageName) {
+      let routeName = "default";
+
+      if (hashPageName.length > 0) {
+        routeName = hashPageName in router ? hashPageName : "error";
+      }
+
+      window.document.title = router[routeName].title;
+      contentContainer.innerHTML = router[routeName].render(`${routeName}-page`);
+      this.updateButtons(router[routeName].id);
+    }
+  };
+  /* -------- end view --------- */
+  /* ------- begin model ------- */
+  function ModuleModel () {
+      let myModuleView = null;
+
+      this.init = function(view) {
+        myModuleView = view;
+      }
+
+      this.updateState = function() {
+        const hashPageName = window.location.hash.slice(1).toLowerCase();
+        myModuleView.renderContent(hashPageName);
+      }
+  }
+
+  /* -------- end model -------- */
+  /* ----- begin controller ---- */
+  function ModuleController () {
+      let myModuleContainer = null;
+      let myModuleModel = null;
+
+      this.init = function(container, model) {
+        myModuleContainer = container;
+        myModuleModel = model;
+
+        // вешаем слушателей на событие hashchange и кликам по пунктам меню
+        window.addEventListener("hashchange", this.updateState);
+
+        this.updateState(); //первая отрисовка
+      }
+
+      this.updateState = function() {
+        myModuleModel.updateState();
+      }
+  };
+  /* ------ end controller ----- */
+
+  return {
+      init: function(container) {
+          this.main(container);
+
+          const view = new ModuleView();
+          const model = new ModuleModel();
+          const controller = new ModuleController();
+
+          //связываем части модуля
+          view.init(document.getElementById(container));
+          model.init(view);
+          controller.init(document.getElementById(container), model);
+      },
+
+      main: function(container) {
+          //предварительно что то можно сделать
+          console.log(`Иницилизируем SPA для контейнера "${container}"`);
+      },
+  };
+
+}());
+/* ------ end app module ----- */
+
+/*** --- init module --- ***/
+document.addEventListener("DOMContentLoaded", mySPA.init("app")); // инициализируем модуль как только DOM готов.
+</script>
+
+</body>
+</html>
