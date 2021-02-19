@@ -1,27 +1,127 @@
 * {
-    box-sizing: border-box;
-}
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
 
+@-webkit-keyframes showing {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes showing {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
 body {
-    margin: 0;
-}
+  margin: 0; }
 
 #container {
-    height: 100vh;
-    /* background-color: black; */
-    background-image: url(../img/game_background/game_background.png);
-    background-size: cover;
-}
+  height: 100vh;
+  background-size: cover; }
 
 #canvas1 {
-    background: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 900px;
-    height: 600px;
-    border: solid black 1px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 25px #d8cdcf;
-}
+  background: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 900px;
+  height: 600px;
+  border: solid black 1px;
+  border-radius: 5px;
+  -webkit-box-shadow: 1px 1px 25px #d8cdcf;
+          box-shadow: 1px 1px 25px #d8cdcf;
+  opacity: 0; }
+
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform: translate(0, 0);
+          transform: translate(0, 0); }
+
+#main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 3; }
+
+.menuWindow {
+  width: 400px;
+  height: 440px; }
+
+.mainmenu__list {
+  display: inline-block;
+  width: 100%;
+  height: 100%; }
+  .mainmenu__list li {
+    text-align: center;
+    margin: 33px 0px; }
+
+a {
+  text-decoration: none;
+  color: white;
+  font-family: 'RUSNeverwinter';
+  font-size: 40px;
+  text-shadow: 1px 1px 7px #b955f3;
+  -webkit-transition-property: color, text-shadow;
+  transition-property: color, text-shadow;
+  -webkit-transition-duration: 0.4s;
+          transition-duration: 0.4s; }
+  a:visited {
+    color: white; }
+  a:hover {
+    text-shadow: 1px 1px 25px red;
+    color: #ec1c1c; }
+
+.rules__text {
+  font-family: RUSNeverwinter;
+  font-size: 27px;
+  text-align: center;
+  padding: 16px;
+  margin-top: 10px;
+  color: #ec1c1c;
+  text-shadow: 1px 1px 8px black;
+  background-color: #0000004a;
+  border-radius: 10px; }
+
+.users {
+  width: 100%;
+  height: 100%;
+  background-color: #0000004a;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding-top: 10px; }
+  .users li {
+    padding: 12px 0px 0px 10px; }
+
+.name {
+  display: inline-block;
+  width: 70%;
+  font-family: 'RUSNeverwinter';
+  font-size: 28px;
+  color: #ec1c1c;
+  text-shadow: 1px 1px 8px black;
+  padding-left: 35px;
+  letter-spacing: 5px; }
+
+.points {
+  font-family: RUSNeverwinter;
+  font-size: 28px;
+  color: #000000;
+  text-shadow: 0px 0px 6px #fff;
+  width: 25%;
+  display: inline-block;
+  text-align: left;
+  letter-spacing: 5px;
+  font-weight: bold; }
+
+.new__game, .continue, .sound {
+  cursor: pointer; }
+
+.show {
+  z-index: 4; }

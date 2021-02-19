@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+
+@keyframes showing{
+    from{ opacity: 0; }
+    to{ opacity: 1; }
+}
+
+body {
+    margin: 0;
+}
+
+#container {
+    height: 100vh;
+    background-size: cover;
+}
+
+#canvas1 {
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 600px;
+    border: solid black 1px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 25px #d8cdcf;
+    opacity: 0;
+}
+
+#background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+}
+
+#main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+.menuWindow {
+    // background-color: #00000066;
+    width: 400px;
+    height: 440px;
+}
+
+.mainmenu__list {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    li {
+        text-align: center;
+        margin: 33px 0px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    font-family: 'RUSNeverwinter';
+    font-size:  40px;
+    text-shadow: 1px 1px 7px #b955f3; // #d8cdcf
+    transition-property: color, text-shadow;
+    transition-duration: 0.4s;
+
+    &:visited {
+        color: white;
+    }
+
+    &:hover {
+        text-shadow: 1px 1px 25px red;
+        color: #ec1c1c; // #e4e439
+    }
+}
+
+.rules__text {
+    font-family: RUSNeverwinter;
+    font-size: 27px;
+    text-align: center;
+    padding: 16px;
+    margin-top: 10px;
+    color: rgb(236, 28, 28);
+    text-shadow: 1px 1px 8px black;
+    background-color: #0000004a;
+    border-radius: 10px;
+}
+
+.users {
+    width: 100%;
+    height: 100%;
+    background-color: #0000004a;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding-top: 10px;
+    li {
+        padding: 12px 0px 0px 10px;
+    }
+}
+
+.name {
+    display: inline-block;
+    width: 70%;
+    font-family: 'RUSNeverwinter';
+    font-size: 28px;
+    color: #ec1c1c;
+    text-shadow: 1px 1px 8px black;
+    padding-left: 35px;
+    // border-bottom: 1px solid #b955f3;
+    // border-bottom-left-radius: 27px;
+    letter-spacing: 5px;
+}
+
+.points{
+    font-family: RUSNeverwinter;
+    font-size: 28px;
+    color: #000000;
+    text-shadow: 0px 0px 6px #fff;
+    width: 25%;
+    display: inline-block;
+    text-align: left;
+    letter-spacing: 5px;
+    // border-bottom-right-radius: 27px;
+    font-weight: bold;
+}
+
+.new__game, .continue, .sound {
+    cursor: pointer;
+}
+
+.show {
+    z-index: 4;
+    // animation: showing linear 1s ease-out;
+}
+
+// .unshow {
+//     z-index: 2;
+//     animation: showing linear 1s ease-out reverse;
+// }
