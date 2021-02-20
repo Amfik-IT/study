@@ -136,10 +136,62 @@ a {
 
 .show {
     z-index: 4;
-    // animation: showing linear 1s ease-out;
 }
 
-// .unshow {
-//     z-index: 2;
-//     animation: showing linear 1s ease-out reverse;
-// }
+.getName-page {
+    
+    text-align: center;
+    padding: 16px;
+    margin-top: 10px;
+    background-color: #0000004a;
+    border-radius: 10px;
+    height: 230px;
+
+    p{
+        font-family: RUSNeverwinter;
+        font-size: 40px;
+        text-align: center;
+        color: rgb(236, 28, 28);
+        text-shadow: 1px 1px 8px black;
+    }
+
+    input {
+        border: solid red 1px;
+        border-radius: 5px;
+        box-shadow: 1px 1px 8px black;
+        font-family: RUSNeverwinter;
+        font-size: 35px;
+        margin: 30px 0px;
+        background-color: #ffffff73 !important;
+        text-shadow: 0px 0px 6px #b955f3;
+    }
+
+    a{
+        width: 100%;
+        display: inline-block;
+    }
+}
+
+.addLeader-page {
+    text-align: center;
+    padding: 16px;
+    background-color: #0000004a;
+    border-radius: 10px;
+    height: 315px;
+
+    p{
+        font-family: RUSNeverwinter;
+        font-size: 40px;
+        text-align: center;
+        color: rgb(236, 28, 28);
+        text-shadow: 1px 1px 8px black;
+        margin-bottom: 35px;
+
+        span {
+            display: inline-block;
+            width: 100%;
+            color: rgb(166, 28, 236);
+            text-shadow: 1px 1px 7px black;
+        }
+    }
+}

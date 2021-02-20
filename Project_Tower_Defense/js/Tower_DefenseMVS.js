@@ -15,7 +15,11 @@ const myGame = (function () {
             this.canvasBack = canvasBack;
             this.ctx_2 = this.canvasBack.getContext('2d');
             this.canvasBackPozition = container.getBoundingClientRect();
+            this.users = null;
+            this.thisUser = null;
+            this.usersScore = null;
 
+            // страничка с меню (главная)
             this.HomeComponent = {
                 id: "menu",
                 title: "Funny Defenders Undead",
@@ -34,6 +38,7 @@ const myGame = (function () {
                 }
             };
 
+            // страничка с провилами игры
             this.RulesComponent = {
                 id: "rules",
                 title: "Правила игры",
@@ -47,6 +52,7 @@ const myGame = (function () {
                 }
             };
 
+            // страничка таблицы лидеров
             this.LeadersComponent = {
                 id: "leaders",
                 title: "Таблица лидеров",
@@ -56,46 +62,75 @@ const myGame = (function () {
                         <a class="mainmenu__link back" href="#menu">Назад</a>
                         <ul class="users">
                             <li class="user1">
-                                <span class="name">Черный кот</span>
-                                <span class="points">100</span>
+                                <span class="name">${this.users[0].username}</span>
+                                <span class="points">${this.users[0].points}</span>
                             </li>
                             <li class="user2">
-                                <span class="name">Ведьма</span>
-                                <span class="points">90</span>
+                                <span class="name">${this.users[1].username}</span>
+                                <span class="points">${this.users[1].points}</span>
                             </li>
                             <li class="user3">
-                                <span class="name">Зомби</span>
-                                <span class="points">80</span>
+                                <span class="name">${this.users[2].username}</span>
+                                <span class="points">${this.users[2].points}</span>
                             </li>
                             <li class="user4">
-                                <span class="name">Оборотень</span>
-                                <span class="points">70</span>
+                                <span class="name">${this.users[3].username}</span>
+                                <span class="points">${this.users[3].points}</span>
                             </li>
                             <li class="user5">
-                                <span class="name">Вампир</span>
-                                <span class="points">60</span>
+                                <span class="name">${this.users[4].username}</span>
+                                <span class="points">${this.users[4].points}</span>
                             </li>
                             <li class="user6">
-                                <span class="name">Призрак</span>
-                                <span class="points">50</span>
+                                <span class="name">${this.users[5].username}</span>
+                                <span class="points">${this.users[5].points}</span>
                             </li>
                             <li class="user7">
-                                <span class="name">Чёрт</span>
-                                <span class="points">40</span>
+                                <span class="name">${this.users[6].username}</span>
+                                <span class="points">${this.users[6].points}</span>
                             </li>
                             <li class="user8">
-                                <span class="name">Гуль</span>
-                                <span class="points">30</span>
+                                <span class="name">${this.users[7].username}</span>
+                                <span class="points">${this.users[7].points}</span>
                             </li>
                             <li class="user9">
-                                <span class="name">Джин</span>
-                                <span class="points">20</span>
+                                <span class="name">${this.users[8].username}</span>
+                                <span class="points">${this.users[8].points}</span>
                             </li>
                             <li class="user10">
-                                <span class="name">Демон</span>
-                                <span class="points">10</span>
+                                <span class="name">${this.users[9].username}</span>
+                                <span class="points">${this.users[9].points}</span>
                             </li>
                         </ul>
+                    </section>
+                  `;
+                }
+            };
+
+            // страничка запроса имени игрока
+            this.getNameComponent = {
+                id: "name",
+                title: "Имя игрока",
+                render: (className = "menu", ...rest) => {
+                    return `
+                    <section class="${className}">
+                        <p>Твое имя, герой:</p>
+                        <input type="text" class="input__name" id="newUserName" name="username" placeholder="Введите имя" required>
+                        <a class="add__name" href="#menu">Ок</a>
+                    </section>
+                  `;
+                }
+            };
+
+            // страничка сообщения о том что игрок попал в таблицу лидеров
+            this.addLeadersComponent = {
+                id: "newLeader",
+                title: "Новый лидер",
+                render: (className = "menu", ...rest) => {
+                    return `
+                    <section class="${className}">
+                        <p>Встречайте нового героя!!!  <span>${this.thisUser}</span>  вы набрали <span>${this.usersScore}</span> очков  и попали в таблицу лидеров!</p>
+                        <a class="new__leaders" href="#leaders">Я лучший =)</a>
                     </section>
                   `;
                 }
@@ -106,6 +141,8 @@ const myGame = (function () {
                 rules: this.RulesComponent,
                 leaders: this.LeadersComponent,
                 default: this.HomeComponent,
+                addLeader: this.addLeadersComponent,
+                getName: this.getNameComponent
             };
 
         };
@@ -120,7 +157,7 @@ const myGame = (function () {
             this.canvasBack.after(main);
         }
 
-        // задний фон
+        // задний фон игрового поля (арены)
         blank(img) {
             this.ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
         }
@@ -173,6 +210,7 @@ const myGame = (function () {
             this.ctx.restore();
         }
 
+        // отрисовка анимации смерти врага
         drawDyingEnemy(i) {
             this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
         }
@@ -207,6 +245,7 @@ const myGame = (function () {
             this.ctx.restore();
         }
 
+        // отрисовка анимации смерти защитника
         drawDyingDefender(i) {
             this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
         }
@@ -222,6 +261,7 @@ const myGame = (function () {
             this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
         }
 
+        // отрисовка анимированного заднего фона страницы
         drawBackground(sky, arr_clouds_2_1, rocks, clouds_2, arr_clouds_2_2, ground_1,
             ground_2, ground_3, plant) {
             // debugger
@@ -238,56 +278,68 @@ const myGame = (function () {
 
 
         // ------------------------------------------------- вспомогательные методы
+
+        // обновление параметров размера канваса при ресайзе страницы
         resize() {
             this.canvasBackPozition = container.getBoundingClientRect();
             this.canvasBack.width = this.canvasBackPozition.width;
             this.canvasBack.height = this.canvasBackPozition.height;
         }
 
-        updateButtons(currentPage) {
-
-            const menuLinks = container.querySelectorAll(".mainmenu__link");
-
-            for (let i = 0, menuLinksCount = menuLinks.length; i < menuLinksCount; i++) {
-                if (currentPage === menuLinks[i].getAttribute("href").slice(1)) {
-                    menuLinks[i].classList.add("active");
-                } else {
-                    menuLinks[i].classList.remove("active");
-                }
-            }
-        }
-
+        // отобразить контент на странице(запрос имени, меню и т.д) SPA
         renderContent(hashPageName) {
 
             let routeName = "default";
 
             if (hashPageName.length > 0) {
-                routeName = hashPageName in this.router ? hashPageName : "error";
+                routeName = hashPageName in this.router ? hashPageName : "error"; // добавь страничку с ошибкой!!!
             }
 
             window.document.title = this.router[routeName].title;
             let main = document.querySelector("#main");
             main.innerHTML = this.router[routeName].render(`${routeName}-page menuWindow`);
 
-            this.updateButtons(this.router[routeName].id);
         }
 
-        start() {
-            this.canvas.classList.toggle('show');
-            setTimeout(this.canvas.style.opacity = '1', 1000);
-            this.canvas.animate([
-                // keyframes
-                {
-                    opacity: 0
-                },
-                {
-                    opacity: 1
-                }
-            ], {
-                // timing options
-                duration: 1000,
-                iterations: 1
-            })
+        start(stay) {
+
+            if (stay) {
+
+                this.canvas.classList.toggle('show');
+                setTimeout(this.canvas.style.opacity = '1', 1000);
+                this.canvas.animate([
+                    // keyframes
+                    {
+                        opacity: 0
+                    },
+                    {
+                        opacity: 1
+                    }
+                ], {
+                    // timing options
+                    duration: 1000,
+                    iterations: 1
+                })
+
+            } else {
+
+                setTimeout(this.canvas.style.opacity = '0', 1000);
+                this.canvas.animate([
+                    // keyframes
+                    {
+                        opacity: 1
+                    },
+                    {
+                        opacity: 0
+                    }
+                ], {
+                    // timing options
+                    duration: 1000,
+                    iterations: 1
+                })
+                this.canvas.classList.toggle('show');
+            }
+
         }
 
     };
@@ -317,6 +369,7 @@ const myGame = (function () {
             this.frameBack = 0 // кадры - как долго открыто окно
             this.numberOfResources = 300; // стартовое количество ресурсов игрока
             this.gameOver = false;
+            this.userName = null; // имя игрока
             this.score = 0; // очки игрока
             this.winningScore = 100;
 
@@ -380,6 +433,8 @@ const myGame = (function () {
             this.resources = []; // массив ресурсов
             this.amounts = [20, 30, 40]; // массив данных для ресурсов
             this.gameBackground = null;
+            this.arrUsers = []; // массив данных об игроках
+
 
             // параметры мышки
             this.mouse = {
@@ -589,7 +644,39 @@ const myGame = (function () {
                 this.handleResources(); // ресурсы
                 this.handleGameStatus(); // статус (выиграл\проиграл)
                 this.frame++; // увеличение счетчика кадров
-                if (!this.gameOver) requestAnimationFrame(this.animate);
+
+                if (!this.gameOver) { // пока флаг gameOver = false - игра продолжается
+                    requestAnimationFrame(this.animate);
+                } else { // иначе сравнивает кол-во очков игрока с рейтингом очков и добавляет или нет результат в таблицу
+
+                    this.score += (this.numberOfResources / 10);
+                    let leader = false;
+
+                    for (let i = 0; i < this.arrUsers.length; i++) {
+                        if (this.score > +this.arrUsers[i].points) {
+                            // debugger
+                            this.deleteUser(this.arrUsers[9].id); // удалить с сервера игрока с самым маленьким кол-вом очков
+
+                            // --> добавить инфу игрока на сервер
+                            this.addUser(this.userName, this.score);
+
+                            // --> вызвать метод вью о том что попал в таблицу лидеров
+                            this.view.thisUser = this.userName;
+                            this.view.usersScore = this.score;
+                            this.view.renderContent("addLeader");
+
+                            leader = true; // что бы не сработал if ниже
+
+                            // --> закрыть игру
+                            setTimeout(() => this.view.start(false), 3000);
+
+                            break;
+                        }
+                    }
+
+                    // --> закрыть игру если в лидеры не попал
+                    if (!leader) setTimeout(() => this.view.start(false), 3000);
+                }
             }
 
             this.animateBackground = () => {
@@ -935,11 +1022,6 @@ const myGame = (function () {
 
         // ------------------------------------------------ ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ -------------------------
 
-        // старт игры
-        start() {
-            this.animate();
-        }
-
         // расчет коллизий
         collision(first, second) { // функция коллизии столкновения
             if (!(first.x > second.x + second.width ||
@@ -957,16 +1039,108 @@ const myGame = (function () {
 
         // переход между вкладками меню
         updateState() {
-            const hashPageName = window.location.hash.slice(1).toLowerCase(); // находит хэш и отрезает решетку
-            this.view.renderContent(hashPageName);
+
+            // ---> проверка локал сторадж
+            if (window.localStorage.getItem("Funny_Defenders_Undead") === null) {
+                this.view.renderContent("getName"); // если раньше не посещал эту страницу, то при старте спрашиваю имя
+            } else {
+                let storageInfo = JSON.parse(window.localStorage.getItem("Funny_Defenders_Undead"));
+                this.userName = storageInfo.name; // достать и сохранить имя игрока
+                const hashPageName = window.location.hash.slice(1).toLowerCase(); // находит хэш и отрезает решетку
+                this.view.renderContent(hashPageName);
+            }
         }
 
-        // старт
+        // старт игры
 
         start() {
-            this.blank();
-            this.view.start();
-            setTimeout(this.animate(), 1000);
+
+            // сбросить настройки игры, очистить массивы данных об игровом працессе
+            this.enemiesInterval = 600; // интервал появления врагов
+            this.frame = 0; // кадры - как долго идет игра
+            this.frameBack = 0 // кадры - как долго открыто окно
+            this.numberOfResources = 300; // стартовое количество ресурсов игрока
+            this.gameOver = false;
+            this.score = 0; // очки игрока
+            this.winningScore = 100;
+
+            this.gameGrid = []; // массив объектов (ячеек) игрового поля, с методом отрисовки
+            this.defenders = []; // массив защитников
+            this.dyingDefenders = []; // массив умирающих защитников
+            this.enemies = []; // массив врагов
+            this.dyingEnemies = []; // массив умирающийх врагов
+            this.enemyPosition = []; // массив местоположения врагов
+            this.projectiles = []; // массив снарядов для защитников
+            this.resources = []; // массив ресурсов
+
+            this.blank(); // отрисовать задний фон игры (канвас), что бы ло старта игы окно плавно появилось уже с картинкой
+            this.view.start(true); // плавно отобразить окно с игрой
+            setTimeout(this.animate(), 1000); // запустить игру через 1 сек (это время на появления окна с игрой)
+        }
+
+        // Удалить с сервера худшего игрока из таблицы лидеров
+        deleteUser(id) {
+            myAppDB.ref('users/' + `user_${id}}`).remove()
+                .then(function () {
+                    console.log("Пользователь удален из коллеции users");
+                })
+                .catch(function (error) {
+                    console.error("Ошибка удаления пользователя: ", error);
+                });
+        }
+
+        // Добавить на сервер результат игрока (при добалении использую только уникальные id, что бы избежать ошибок чтения и записи на сервере)
+        addUser(username, points) {
+            let randomID = Math.round(Math.random() * 1000000);
+            myAppDB.ref('users/' + `user_${randomID}}`).set({
+                    username: `${username}`,
+                    points: `${points}`,
+                    id: randomID
+                })
+                .then(function (username) {
+                    console.log("Пользователь добавлен в коллецию users");
+                })
+                .catch(function (error) {
+                    console.error("Ошибка добавления пользователя: ", error);
+                });
+        }
+
+        // Получить с сервера данные об игроках-лидерах
+        getUsersList(model) {
+            myAppDB.ref("users/").on("value", function (snapshot) { // отслеживание изменений (на сервере) в реальном времени
+                model.updateUsersData(snapshot.val()); // тут приходит объект данными с сервера
+            }, function (error) {
+                console.log("Error: " + error.code);
+            });
+        }
+
+        // Преобразовать полученные с сервера данные об игроках-лидерах
+        updateUsersData(userList) {
+
+            let arrKey = Object.keys(userList); // получаю ключи объекта 
+            let usersData = []; // массив с лидерами (данные с сервера)
+
+            for (let i = 0; i < arrKey.length; i++) {
+                usersData.push(userList[`${arrKey[i]}`]);
+            }
+
+            usersData.sort(function (a, b) { // сортирует массив с лидерами по их очкам от большего к меньшему
+                if (+a.points < +b.points) {
+                    return 1;
+                }
+                if (+a.points > +b.points) {
+                    return -1;
+                }
+                // a должно быть равным b
+                return 0;
+            });
+
+            this.arrUsers = usersData;
+            console.log(this.arrUsers)
+
+            // передать this.arrUsers во въюшку дял отображения списка
+
+            this.view.users = this.arrUsers;
         }
     };
     /* -------- end model -------- */
@@ -982,14 +1156,13 @@ const myGame = (function () {
             this.container = container;
             this.canvas = canvas;
             this.canvasBack = canvasBack;
-            // this.canvasWidth = 900;
-            // this.canvasHeight = 600;
         }
 
         init() {
 
-            let canvasPosition = this.canvas.getBoundingClientRect(); // следим за мышкой, если над полем, то можно будет взаиможействовать
+            let canvasPosition = this.canvas.getBoundingClientRect(); // нынешнее положение канваса
 
+            // следим за мышкой, если над полем, то можно будет взаиможействовать (передает координаты, или undefined если мышь не над канвасом)
             this.canvas.addEventListener('mousemove', (event) => {
                 this.model.mouse.x = event.x - canvasPosition.left;
                 this.model.mouse.y = event.y - canvasPosition.top;
@@ -1013,28 +1186,54 @@ const myGame = (function () {
                 this.model.createDefender();
             })
 
-            // вешаем слушателей на событие hashchange и кликам по пунктам меню
+            // вешаем слушателей на событие hashchange 
             window.addEventListener("hashchange", () => this.updateState());
 
-            this.updateState(); //первая отрисовка
+            //первая отрисовка
+            this.updateState();
 
-            // кнопка старт
+            // получение инфы для таблицы лидеров
+            this.model.getUsersList(this.model);
+
+            // кнопка старт и другие
             let main = document.querySelector('#main');
             main.addEventListener('click', (e) => {
                 let target = e.target;
 
                 if (target.className === 'new__game') this.start();
+
+                // добавить имя в локал сторадж
+                if (target.className === 'add__name') {
+
+                    let inputName = this.container.querySelector('#newUserName');
+
+                    // сохранение в local storage
+                    let visitInfo = {};
+                    visitInfo.name = inputName.value;
+                    window.localStorage.setItem("Funny_Defenders_Undead", JSON.stringify(visitInfo));
+
+                    this.model.userName = inputName.value;
+
+                };
             })
         }
 
+        //первая отрисовка на станице
         updateState() {
-            // debugger
             this.model.updateState();
         }
 
+        // старт игры
         start() {
             this.model.start();
         }
+
+        // --> это удали потом это тест
+        // addTestUser(user) {
+        //     if (user.userName && user.points) {
+        //         this.model.addUser(user.userName, user.points);
+        //     }
+        // }
 
     };
     /* ------ end controller ----- */
@@ -1060,9 +1259,49 @@ const myGame = (function () {
             appGameView.init();
             appGameModel.init();
             appGameController.init();
+
+            // appGameController.addTestUser({
+            //     userName: 'Черный кот',
+            //     points: '100'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Ведьма',
+            //     points: '90'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Вампир',
+            //     points: '80'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Оборотень',
+            //     points: '70'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Демон',
+            //     points: '60'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Гуль',
+            //     points: '50'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Джин',
+            //     points: '40'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Призрак',
+            //     points: '30'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Метла ведьмы',
+            //     points: '20'
+            // });
+            // appGameController.addTestUser({
+            //     userName: 'Джин Тоник',
+            //     points: '10'
+            // });
         }
     };
 })();
 
 document.addEventListener("DOMContentLoaded", myGame.init()); // инициализируем модуль как только DOM готов.
-// myGame.init();

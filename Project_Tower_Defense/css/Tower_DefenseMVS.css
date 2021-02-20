@@ -125,3 +125,49 @@ a {
 
 .show {
   z-index: 4; }
+
+.getName-page {
+  text-align: center;
+  padding: 16px;
+  margin-top: 10px;
+  background-color: #0000004a;
+  border-radius: 10px;
+  height: 230px; }
+  .getName-page p {
+    font-family: RUSNeverwinter;
+    font-size: 40px;
+    text-align: center;
+    color: #ec1c1c;
+    text-shadow: 1px 1px 8px black; }
+  .getName-page input {
+    border: solid red 1px;
+    border-radius: 5px;
+    -webkit-box-shadow: 1px 1px 8px black;
+            box-shadow: 1px 1px 8px black;
+    font-family: RUSNeverwinter;
+    font-size: 35px;
+    margin: 30px 0px;
+    background-color: #ffffff73 !important;
+    text-shadow: 0px 0px 6px #b955f3; }
+  .getName-page a {
+    width: 100%;
+    display: inline-block; }
+
+.addLeader-page {
+  text-align: center;
+  padding: 16px;
+  background-color: #0000004a;
+  border-radius: 10px;
+  height: 315px; }
+  .addLeader-page p {
+    font-family: RUSNeverwinter;
+    font-size: 40px;
+    text-align: center;
+    color: #ec1c1c;
+    text-shadow: 1px 1px 8px black;
+    margin-bottom: 35px; }
+    .addLeader-page p span {
+      display: inline-block;
+      width: 100%;
+      color: #a61cec;
+      text-shadow: 1px 1px 7px black; }

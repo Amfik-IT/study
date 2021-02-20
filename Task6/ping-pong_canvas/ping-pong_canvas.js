@@ -8,7 +8,6 @@ document.body.prepend(divNav);
 const inputStart = document.createElement('input');
 inputStart.type = 'button';
 inputStart.value = 'Старт';
-// inputStart.addEventListener('click', start); 
 divNav.prepend(inputStart);
 
 // Табло "Счёт":
@@ -34,6 +33,9 @@ divForCanvas.append(Canvas);
 // -------------------------------------------------------
 
 window.onload = function () {
+
+    inputStart.addEventListener('click', () => start());
+
     // объект настроек
     const settings = {
         canvas: null,

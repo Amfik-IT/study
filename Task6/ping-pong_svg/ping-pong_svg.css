@@ -5,20 +5,22 @@ body {
     height: 100vh;
     flex-flow: wrap;
     background:
-    radial-gradient(black 15%, transparent 16%) 0 0,
-    radial-gradient(black 15%, transparent 16%) 8px 8px,
-    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
-    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-    background-size:16px 16px;
-    background-color:#282828;
+        radial-gradient(black 15%, transparent 16%) 0 0,
+        radial-gradient(black 15%, transparent 16%) 8px 8px,
+        radial-gradient(rgba(255, 255, 255, .1) 15%, transparent 20%) 0 1px,
+        radial-gradient(rgba(255, 255, 255, .1) 15%, transparent 20%) 8px 9px;
+    background-size: 16px 16px;
+    background-color: #282828;
     margin: 0px;
 }
+
 .nav {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: center;
 }
+
 input {
     width: 230px;
     height: 30px;
@@ -28,15 +30,18 @@ input {
     box-shadow: 2px 2px 7px #b1b1b1;
     transition-duration: 0.6s;
 }
+
 input:hover {
     box-shadow: 2px 2px 7px #983c4c;
-    color:#ca4d61;
+    color: #ca4d61;
 }
+
 input:focus {
     outline-color: inherit;
     outline-style: none;
     outline-width: 0px;
 }
+
 .points {
     color: #d2d1d1;
     font-weight: 900;
@@ -46,27 +51,30 @@ input:focus {
     margin-left: 50px;
     font-family: 'Hachi Maru Pop', cursive;
 }
+
 .pingPong {
     border: solid 3px black;
     box-shadow: 1px 1px 25px #d8cdcf, 10px 0px 8px -10px #e25972 inset, -10px 0px 8px -10px #e25972 inset;
     display: flex;
     flex-direction: row;
     position: relative;
-    background-color:#282828;
-    
-    background-image: linear-gradient(#0000001a 2px, transparent 2px), 
-    linear-gradient(90deg, #0000001a 2px, transparent 2px), 
-    linear-gradient(#0000001a 1px, transparent 1px), 
-    linear-gradient(90deg, #0000001a 1px, transparent 1px);
+    background-color: #282828;
+
+    background-image: linear-gradient(#0000001a 2px, transparent 2px),
+        linear-gradient(90deg, #0000001a 2px, transparent 2px),
+        linear-gradient(#0000001a 1px, transparent 1px),
+        linear-gradient(90deg, #0000001a 1px, transparent 1px);
     background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-    background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;
+    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
 }
+
 .svgBall {
-    background: url('fireball.png');
+    background: url('http://fe.it-academy.by/Sites/0030837/JS/Task6/ping-pong_dom/fireball.png');
     background-position: center;
     background-size: 280%;
     background-position-y: 43%;
 }
+
 #countdownTxt {
     color: black;
     font-weight: 550;
@@ -76,10 +84,17 @@ input:focus {
     margin-left: 50px;
     font-family: 'Hachi Maru Pop', cursive;
 }
-@keyframes rotator{
-    from{ transform: rotate(0deg); }
-    to{ transform: rotate(360deg); }
+
+@keyframes rotator {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
+
 #rotateBall {
     transform-origin: 15px 15px;
     animation: rotator linear .4s infinite;
