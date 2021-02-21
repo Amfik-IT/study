@@ -169,11 +169,66 @@ const myGame = (function () {
         }
 
         // элементы статуса игрока
-        drawGameStatus(score, numberOfResources, winningScore, enemiesLength, gameOver) {
-            this.ctx.fillStyle = 'gold';
-            this.ctx.font = '30px Lineage2Font';
-            this.ctx.fillText(`Очки: ${score}`, 20, 40);
-            this.ctx.fillText(`Золото: ${numberOfResources}`, 20, 80);
+        drawGameStatus(score, numberOfResources, winningScore, enemiesLength, gameOver,
+            imgCoin, imgScore, imgUp_01, imgUp_02, imgWraith, imgMan_01) {
+
+            this.ctx.drawImage(imgScore, 20, 10, 50, 50); // иконка кубка (очки)
+            this.ctx.drawImage(imgCoin, 0, 0, 90, 90, 20, 60, 50, 50); // иконка энергии
+            this.ctx.drawImage(imgWraith, 0, 0, 267.916667, 180, 300, 3, 50, 50); // иконка защитника дальнего боя
+            this.ctx.drawImage(imgMan_01, 0, 0, 267.916667, 180, 300, 56, 50, 50); // иконка защитника ближнего боя
+            this.ctx.drawImage(imgUp_01, 0, 0, 100, 100, 430, 3, 50, 50); // иконка апгрейд 1
+            this.ctx.drawImage(imgUp_01, 0, 0, 100, 100, 430, 56, 50, 50); // иконка апгрейд 1
+            this.ctx.drawImage(imgUp_02, 0, 0, 100, 100, 560, 3, 50, 50); // иконка апгрейд 1
+            this.ctx.drawImage(imgUp_02, 0, 0, 100, 100, 560, 56, 50, 50); // иконка апгрейд 1
+
+            this.ctx.save();
+            this.ctx.shadowColor = 'white';
+            this.ctx.shadowOffsetX = 0;
+            this.ctx.shadowOffsetY = 0;
+            this.ctx.shadowBlur = 7;
+            this.ctx.fillStyle = 'black';
+            this.ctx.font = '50.5px RUSNeverwinter';
+            this.ctx.globalAlpha = 0.8;
+
+            this.ctx.fillText(`${score}`, 100, 45);
+            this.ctx.fillText(`${numberOfResources} $`, 100, 90);
+            this.ctx.restore();
+
+            this.ctx.save();
+            this.ctx.shadowColor = 'white';
+            this.ctx.shadowOffsetX = 0;
+            this.ctx.shadowOffsetY = 0;
+            this.ctx.shadowBlur = 7;
+            this.ctx.fillStyle = 'black';
+            this.ctx.font = '25.5px RUSNeverwinter';
+
+            this.ctx.fillText(`100 xp`, 360, 15);
+            this.ctx.fillText(`10 atc`, 360, 30);
+            this.ctx.fillText(`100 $`, 360, 45);
+
+            this.ctx.fillText(`100 xp`, 360, 70);
+            this.ctx.fillText(`6 atc/s`, 360, 85);
+            this.ctx.fillText(`100 $`, 360, 100);
+
+            this.ctx.fillText(`+30 xp`, 490, 15);
+            this.ctx.fillText(`20 atc`, 490, 30);
+            this.ctx.fillText(`50 $`, 490, 45);
+
+            this.ctx.fillText(`+50 xp`, 490, 70);
+            this.ctx.fillText(`9 atc/s`, 490, 85);
+            this.ctx.fillText(`50 $`, 490, 100);
+
+            this.ctx.fillText(`+50 xp`, 620, 15);
+            this.ctx.fillText(`30 atc`, 620, 30);
+            this.ctx.fillText(`50 $`, 620, 45);
+
+            this.ctx.fillText(`+100 xp`, 620, 70);
+            this.ctx.fillText(`12 atc/s`, 620, 85);
+            this.ctx.fillText(`50 $`, 620, 100);
+
+            this.ctx.restore();
+
+
             if (gameOver) {
                 this.ctx.fillStyle = 'black';
                 this.ctx.font = '50px Lineage2Font';
@@ -197,7 +252,7 @@ const myGame = (function () {
             this.ctx.lineWidth = 5.5;
             this.ctx.beginPath();
             this.ctx.moveTo(i[5] + 80, i[6] + 60);
-            this.ctx.lineTo(i[5] + 80, i[6] + (50 - (health / 2)) + 10);
+            this.ctx.lineTo(i[5] + 80, i[6] + (50 - (health / 5)) + 10);
             this.ctx.stroke();
 
             this.ctx.strokeStyle = 'red';
@@ -205,7 +260,7 @@ const myGame = (function () {
             this.ctx.lineWidth = 3.5;
             this.ctx.beginPath();
             this.ctx.moveTo(i[5] + 80, i[6] + 60);
-            this.ctx.lineTo(i[5] + 80, i[6] + (50 - (health / 2)) + 10);
+            this.ctx.lineTo(i[5] + 80, i[6] + (50 - (health / 5)) + 10);
             this.ctx.stroke();
             this.ctx.restore();
         }
@@ -221,6 +276,12 @@ const myGame = (function () {
             this.ctx.strokeRect(x, y, width, height);
         }
 
+        // сетка навбара
+        drawNavCell(x, y, width, height, color) {
+            this.ctx.strokeStyle = `${color}`;
+            this.ctx.strokeRect(x, y, width, height);
+        }
+
         // защитники
         drawDefender(i, health) {
             this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
@@ -232,7 +293,7 @@ const myGame = (function () {
             this.ctx.lineWidth = 5.5;
             this.ctx.beginPath();
             this.ctx.moveTo(i[5] + 20, i[6] + 60);
-            this.ctx.lineTo(i[5] + 20, i[6] + (50 - (health / 2)) + 10);
+            this.ctx.lineTo(i[5] + 20, i[6] + (50 - (health / 5)) + 10);
             this.ctx.stroke();
 
             this.ctx.strokeStyle = 'green';
@@ -240,7 +301,7 @@ const myGame = (function () {
             this.ctx.lineWidth = 3.5;
             this.ctx.beginPath();
             this.ctx.moveTo(i[5] + 20, i[6] + 60);
-            this.ctx.lineTo(i[5] + 20, i[6] + (50 - (health / 2)) + 10);
+            this.ctx.lineTo(i[5] + 20, i[6] + (50 - (health / 5)) + 10);
             this.ctx.stroke();
             this.ctx.restore();
         }
@@ -371,7 +432,7 @@ const myGame = (function () {
             this.gameOver = false;
             this.userName = null; // имя игрока
             this.score = 0; // очки игрока
-            this.winningScore = 100;
+            this.winningScore = 100; // кол-во очков что бы враги перестали появляться и для перехода на след лвл
 
             // изображения
             this.images = {};
@@ -412,29 +473,37 @@ const myGame = (function () {
             this.addImage('golem_02', 'img/attacking_char/Golem_02.png');
             this.addImage('golem_03', 'img/attacking_char/Golem_03.png');
 
-            this.addImage('reaper_Man_01', 'img/attacking_char/Reaper_Man_01.png');
-            this.addImage('reaper_Man_02', 'img/attacking_char/Reaper_Man_02.png');
-            this.addImage('reaper_Man_03', 'img/attacking_char/Reaper_Man_03.png');
+            this.addImage('reaper_Man_01', 'img/protecting_char/Reaper_Man_01.png');
+            this.addImage('reaper_Man_02', 'img/protecting_char/Reaper_Man_02.png');
+            this.addImage('reaper_Man_03', 'img/protecting_char/Reaper_Man_03.png');
 
             this.addImage('Orc_01', 'img/attacking_char/Orc_01.png');
             this.addImage('Orc_02', 'img/attacking_char/Orc_02.png');
             this.addImage('Orc_03', 'img/attacking_char/Orc_03.png');
 
             this.addImage('coin', 'img/coins/dark_coin.png');
+            this.addImage('score', 'img/coins/score.png');
+            this.addImage('up_01', 'img/coins/up_01.png');
+            this.addImage('up_02', 'img/coins/up_02.png');
+
 
             // массивы данных
             this.gameGrid = []; // массив объектов (ячеек) игрового поля, с методом отрисовки
+            this.navGrid = []; // массив объектов (ячеек) навбара, с методом отрисовки
             this.defenders = []; // массив защитников
             this.dyingDefenders = []; // массив умирающих защитников
             this.enemies = []; // массив врагов
             this.dyingEnemies = []; // массив умирающийх врагов
-            this.enemyPosition = []; // массив местоположения врагов
+            this.enemyPosition = []; // массив местоположения врагов Y
+            this.enemyPositionX = []; // массив столкновения врагов с защитниками X
             this.projectiles = []; // массив снарядов для защитников
             this.resources = []; // массив ресурсов
             this.amounts = [20, 30, 40]; // массив данных для ресурсов
             this.gameBackground = null;
             this.arrUsers = []; // массив данных об игроках
 
+            // параметры выбранного защитника
+            this.choiceDefender = "wraith";
 
             // параметры мышки
             this.mouse = {
@@ -454,26 +523,37 @@ const myGame = (function () {
 
             // ------игровое поле
 
-            this.blank = () => { // функция очистки канваса
+            // функция очистки канваса
+            this.blank = () => {
                 // debugger
                 this.view.blank(this.images.background_1);
             }
 
-            this.handleGameGrid = () => { // функция отрисовки всех ячеек
+            // функция отрисовки ячеек игрового поля
+            this.handleGameGrid = () => {
                 for (let i = 0; i < this.gameGrid.length; i++) {
                     this.gameGrid[i].draw(); // вызываю метод отрисовки каждой ячейки
                 }
             }
 
+            // функция отрисовки ячеек навбара
+            this.handleNavGrid = () => {
+                for (let i = 0; i < this.navGrid.length; i++) {
+                    this.navGrid[i].draw(); // вызываю метод отрисовки каждой ячейки
+                }
+            }
+
             this.handleGameStatus = () => { // показываеем в навбаре сколько у игрока бабла и очков
-                this.view.drawGameStatus(this.score, this.numberOfResources, this.winningScore, this.enemies.length, this.gameOver);
+                this.view.drawGameStatus(this.score, this.numberOfResources, this.winningScore, this.enemies.length, this.gameOver,
+                    this.images.coin, this.images.score, this.images.up_01, this.images.up_02, this.images.wraith_01, this.images.reaper_Man_01);
             }
 
 
 
             // ------ враги
 
-            this.handleEnemies = () => { // функция создания смещения и логики врага
+            // функция создания смещения и логики врага
+            this.handleEnemies = () => {
 
                 for (let i = 0; i < this.enemies.length; i++) { // перебор массива врагов
 
@@ -510,8 +590,8 @@ const myGame = (function () {
                 }
             }
 
-
-            this.handleDyingEnemies = () => { // умирающие враги
+            // умирающие враги
+            this.handleDyingEnemies = () => {
 
                 for (let i = 0; i < this.dyingEnemies.length; i++) {
                     this.dyingEnemies[i].draw();
@@ -528,7 +608,8 @@ const myGame = (function () {
 
             // ------ защитники
 
-            this.handleDefenders = () => { // функция создания и логики защитников
+            // функция создания и логики защитников
+            this.handleDefenders = () => {
 
                 for (let i = 0; i < this.defenders.length; i++) {
                     this.defenders[i].draw(); // вызываю метод отрисовки защитника
@@ -543,8 +624,10 @@ const myGame = (function () {
                     for (let j = 0; j < this.enemies.length; j++) {
 
                         if (this.defenders[i] && this.collision(this.defenders[i], this.enemies[j])) { // если защитник и враг сталкиваются то:
+
                             this.enemies[j].movement = 0; // враг останавливается
                             this.defenders[i].health -= 0.1; // у защитника отнимается здоровье
+                            if (this.defenders[i].nameDefender === "reaper_Man") this.enemies[j].health -= this.defenders[i].powerCloseAtack; // у врвга отнимается здоровье в зависимости от атаки защитника
                         }
 
                         if (this.defenders[i] && this.defenders[i].health <= 0) { // если здоровье защитника меньше или равно 0, то вырезаем его из массыва защитников
@@ -565,7 +648,8 @@ const myGame = (function () {
                 }
             }
 
-            this.handleDyingDefenders = () => { // умирающие защитники
+            // умирающие защитники
+            this.handleDyingDefenders = () => {
 
                 for (let i = 0; i < this.dyingDefenders.length; i++) {
                     this.dyingDefenders[i].draw();
@@ -578,6 +662,7 @@ const myGame = (function () {
                     }
                 }
             }
+
             // ------ снаряды
 
             this.handleProjectiles = () => {
@@ -635,6 +720,7 @@ const myGame = (function () {
                 this.blank(); // задний фон игрового поля
                 this.view.drawControlsBar(this.controlsBar.width, this.controlsBar.height); // контролбар
                 this.handleGameGrid(); // сетка поля
+                this.handleNavGrid(); // сетка навбара
 
                 this.handleDefenders(); // защитники
                 this.handleDyingDefenders();
@@ -649,7 +735,8 @@ const myGame = (function () {
                     requestAnimationFrame(this.animate);
                 } else { // иначе сравнивает кол-во очков игрока с рейтингом очков и добавляет или нет результат в таблицу
 
-                    this.score += (this.numberOfResources / 10);
+                    this.score += (this.numberOfResources / 10); // добавить очки от оставшейся энергии
+                    this.numberOfResources = 0; // обнулить энергию
                     let leader = false;
 
                     for (let i = 0; i < this.arrUsers.length; i++) {
@@ -668,14 +755,14 @@ const myGame = (function () {
                             leader = true; // что бы не сработал if ниже
 
                             // --> закрыть игру
-                            setTimeout(() => this.view.start(false), 3000);
+                            setTimeout(() => this.view.start(false), 2000);
 
                             break;
                         }
                     }
 
                     // --> закрыть игру если в лидеры не попал
-                    if (!leader) setTimeout(() => this.view.start(false), 3000);
+                    if (!leader) setTimeout(() => this.view.start(false), 2000);
                 }
             }
 
@@ -716,12 +803,38 @@ const myGame = (function () {
             return new Cell(x, y, model)
         }
 
-        createGrid() { // Создание сетки
+        newNavCell(x, y, model) {
+            class NavCell { // Класс который создаст ячейку сетки
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.width = 50;
+                    this.height = 50;
+                    this.choice = false;
+                }
+                draw() {
+                    if (model.mouse.x && model.mouse.y && model.collision(this, model.mouse)) { // если мышка над полем канвас и над сеткой поля, рисует
+                        model.view.drawNavCell(this.x, this.y, this.width, this.height, "white");
+                    }
+                    if (this.choice) {
+                        model.view.drawNavCell(this.x, this.y, this.width, this.height, "gold");
+                    }
+                }
+            }
+            return new NavCell(x, y, model)
+        }
+
+        // Создание сетки
+        createGrid() {
             for (let y = this.cellSize * 3; y < this.canvasHeight - this.cellSize; y += this.cellSize) { // y = cellSize, т.к. начинаю не сначала поля, после поля управления
                 for (let x = 0; x < this.canvasWidth; x += this.cellSize) {
                     this.gameGrid.push(this.newCell(x, y, this)); // добавляю в массив объекты с параметрами их расположения и методом отрисовки
                 }
             }
+
+            this.navGrid.push(this.newNavCell(300, 3, this)); // две ячейки навбара
+            this.navGrid.push(this.newNavCell(300, 56, this));
+            this.navGrid[0].choice = true; // что бы изначально игрок видел какой защитник выбран
         }
 
         // ------------------------------------------------------ враги
@@ -761,6 +874,16 @@ const myGame = (function () {
                     }
                     if (this.charFrameX >= 11) {
                         this.charFrameX = 0;
+                    }
+
+                    // проверка столкновения с врагом
+                    for (let i = 0; i < model.defenders.length; i++) {
+                        if (this.health > 0 && model.collision(this, model.defenders[i])) {
+                            model.defenders[i].fight = true; // включить анимацию защитника
+                        }
+                        if (this.health <= 0 && model.collision(this, model.defenders[i])) {
+                            model.defenders[i].fight = false; // выключить анимацию защитника
+                        }
                     }
 
                     //--- атака
@@ -814,24 +937,33 @@ const myGame = (function () {
         }
         // ---------------------------------------------------- защитники
 
-        newDefender(x, y, model) {
+        newDefender(x, y, model, name) {
             class Defender { // класс создания защитников
-                constructor(x, y, model) {
+                constructor(x, y, model, name) {
                     this.x = x;
                     this.y = y;
                     this.width = model.cellSize - model.cellGap * 2; // ширина ячейки минус двойной отступ
                     this.height = model.cellSize - model.cellGap * 2; // высота ячейки минус двойной отступ
+
+                    // параметры защитника
+                    this.nameDefender = name;
+                    // wraith
                     this.shooting = false; // стреляет или нет
-                    this.health = 100; // кол-во здоровья
+                    this.fight = false; // ближняя атака
+                    this.health = this.nameDefender === "wraith" ? 100 : 150; // кол-во здоровья
                     this.projectiles = []; // массив снарядов
+                    this.imgProjectil = model.images.spellsEffect_1;
                     this.timer = 0; // таймер выстрела(скорость стрельбы)
-                    this.powerAtack = 10;
+                    this.powerAtack = 10; // сила атаки (дальный бой)
+                    this.powerCloseAtack = 0.1 // сила атаки (ближний бой)
+                    this.level = 1; // уровень защитника
+                    this.costUp = 50; // стоимость улучшения
 
                     this.frameX = 267.916667;
                     this.frameY = 170;
                     this.charFrameX = 0;
                     this.charFrameY = 0;
-                    this.image = [model.images.wraith_01, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height];
+                    this.image = this.nameDefender === "wraith" ? [model.images.wraith_01, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height] : [model.images.reaper_Man_01, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height];
                 }
 
                 draw() { // отрисовка защаитника
@@ -852,23 +984,60 @@ const myGame = (function () {
                     }
 
                     //--- стрельба
-                    if (this.shooting) { // если true но начинает увеличивать таймет и по определенным значениям добавлять снаряды
+                    if (this.nameDefender === "wraith") { // если защитник дального боя
 
-                        this.charFrameY = 1;
-                        this.timer++;
+                        if (this.shooting) { // если true но начинает увеличивать таймет и по определенным значениям добавлять снаряды
 
-                        if (this.timer % 66 === 0) { // как только сменится фрейм, то должно пройти 66 кадров чтобы анимация была на месте выстрела
-                            model.projectiles.push(model.newProjectile(this.x + 55, this.y + 35, model.images.spellsEffect_1, this.powerAtack, model));
+                            this.charFrameY = 1;
+                            this.timer++;
+
+                            if (this.timer % 66 === 0) { // как только сменится фрейм, то должно пройти 66 кадров чтобы анимация была на месте выстрела
+                                model.projectiles.push(model.newProjectile(this.x + 55, this.y + 35, this.imgProjectil, this.powerAtack, model));
+                            }
+
+                        } else {
+
+                            this.timer = 0;
+                            this.charFrameY = 0;
                         }
 
-                    } else {
+                    } else { // если защитник ближнего боя
+                        if (this.fight) {
+                            this.charFrameY = 1;
+                            this.timer++;
+                        } else {
+                            this.timer = 0;
+                            this.charFrameY = 0;
+                        }
+                    }
 
-                        this.timer = 0;
-                        this.charFrameY = 0;
+                }
+
+                // апгрейд защитника
+                up() {
+                    if (this.level === 1 && model.numberOfResources >= this.costUp) {
+                        model.numberOfResources -= 50;
+                        this.nameDefender === "wraith" ? this.health += 30 : this.health += 50;
+                        this.imgProjectil = model.images.spellsEffect_2;
+                        this.powerAtack = 20;
+                        this.powerCloseAtack = 0.15
+                        this.level++;
+                        this.image = this.nameDefender === "wraith" ? [model.images.wraith_02, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height] : [model.images.reaper_Man_02, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height];
+                        return;
+                    }
+                    if (this.level === 2 && model.numberOfResources >= this.costUp) {
+                        model.numberOfResources -= 50;
+                        this.nameDefender === "wraith" ? this.health += 50 : this.health += 100;
+                        this.imgProjectil = model.images.spellsEffect_3;
+                        this.powerAtack = 30;
+                        this.powerCloseAtack = 0.2
+                        this.level++;
+                        this.image = this.nameDefender === "wraith" ? [model.images.wraith_03, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height] : [model.images.reaper_Man_03, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height];
+                        return;
                     }
                 }
             }
-            return new Defender(x, y, model)
+            return new Defender(x, y, model, name)
         }
 
         newDyingDefender(x, y, img, model) {
@@ -907,6 +1076,25 @@ const myGame = (function () {
             return new DyingDefender(x, y, img, model);
         }
 
+        // клик по канвасу
+        click(clickPosition) {
+            // debugger
+            if (clickPosition.y > this.controlsBar.height && clickPosition.y < this.canvasHeight - this.cellSize) { // клик был на игровой сетке
+                this.createDefender();
+            } else if (clickPosition.x > 300 && clickPosition.x < 350) { // выбран wraith
+                if (clickPosition.y > 3 && clickPosition.y < 53) {
+                    this.navGrid[0].choice = true; // меняю флаг выделения выбранного защитника
+                    this.navGrid[1].choice = false;
+                    this.choiceDefender = "wraith";
+                }
+                if (clickPosition.y > 56 && clickPosition.y < 106) { // выбран reaper_Man
+                    this.navGrid[1].choice = true; // меняю флаг выделения выбранного защитника
+                    this.navGrid[0].choice = false;
+                    this.choiceDefender = "reaper_Man";
+                }
+            }
+        }
+
         createDefender() {
             // debugger
             const gridPositionX = this.mouse.x - (this.mouse.x % this.cellSize) + this.cellGap; // беру позицию мышки и отмаю остаток от деления на ширину ячуйки (получу точное положение Х по сетке)
@@ -914,13 +1102,16 @@ const myGame = (function () {
             if (gridPositionY < this.controlsBar.height || gridPositionY > this.canvasHeight - this.cellSize) return; // что бы нельзя было размещать на выше и ниже игрового поля
 
             for (let i = 0; i < this.defenders.length; i++) {
-                if (this.defenders[i].x === gridPositionX && this.defenders[i].y === gridPositionY) return; // если есть защитник с такими координатами, то не позволит поставить еще одного наверх этого
+                if (this.defenders[i].x === gridPositionX && this.defenders[i].y === gridPositionY) {
+                    this.defenders[i].up();
+                    return; // если есть защитник с такими координатами, то произойдет его улучшение не позволит поставить еще одного наверх этого
+                }
             }
 
             let defenderCost = 100; // Стоимость защитника
 
             if (this.numberOfResources >= defenderCost) { // если денег хватает то его добовляет в массив защитников 
-                this.defenders.push(this.newDefender(gridPositionX, gridPositionY, this));
+                this.defenders.push(this.newDefender(gridPositionX, gridPositionY, this, this.choiceDefender));
                 this.numberOfResources -= defenderCost; // вычесть стоимость защитника
             }
         }
@@ -1116,7 +1307,7 @@ const myGame = (function () {
 
         // Преобразовать полученные с сервера данные об игроках-лидерах
         updateUsersData(userList) {
-
+            // debugger
             let arrKey = Object.keys(userList); // получаю ключи объекта 
             let usersData = []; // массив с лидерами (данные с сервера)
 
@@ -1182,8 +1373,12 @@ const myGame = (function () {
             })
 
             // клик по канвасу, размещение защитника
-            this.canvas.addEventListener('click', () => {
-                this.model.createDefender();
+            this.canvas.addEventListener('click', (e) => {
+                let clickPosition = {
+                    x: e.x - canvasPosition.left,
+                    y: e.y - canvasPosition.top,
+                }
+                this.model.click(clickPosition);
             })
 
             // вешаем слушателей на событие hashchange 
