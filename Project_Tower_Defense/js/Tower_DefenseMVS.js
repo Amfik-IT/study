@@ -18,6 +18,9 @@ const myGame = (function () {
             this.users = null;
             this.thisUser = null;
             this.usersScore = null;
+            this.audioBack = null;
+            this.audioGame = null;
+            this.muted = false;
 
             // страничка с меню (главная)
             this.HomeComponent = {
@@ -62,43 +65,43 @@ const myGame = (function () {
                         <a class="mainmenu__link back" href="#menu">Назад</a>
                         <ul class="users">
                             <li class="user1">
-                                <span class="name">${this.users[0].username}</span>
+                                <span class="name">1) ${this.users[0].username}</span>
                                 <span class="points">${this.users[0].points}</span>
                             </li>
                             <li class="user2">
-                                <span class="name">${this.users[1].username}</span>
+                                <span class="name">2) ${this.users[1].username}</span>
                                 <span class="points">${this.users[1].points}</span>
                             </li>
                             <li class="user3">
-                                <span class="name">${this.users[2].username}</span>
+                                <span class="name">3) ${this.users[2].username}</span>
                                 <span class="points">${this.users[2].points}</span>
                             </li>
                             <li class="user4">
-                                <span class="name">${this.users[3].username}</span>
+                                <span class="name">4) ${this.users[3].username}</span>
                                 <span class="points">${this.users[3].points}</span>
                             </li>
                             <li class="user5">
-                                <span class="name">${this.users[4].username}</span>
+                                <span class="name">5) ${this.users[4].username}</span>
                                 <span class="points">${this.users[4].points}</span>
                             </li>
                             <li class="user6">
-                                <span class="name">${this.users[5].username}</span>
+                                <span class="name">6) ${this.users[5].username}</span>
                                 <span class="points">${this.users[5].points}</span>
                             </li>
                             <li class="user7">
-                                <span class="name">${this.users[6].username}</span>
+                                <span class="name">7) ${this.users[6].username}</span>
                                 <span class="points">${this.users[6].points}</span>
                             </li>
                             <li class="user8">
-                                <span class="name">${this.users[7].username}</span>
+                                <span class="name">8) ${this.users[7].username}</span>
                                 <span class="points">${this.users[7].points}</span>
                             </li>
                             <li class="user9">
-                                <span class="name">${this.users[8].username}</span>
+                                <span class="name">9) ${this.users[8].username}</span>
                                 <span class="points">${this.users[8].points}</span>
                             </li>
                             <li class="user10">
-                                <span class="name">${this.users[9].username}</span>
+                                <span class="name">10) ${this.users[9].username}</span>
                                 <span class="points">${this.users[9].points}</span>
                             </li>
                         </ul>
@@ -115,7 +118,7 @@ const myGame = (function () {
                     return `
                     <section class="${className}">
                         <p>Твое имя, герой:</p>
-                        <input type="text" class="input__name" id="newUserName" name="username" placeholder="Введите имя" required>
+                        <input type="text" class="input__name" id="newUserName" name="username" placeholder="Введите имя" maxlength="10" required>
                         <a class="add__name" href="#menu">Ок</a>
                     </section>
                   `;
@@ -157,6 +160,7 @@ const myGame = (function () {
             this.canvasBack.after(main);
         }
 
+
         // задний фон игрового поля (арены)
         blank(img) {
             this.ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
@@ -169,8 +173,8 @@ const myGame = (function () {
         }
 
         // элементы статуса игрока
-        drawGameStatus(score, numberOfResources, winningScore, enemiesLength, gameOver,
-            imgCoin, imgScore, imgUp_01, imgUp_02, imgWraith, imgMan_01) {
+        drawGameStatus(score, numberOfResources, levelComplete, gameOver,
+            imgCoin, imgScore, imgUp_01, imgUp_02, imgWraith, imgMan_01, win) {
 
             this.ctx.drawImage(imgScore, 20, 10, 50, 50); // иконка кубка (очки)
             this.ctx.drawImage(imgCoin, 0, 0, 90, 90, 20, 60, 50, 50); // иконка энергии
@@ -190,7 +194,7 @@ const myGame = (function () {
             this.ctx.font = '50.5px RUSNeverwinter';
             this.ctx.globalAlpha = 0.8;
 
-            this.ctx.fillText(`${score}`, 100, 45);
+            this.ctx.fillText(`${Math.round(score)}`, 100, 45);
             this.ctx.fillText(`${numberOfResources} $`, 100, 90);
             this.ctx.restore();
 
@@ -202,29 +206,29 @@ const myGame = (function () {
             this.ctx.fillStyle = 'black';
             this.ctx.font = '25.5px RUSNeverwinter';
 
-            this.ctx.fillText(`100 xp`, 360, 15);
-            this.ctx.fillText(`10 atc`, 360, 30);
-            this.ctx.fillText(`100 $`, 360, 45);
+            this.ctx.fillText(`50 xp`, 360, 15);
+            this.ctx.fillText(`5 atc`, 360, 30);
+            this.ctx.fillText(`50 $`, 360, 45);
 
-            this.ctx.fillText(`100 xp`, 360, 70);
+            this.ctx.fillText(`80 xp`, 360, 70);
             this.ctx.fillText(`6 atc/s`, 360, 85);
-            this.ctx.fillText(`100 $`, 360, 100);
+            this.ctx.fillText(`50 $`, 360, 100);
 
-            this.ctx.fillText(`+30 xp`, 490, 15);
-            this.ctx.fillText(`20 atc`, 490, 30);
-            this.ctx.fillText(`50 $`, 490, 45);
+            this.ctx.fillText(`+15 xp`, 490, 15);
+            this.ctx.fillText(`10 atc`, 490, 30);
+            this.ctx.fillText(`25 $`, 490, 45);
 
-            this.ctx.fillText(`+50 xp`, 490, 70);
+            this.ctx.fillText(`+30 xp`, 490, 70);
             this.ctx.fillText(`9 atc/s`, 490, 85);
-            this.ctx.fillText(`50 $`, 490, 100);
+            this.ctx.fillText(`25 $`, 490, 100);
 
-            this.ctx.fillText(`+50 xp`, 620, 15);
-            this.ctx.fillText(`30 atc`, 620, 30);
-            this.ctx.fillText(`50 $`, 620, 45);
+            this.ctx.fillText(`+25 xp`, 620, 15);
+            this.ctx.fillText(`15 atc`, 620, 30);
+            this.ctx.fillText(`25 $`, 620, 45);
 
-            this.ctx.fillText(`+100 xp`, 620, 70);
+            this.ctx.fillText(`+60 xp`, 620, 70);
             this.ctx.fillText(`12 atc/s`, 620, 85);
-            this.ctx.fillText(`50 $`, 620, 100);
+            this.ctx.fillText(`25 $`, 620, 100);
 
             this.ctx.restore();
 
@@ -234,10 +238,15 @@ const myGame = (function () {
                 this.ctx.font = '50px Lineage2Font';
                 this.ctx.fillText(`Game Over`, 350, 330)
             }
-            if (score >= winningScore && enemiesLength === 0) {
+            if (levelComplete && !win) {
                 this.ctx.fillStyle = 'black';
                 this.ctx.font = '50px Lineage2Font';
                 this.ctx.fillText(`Level Complete`, 300, 330)
+            }
+            if (win) {
+                this.ctx.fillStyle = 'black';
+                this.ctx.font = '50px Lineage2Font';
+                this.ctx.fillText(`!!! You're a winner !!!`, 250, 330)
             }
         }
 
@@ -322,7 +331,7 @@ const myGame = (function () {
             this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
         }
 
-        // отрисовка анимированного заднего фона страницы
+        // отрисовка анимированного заднего фона стартовой страницы
         drawBackground(sky, arr_clouds_2_1, rocks, clouds_2, arr_clouds_2_2, ground_1,
             ground_2, ground_3, plant) {
             // debugger
@@ -337,6 +346,42 @@ const myGame = (function () {
             this.ctx_2.drawImage(plant, 0, 0, this.canvasBackPozition.width, this.canvasBackPozition.height);
         }
 
+        // ------------------------------------------ звуки ------------------------------
+
+        playAudioBack() {
+            this.audioBack = new Audio('audio/rage-zone-k1.mp3');
+            this.audioBack.setAttribute('id', 'audioBack');
+            this.audioBack.loop = true;
+            this.audioBack.autoplay = true;
+            this.audioBack.volume = 0.4;
+        }
+
+        mutedAudioBack(stay) {
+            // debugger
+            // this.audioBack.pause();
+            // this.audioBack.currentTime = 0.0;
+            this.audioBack.muted = stay;
+        }
+
+        playAudioGame() {
+            this.audioGame = new Audio('audio/rage-zone-hierarchy&quad.mp3');
+            this.audioGame.setAttribute('id', 'audioGame');
+            this.audioGame.loop = true;
+            this.audioGame.autoplay = true;
+            this.audioGame.volume = 0.4;
+            if (this.muted) this.mutedAudioGame(true)
+            if (!this.muted) this.mutedAudioBack(true);
+        }
+
+        mutedAudioGame(stay) {
+            // this.audioBack.pause();
+            this.audioGame.currentTime = 0.0;
+            this.audioGame.muted = stay;
+        }
+
+        isMuted(stay) {
+            this.muted = stay;
+        }
 
         // ------------------------------------------------- вспомогательные методы
 
@@ -362,6 +407,7 @@ const myGame = (function () {
 
         }
 
+        // start / end 
         start(stay) {
 
             if (stay) {
@@ -383,6 +429,8 @@ const myGame = (function () {
                 })
 
             } else {
+                if (!this.muted) this.mutedAudioBack(false);
+                if (!this.muted) this.mutedAudioGame(true);
 
                 setTimeout(this.canvas.style.opacity = '0', 1000);
                 this.canvas.animate([
@@ -428,11 +476,16 @@ const myGame = (function () {
             this.enemiesInterval = 600; // интервал появления врагов
             this.frame = 0; // кадры - как долго идет игра
             this.frameBack = 0 // кадры - как долго открыто окно
+            this.frameNextLevel = 0; // кадры - отсчет до запуска нового уровня
             this.numberOfResources = 300; // стартовое количество ресурсов игрока
-            this.gameOver = false;
+            this.gameOver = false; // игрок проиграл
+            this.levelComplete = false; // игрок прошёл уровень
+            this.win = false; // игрок прошёл игру
             this.userName = null; // имя игрока
             this.score = 0; // очки игрока
+            this.levelGame = 1;
             this.winningScore = 100; // кол-во очков что бы враги перестали появляться и для перехода на след лвл
+            this.animateID = null;
 
             // изображения
             this.images = {};
@@ -500,10 +553,12 @@ const myGame = (function () {
             this.resources = []; // массив ресурсов
             this.amounts = [20, 30, 40]; // массив данных для ресурсов
             this.gameBackground = null;
+            this.gameBattleBackground = null;
             this.arrUsers = []; // массив данных об игроках
 
             // параметры выбранного защитника
             this.choiceDefender = "wraith";
+
 
             // параметры мышки
             this.mouse = {
@@ -526,7 +581,12 @@ const myGame = (function () {
             // функция очистки канваса
             this.blank = () => {
                 // debugger
-                this.view.blank(this.images.background_1);
+                // подена арен в зависимости от уровня игры
+                if (this.levelGame === 1 || this.levelGame === 2 || this.levelGame === 3) this.gameBattleBackground = this.images.background_1;
+                if (this.levelGame === 4 || this.levelGame === 5 || this.levelGame === 6) this.gameBattleBackground = this.images.background_2;
+                if (this.levelGame === 7 || this.levelGame === 8 || this.levelGame === 9) this.gameBattleBackground = this.images.background_4;
+
+                this.view.blank(this.gameBattleBackground);
             }
 
             // функция отрисовки ячеек игрового поля
@@ -543,22 +603,73 @@ const myGame = (function () {
                 }
             }
 
-            this.handleGameStatus = () => { // показываеем в навбаре сколько у игрока бабла и очков
-                this.view.drawGameStatus(this.score, this.numberOfResources, this.winningScore, this.enemies.length, this.gameOver,
-                    this.images.coin, this.images.score, this.images.up_01, this.images.up_02, this.images.wraith_01, this.images.reaper_Man_01);
+            // слежу за состоянием игры показываю в навбаре сколько у игрока бабла и очков // вызвать следующий лвл
+            this.handleGameStatus = () => {
+
+                // уровень пройден если очки больше планки и нет врагов, и игра еще не пройдена
+                (this.score >= this.winningScore && this.enemies.length === 0 && this.levelGame !== "win") ? this.levelComplete = true: this.levelComplete = false;
+
+                // если уровень пройден
+                if (this.levelComplete) {
+                    this.frameNextLevel++; // увеличить счетчик до следующего уровня
+                    if (this.frameNextLevel !== 0 && this.frameNextLevel % 180 === 0 && this.levelGame < 10) {
+                        this.score += Math.round(this.numberOfResources / 10); // добавить игроку очки в размере 10% от оставшегося ресурса
+                        this.numberOfResources += 300; // дать игроку еще 300 ресурсов
+                        this.nextLevelGame();
+                    }
+
+                }
+
+                if (this.levelComplete && this.levelGame === 10) {
+
+                    this.levelGame = "win"; // что бы не вошло в условие ктоторе ставит levelComplete (выше)
+                    this.levelComplete = false; // что бы не вошло в это условие повторно
+                    this.win = true; // что бы отрисовало что игрок победил
+                    let leader = false; // что бы не сработал или не сработал if ниже
+
+                    for (let i = 0; i < this.arrUsers.length; i++) {
+                        if (Math.round(this.score) > +this.arrUsers[i].points) { // если очки игрока превышают отчки хотябы одного игрока из таблицы лидеров тот это игрок попадает в таблицу лидеров
+                            // debugger
+                            this.deleteUser(this.arrUsers[9].id); // удалить с сервера игрока с самым маленьким кол-вом очков
+
+                            // --> добавить инфу игрока на сервер
+                            this.addUser(this.userName, Math.round(this.score));
+
+                            // --> вызвать метод вью о том что попал в таблицу лидеров
+                            this.view.thisUser = this.userName;
+                            this.view.usersScore = Math.round(this.score);
+                            this.view.renderContent("addLeader");
+
+                            leader = true; // что бы не сработал if ниже
+
+                            // --> закрыть игру
+                            setTimeout(() => this.view.start(false), 3000);
+
+                            break;
+                        }
+                    }
+
+                    // --> закрыть игру если в лидеры не попал
+                    if (!leader) setTimeout(() => this.view.start(false), 3000);
+                }
+
+                // отрисовать инфу на странице
+                this.view.drawGameStatus(this.score, this.numberOfResources, this.levelComplete, this.gameOver,
+                    this.images.coin, this.images.score, this.images.up_01, this.images.up_02, this.images.wraith_01, this.images.reaper_Man_01, this.win);
+
             }
 
 
 
             // ------ враги
 
-            // функция создания смещения и логики врага
+            // функция создания смещения и логики врага (тут и логика конца)
             this.handleEnemies = () => {
 
                 for (let i = 0; i < this.enemies.length; i++) { // перебор массива врагов
 
-                    this.enemies[i].draw();
-                    this.enemies[i].update();
+                    this.enemies[i].draw(); //отрисовка врага
+                    this.enemies[i].update(); // обновление состояния врага
 
                     if (this.enemies[i].x < 0) { // игра заканчивается если противник дошел то левого края поля
                         this.gameOver = true;
@@ -580,14 +691,73 @@ const myGame = (function () {
                         i--; // корректирует счетчик цикла
                     }
                 }
-                if (this.frame % this.enemiesInterval === 0 && this.score < this.winningScore) { // скорость появления врагов и место
 
-                    let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
-                    this.enemies.push(this.newEnemy(verticalPosition, this)) // добавить врага в массив
-                    this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                // скорость появления врагов, место, вид врага
+                // враг 1 ур
+                if (this.frame % this.enemiesInterval === 0 && this.score < this.winningScore) {
 
-                    if (this.enemiesInterval > 200) this.enemiesInterval -= 50; // скорость появления противников
+                    if (this.levelGame === 1 || this.levelGame === 2 || this.levelGame === 3) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.Orc_01, 110, 0.1)) // добавить врага в массив
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+                    if (this.levelGame === 4 || this.levelGame === 5 || this.levelGame === 6) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.fallen_Angels_01, 130, 0.1)) // добавить врага в массив
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+                    if (this.levelGame === 7 || this.levelGame === 8 || this.levelGame === 9) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.golem_01, 150, 0.1)) // добавить врага в массив
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+
+                    // скорость появления противников
+                    if (this.enemiesInterval > 200) this.enemiesInterval -= 50;
                 }
+
+                // враг 2 ур
+                if (this.frame !== 0 && this.frame % 450 === 0 && this.score < this.winningScore) {
+
+                    if (this.levelGame === 2 || this.levelGame === 3) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.Orc_02, 160, 0.15)) // добавить врага в массив (позиция, модель, img, здоровье, сила удара (60раз в секунду))
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+                    if (this.levelGame === 5 || this.levelGame === 6) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.fallen_Angels_02, 180, 0.15)) // добавить врага в массив
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+                    if (this.levelGame === 8 || this.levelGame === 9) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.golem_02, 200, 0.15)) // добавить врага в массив
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+
+                }
+
+                // враг 3 ур
+                if (this.frame !== 0 && this.frame % 700 === 0 && this.score < this.winningScore) {
+
+                    if (this.levelGame === 3) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.Orc_03, 210, 0.2)) // добавить врага в массив
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+                    if (this.levelGame === 6) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.fallen_Angels_03, 230, 0.2)) // добавить врага в массив
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+                    if (this.levelGame === 9) {
+                        let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
+                        this.enemies.push(this.newEnemy(verticalPosition, this, this.images.golem_03, 250, 0.2)) // добавить врага в массив
+                        this.enemyPosition.push(verticalPosition); // добавить в массив позиции появления врага
+                    }
+
+                }
+
             }
 
             // умирающие враги
@@ -626,7 +796,7 @@ const myGame = (function () {
                         if (this.defenders[i] && this.collision(this.defenders[i], this.enemies[j])) { // если защитник и враг сталкиваются то:
 
                             this.enemies[j].movement = 0; // враг останавливается
-                            this.defenders[i].health -= 0.1; // у защитника отнимается здоровье
+                            this.defenders[i].health -= this.enemies[j].power; // у защитника отнимается здоровье в зависимости от силы врага
                             if (this.defenders[i].nameDefender === "reaper_Man") this.enemies[j].health -= this.defenders[i].powerCloseAtack; // у врвга отнимается здоровье в зависимости от атаки защитника
                         }
 
@@ -732,12 +902,13 @@ const myGame = (function () {
                 this.frame++; // увеличение счетчика кадров
 
                 if (!this.gameOver) { // пока флаг gameOver = false - игра продолжается
-                    requestAnimationFrame(this.animate);
+                    this.animateID = requestAnimationFrame(this.animate);
                 } else { // иначе сравнивает кол-во очков игрока с рейтингом очков и добавляет или нет результат в таблицу
 
+                    cancelAnimationFrame(this.animateID);
                     this.score += (this.numberOfResources / 10); // добавить очки от оставшейся энергии
                     this.numberOfResources = 0; // обнулить энергию
-                    let leader = false;
+                    let leader = false; // что бы не сработал или не сработал if ниже
 
                     for (let i = 0; i < this.arrUsers.length; i++) {
                         if (this.score > +this.arrUsers[i].points) {
@@ -839,23 +1010,24 @@ const myGame = (function () {
 
         // ------------------------------------------------------ враги
 
-        newEnemy(verticalPosition, model) {
+        newEnemy(verticalPosition, model, img, health, power) {
             class Enemy {
-                constructor(verticalPosition, model) {
+                constructor(verticalPosition, model, img, health, power) {
                     this.x = model.canvasWidth; // что бы появлялись за пределами канваса
                     this.y = verticalPosition; // параметр определяется рандомом ниже покоду
                     this.width = model.cellSize - model.cellGap * 2; // ширина ячейки минус двойной отступ
                     this.height = model.cellSize - model.cellGap * 2; // высота ячейки минус двойной отступ
                     this.speed = Math.random() * 0.2 + 0.4; // у врага случайная скорость движения
                     this.movement = this.speed; // переменная для того что бы моги остановить врага
-                    this.health = 100; // здоровье врага
+                    this.health = health; // здоровье врага
                     this.maxHealth = this.health; // сохранение максимального здоровья для расчетов очков и наград
+                    this.power = power;
 
                     this.frameX = 267.916667;
                     this.frameY = 170;
                     this.charFrameX = 0;
                     this.charFrameY = 0;
-                    this.image = [model.images.fallen_Angels_01, 30, 0, this.frameX, this.frameY, this.x, this.y, 90, this.height];
+                    this.image = [img, 30, 0, this.frameX, this.frameY, this.x, this.y, 90, this.height];
                 }
 
                 draw() { // рисует врага и его здоровье
@@ -897,7 +1069,7 @@ const myGame = (function () {
                 }
 
             }
-            return new Enemy(verticalPosition, model);
+            return new Enemy(verticalPosition, model, img, health, power);
         }
 
         newDyingEnemies(x, y, img, model) {
@@ -950,14 +1122,14 @@ const myGame = (function () {
                     // wraith
                     this.shooting = false; // стреляет или нет
                     this.fight = false; // ближняя атака
-                    this.health = this.nameDefender === "wraith" ? 100 : 150; // кол-во здоровья
+                    this.health = this.nameDefender === "wraith" ? 50 : 80; // кол-во здоровья
                     this.projectiles = []; // массив снарядов
                     this.imgProjectil = model.images.spellsEffect_1;
                     this.timer = 0; // таймер выстрела(скорость стрельбы)
-                    this.powerAtack = 10; // сила атаки (дальный бой)
+                    this.powerAtack = 5; // сила атаки (дальный бой)
                     this.powerCloseAtack = 0.1 // сила атаки (ближний бой)
                     this.level = 1; // уровень защитника
-                    this.costUp = 50; // стоимость улучшения
+                    this.costUp = 25; // стоимость улучшения
 
                     this.frameX = 267.916667;
                     this.frameY = 170;
@@ -1016,20 +1188,20 @@ const myGame = (function () {
                 // апгрейд защитника
                 up() {
                     if (this.level === 1 && model.numberOfResources >= this.costUp) {
-                        model.numberOfResources -= 50;
-                        this.nameDefender === "wraith" ? this.health += 30 : this.health += 50;
+                        model.numberOfResources -= this.costUp;
+                        this.nameDefender === "wraith" ? this.health += 15 : this.health += 30;
                         this.imgProjectil = model.images.spellsEffect_2;
-                        this.powerAtack = 20;
+                        this.powerAtack = 10;
                         this.powerCloseAtack = 0.15
                         this.level++;
                         this.image = this.nameDefender === "wraith" ? [model.images.wraith_02, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height] : [model.images.reaper_Man_02, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height];
                         return;
                     }
                     if (this.level === 2 && model.numberOfResources >= this.costUp) {
-                        model.numberOfResources -= 50;
-                        this.nameDefender === "wraith" ? this.health += 50 : this.health += 100;
+                        model.numberOfResources -= this.costUp;
+                        this.nameDefender === "wraith" ? this.health += 25 : this.health += 60;
                         this.imgProjectil = model.images.spellsEffect_3;
-                        this.powerAtack = 30;
+                        this.powerAtack = 15;
                         this.powerCloseAtack = 0.2
                         this.level++;
                         this.image = this.nameDefender === "wraith" ? [model.images.wraith_03, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height] : [model.images.reaper_Man_03, 0, 0, this.frameX, this.frameY, this.x, this.y, 100, this.height];
@@ -1095,7 +1267,7 @@ const myGame = (function () {
             }
         }
 
-        createDefender() {
+        createDefender() { // тут и стоимость защитника
             // debugger
             const gridPositionX = this.mouse.x - (this.mouse.x % this.cellSize) + this.cellGap; // беру позицию мышки и отмаю остаток от деления на ширину ячуйки (получу точное положение Х по сетке)
             const gridPositionY = this.mouse.y - (this.mouse.y % this.cellSize) + this.cellGap; // беру позицию мышки и отмаю остаток от деления на высоту ячуйки (получу точное положение У по сетке)
@@ -1108,7 +1280,7 @@ const myGame = (function () {
                 }
             }
 
-            let defenderCost = 100; // Стоимость защитника
+            let defenderCost = 50; // Стоимость защитника
 
             if (this.numberOfResources >= defenderCost) { // если денег хватает то его добовляет в массив защитников 
                 this.defenders.push(this.newDefender(gridPositionX, gridPositionY, this, this.choiceDefender));
@@ -1213,6 +1385,80 @@ const myGame = (function () {
 
         // ------------------------------------------------ ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ -------------------------
 
+
+        // убнуление параметров уровня (метод помогает методу nextLevelGame)
+        zeroingLevel() {
+            this.defenders.length = 0; // массив защитников
+            this.dyingDefenders.length = 0; // массив умирающих защитников
+            this.enemies.length = 0; // массив врагов
+            this.dyingEnemies.length = 0; // массив умирающийх врагов
+            this.enemyPosition.length = 0; // массив местоположения врагов Y
+            this.enemyPositionX.length = 0; // массив столкновения врагов с защитниками X
+            this.projectiles.length = 0; // массив снарядов для защитников
+            this.resources.length = 0; // массив ресурсов
+        }
+
+        // следующий уровень 
+
+        nextLevelGame() {
+            this.levelGame++;
+            if (this.levelGame < 10) {
+                switch (this.levelGame) {
+                    case 2:
+                        // убнуление параметров уровня
+                        this.zeroingLevel();
+                        this.frame = 0;
+                        this.winningScore = this.score + 150;
+                        break;
+
+                    case 3:
+                        this.zeroingLevel();
+                        this.frame = 0;
+                        this.winningScore = this.score + 200;
+                        break;
+
+                    case 4:
+                        this.zeroingLevel();
+                        this.frame = 0;
+                        this.winningScore = this.score + 250;
+                        break;
+
+                    case 5:
+                        this.zeroingLevel();
+                        this.frame = 0;
+                        this.winningScore = this.score + 300;
+                        break;
+
+                    case 6:
+                        this.zeroingLevel();
+                        this.frame = 0;
+                        this.winningScore = this.score + 350;
+                        break;
+
+                    case 7:
+                        this.zeroingLevel();
+                        this.frame = 0;
+                        this.winningScore = this.score + 400;
+                        break;
+
+                    case 8:
+                        this.zeroingLevel();
+                        this.frame = 0;
+                        this.winningScore = this.score + 450;
+                        break;
+
+                    case 9:
+                        this.zeroingLevel();
+                        this.frame = 0;
+                        this.winningScore = this.score + 500;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
         // расчет коллизий
         collision(first, second) { // функция коллизии столкновения
             if (!(first.x > second.x + second.width ||
@@ -1230,9 +1476,10 @@ const myGame = (function () {
 
         // переход между вкладками меню
         updateState() {
-
+            // debugger
             // ---> проверка локал сторадж
             if (window.localStorage.getItem("Funny_Defenders_Undead") === null) {
+                window.location.hash = "#getName";
                 this.view.renderContent("getName"); // если раньше не посещал эту страницу, то при старте спрашиваю имя
             } else {
                 let storageInfo = JSON.parse(window.localStorage.getItem("Funny_Defenders_Undead"));
@@ -1242,18 +1489,22 @@ const myGame = (function () {
             }
         }
 
-        // старт игры
+        // старт игры (сброс параметров прошлой игры)
 
         start() {
 
-            // сбросить настройки игры, очистить массивы данных об игровом працессе
+            cancelAnimationFrame(this.animateID);
             this.enemiesInterval = 600; // интервал появления врагов
             this.frame = 0; // кадры - как долго идет игра
-            this.frameBack = 0 // кадры - как долго открыто окно
+            this.frameNextLevel = 0; // кадры - отсчет до запуска нового уровня
             this.numberOfResources = 300; // стартовое количество ресурсов игрока
-            this.gameOver = false;
+            this.gameOver = false; // игрок проиграл
+            this.levelComplete = false; // игрок прошёл уровень
+            this.win = false; // игрок прошёл игру
             this.score = 0; // очки игрока
-            this.winningScore = 100;
+            this.levelGame = 1;
+            this.winningScore = 100; // кол-во очков что бы враги перестали появляться и для перехода на след лвл
+
 
             this.gameGrid = []; // массив объектов (ячеек) игрового поля, с методом отрисовки
             this.defenders = []; // массив защитников
@@ -1332,6 +1583,30 @@ const myGame = (function () {
             // передать this.arrUsers во въюшку дял отображения списка
 
             this.view.users = this.arrUsers;
+            this.updateState();
+        }
+
+
+        // ------------------------------------------------- Звуки ------------------------------------------------
+
+        playAudioBack() {
+            this.view.playAudioBack();
+        }
+
+        mutedAudioBack(stay) {
+            this.view.mutedAudioBack(stay);
+        }
+
+        playAudioGame() {
+            this.view.playAudioGame();
+        }
+
+        // mutedAudioGame(stay) {
+        //     this.view.mutedAudioGame(stay);
+        // }
+
+        isMuted(stay) {
+            this.view.isMuted(stay);
         }
     };
     /* -------- end model -------- */
@@ -1347,9 +1622,19 @@ const myGame = (function () {
             this.container = container;
             this.canvas = canvas;
             this.canvasBack = canvasBack;
+            this.audioBack = false;
+            this.muted = false;
         }
 
         init() {
+
+            document.addEventListener('click', (event) => {
+                if (!this.audioBack) {
+                    this.playAudioBack();
+                    this.audioBack = true;
+                }
+
+            });
 
             let canvasPosition = this.canvas.getBoundingClientRect(); // нынешнее положение канваса
 
@@ -1384,10 +1669,7 @@ const myGame = (function () {
             // вешаем слушателей на событие hashchange 
             window.addEventListener("hashchange", () => this.updateState());
 
-            //первая отрисовка
-            this.updateState();
-
-            // получение инфы для таблицы лидеров
+            // сначала получение инфы для таблицы лидеров, а потом первая отрисовка
             this.model.getUsersList(this.model);
 
             // кнопка старт и другие
@@ -1395,7 +1677,25 @@ const myGame = (function () {
             main.addEventListener('click', (e) => {
                 let target = e.target;
 
-                if (target.className === 'new__game') this.start();
+                // старт
+                if (target.className === 'new__game') {
+                    this.start();
+                    this.playAudioGame();
+
+                }
+
+                // вкл/выкл звук
+                if (target.className === 'sound') {
+                    if (this.muted) {
+                        this.muted = false;
+                        this.mutedAudioBack(false);
+                        this.model.isMuted(false);
+                    } else {
+                        this.muted = true;
+                        this.mutedAudioBack(true);
+                        this.model.isMuted(true);
+                    }
+                }
 
                 // добавить имя в локал сторадж
                 if (target.className === 'add__name') {
@@ -1423,12 +1723,21 @@ const myGame = (function () {
             this.model.start();
         }
 
-        // --> это удали потом это тест
-        // addTestUser(user) {
-        //     if (user.userName && user.points) {
-        //         this.model.addUser(user.userName, user.points);
-        //     }
-        // }
+        // ------------------------------------------- Звуки -------------------------------------------
+        // играть аудио заставочного экрана
+        playAudioBack() {
+            this.model.playAudioBack();
+        }
+
+        //  выключить аудио заставочного экрана
+        mutedAudioBack(stay) {
+            this.model.mutedAudioBack(stay);
+        }
+
+        // играть аудио игрового экрана
+        playAudioGame() {
+            this.model.playAudioGame();
+        }
 
     };
     /* ------ end controller ----- */
@@ -1445,7 +1754,6 @@ const myGame = (function () {
             containerElem.append(canvasBack);
             containerElem.append(canvas);
 
-
             const appGameView = new GameView(containerElem, canvas, canvasBack);
             const appGameModel = new GameModel(appGameView);
             const appGameController = new GameController(appGameModel, containerElem, canvas, canvasBack);
@@ -1455,46 +1763,6 @@ const myGame = (function () {
             appGameModel.init();
             appGameController.init();
 
-            // appGameController.addTestUser({
-            //     userName: 'Черный кот',
-            //     points: '100'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Ведьма',
-            //     points: '90'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Вампир',
-            //     points: '80'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Оборотень',
-            //     points: '70'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Демон',
-            //     points: '60'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Гуль',
-            //     points: '50'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Джин',
-            //     points: '40'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Призрак',
-            //     points: '30'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Метла ведьмы',
-            //     points: '20'
-            // });
-            // appGameController.addTestUser({
-            //     userName: 'Джин Тоник',
-            //     points: '10'
-            // });
         }
     };
 })();
