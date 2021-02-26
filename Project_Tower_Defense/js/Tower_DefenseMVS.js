@@ -31,10 +31,10 @@ const myGame = (function () {
                     <section class="${className}">
                         <ul class="mainmenu__list">
                             <li><a class="new__game">Новая игра</a></li>
-                            <li><a class="continue">Продолжить</a></li>
+                            <li><a id="continue" class="continue save__true">Продолжить</a></li>
                             <li><a class="mainmenu__link" href="#rules">Правила игры</a></li>
                             <li><a class="mainmenu__link" href="#leaders">Таблица лидеров</a></li>
-                            <li><a class="sound">Звук</a></li>
+                            <li><span class="saund__off-top"></span><a id="sound" class="sound">Звук</a><span class="saund__off-bottom"></span></li>
                         </ul>
                     </section>
                   `;
@@ -291,6 +291,11 @@ const myGame = (function () {
             this.ctx.strokeRect(x, y, width, height);
         }
 
+        drawNavButton(img, sx, sy, sw, sh, wx, wy, ww, wh) {
+            // debugger
+            this.ctx.drawImage(img, sx, sy, sw, sh, wx, wy, ww, wh);
+        }
+
         // защитники
         drawDefender(i, health) {
             this.ctx.drawImage(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
@@ -349,11 +354,19 @@ const myGame = (function () {
         // ------------------------------------------ звуки ------------------------------
 
         playAudioBack() {
-            this.audioBack = new Audio('audio/rage-zone-k1.mp3');
-            this.audioBack.setAttribute('id', 'audioBack');
+
+            this.audioBack = new Audio();
+
+            // проверка поддерживаемого формата браузером
+            if (this.audioBack.canPlayType("audio/mp3") == "probably") {
+                this.audioBack.src = "audio/rage-zone-k1.mp3"
+            } else this.audioBack.src = "audio/rage-zone-k1.ogg"
+
+            // this.audioBack.setAttribute('id', 'audioBack');
             this.audioBack.loop = true;
             this.audioBack.autoplay = true;
             this.audioBack.volume = 0.4;
+            // console.log(this.audioBack.canPlayType("audio/mp3"));
         }
 
         mutedAudioBack(stay) {
@@ -364,8 +377,14 @@ const myGame = (function () {
         }
 
         playAudioGame() {
-            this.audioGame = new Audio('audio/rage-zone-hierarchy&quad.mp3');
-            this.audioGame.setAttribute('id', 'audioGame');
+            this.audioGame = new Audio();
+
+            // проверка поддерживаемого формата браузером
+            if (this.audioGame.canPlayType("audio/mp3") == "probably") {
+                this.audioGame.src = "audio/rage-zone-hierarchy&quad.mp3"
+            } else this.audioGame.src = "audio/rage-zone-hierarchy&quad.ogg"
+
+            // this.audioGame.setAttribute('id', 'audioGame');
             this.audioGame.loop = true;
             this.audioGame.autoplay = true;
             this.audioGame.volume = 0.4;
@@ -374,13 +393,105 @@ const myGame = (function () {
         }
 
         mutedAudioGame(stay) {
-            // this.audioBack.pause();
             this.audioGame.currentTime = 0.0;
             this.audioGame.muted = stay;
         }
 
         isMuted(stay) {
             this.muted = stay;
+        }
+
+        closeSaund(stay) {
+
+            let closeButton = this.container.querySelector('.sound');
+            let spanCloseTop = this.container.querySelector('.saund__off-top');
+            let spanCloseBottom = this.container.querySelector('.saund__off-bottom');
+            if (stay) {
+
+                closeButton.classList.toggle('red');
+                setTimeout(() => {
+                    spanCloseTop.style.opacity = '1';
+                    spanCloseTop.style.transform = "rotate(45deg) translateX(50%)";
+                }, 700);
+                setTimeout(() => {
+                    spanCloseBottom.style.opacity = '1';
+                    spanCloseBottom.style.transform = "rotate(-45deg) translateX(50%)";
+                }, 700);
+                spanCloseTop.animate([
+                    // keyframes
+                    {
+                        transform: "rotate(0deg) translateX(50%)",
+                        opacity: 0
+                    },
+                    {
+                        transform: "rotate(45deg) translateX(50%)",
+                        opacity: 1
+                    }
+                ], {
+                    // timing options
+                    duration: 700,
+                    iterations: 1
+                })
+
+                spanCloseBottom.animate([
+                    // keyframes
+                    {
+                        transform: "rotate(0deg) translateX(50%)",
+                        opacity: 0
+                    },
+                    {
+                        transform: "rotate(-45deg) translateX(50%)",
+                        opacity: 1
+                    }
+                ], {
+                    // timing options
+                    duration: 700,
+                    iterations: 1
+                })
+
+            } else if (!stay) {
+
+                closeButton.classList.toggle('red');
+                setTimeout(() => {
+                    spanCloseTop.style.opacity = '0';
+                    spanCloseTop.style.transform = "rotate(0deg) translateX(50%)";
+                }, 700);
+                setTimeout(() => {
+                    spanCloseBottom.style.opacity = '0';
+                    spanCloseBottom.style.transform = "rotate(0deg) translateX(50%)";
+                }, 700);
+                spanCloseTop.animate([
+                    // keyframes
+                    {
+                        transform: "rotate(45deg) translateX(50%)",
+                        opacity: 1
+                    },
+                    {
+                        transform: "rotate(0deg) translateX(50%)",
+                        opacity: 0
+                    }
+                ], {
+                    // timing options
+                    duration: 700,
+                    iterations: 1
+                })
+
+                spanCloseBottom.animate([
+                    // keyframes
+                    {
+                        transform: "rotate(-45deg) translateX(50%)",
+                        opacity: 1
+                    },
+                    {
+                        transform: "rotate(0deg) translateX(50%)",
+                        opacity: 0
+                    }
+                ], {
+                    // timing options
+                    duration: 700,
+                    iterations: 1
+                })
+            }
         }
 
         // ------------------------------------------------- вспомогательные методы
@@ -449,6 +560,12 @@ const myGame = (function () {
                 this.canvas.classList.toggle('show');
             }
 
+        }
+
+        // снять блок с кнопки "продолжить"
+        continueBlock(stay) {
+            let continueButton = this.container.querySelector(".continue");
+            stay ? continueButton.classList.remove("save__true") : continueButton.classList.add("save__true");
         }
 
     };
@@ -539,6 +656,8 @@ const myGame = (function () {
             this.addImage('up_01', 'img/coins/up_01.png');
             this.addImage('up_02', 'img/coins/up_02.png');
 
+            this.addImage('nav_game_button', 'img/buttons/Nav_Game_Button.png');
+
 
             // массивы данных
             this.gameGrid = []; // массив объектов (ячеек) игрового поля, с методом отрисовки
@@ -626,6 +745,7 @@ const myGame = (function () {
                     this.levelComplete = false; // что бы не вошло в это условие повторно
                     this.win = true; // что бы отрисовало что игрок победил
                     let leader = false; // что бы не сработал или не сработал if ниже
+                    this.view.continueBlock(false) // задизейблить кнопку "продолжить"
 
                     for (let i = 0; i < this.arrUsers.length; i++) {
                         if (Math.round(this.score) > +this.arrUsers[i].points) { // если очки игрока превышают отчки хотябы одного игрока из таблицы лидеров тот это игрок попадает в таблицу лидеров
@@ -661,9 +781,9 @@ const myGame = (function () {
 
 
 
-            // ------ враги
+            // ------------------------ враги
 
-            // функция создания смещения и логики врага (тут и логика конца)
+            // созданиа, смещениа, логика врага (тут и логика конца)
             this.handleEnemies = () => {
 
                 for (let i = 0; i < this.enemies.length; i++) { // перебор массива врагов
@@ -676,10 +796,11 @@ const myGame = (function () {
                     }
                     if (this.enemies[i].health <= 0) { // если здоровье меньше или равно 0 - враг убит
 
-                        let geinedResources = this.enemies[i].maxHealth / 10; // игрок получает ресурс в кол-ве 0.1 часть от здоровья противника 
-
+                        // если будет сложно замени тут 15 на 10 (будет завать в 0.5 раза больше золота за килл), легко - 15 на 20
+                        let geinedResources = Math.ceil(this.enemies[i].maxHealth / 15); // игрок получает ресурс в кол-ве 0.05 часть от здоровья противника 
+                        let geinedScore = this.enemies[i].maxHealth / 10;
                         this.numberOfResources += geinedResources;
-                        this.score += geinedResources; // игрок получает очки в кол-ве 0.1 часть от здоровья противника 
+                        this.score += geinedScore; // игрок получает очки в кол-ве 0.1 часть от здоровья противника 
 
                         const findThisIndex = this.enemyPosition.indexOf(this.enemies[i].y) // ищет позицию убитого врага
 
@@ -717,7 +838,7 @@ const myGame = (function () {
                 }
 
                 // враг 2 ур
-                if (this.frame !== 0 && this.frame % 450 === 0 && this.score < this.winningScore) {
+                if (this.frame !== 0 && this.frame % 350 === 0 && this.score < this.winningScore) {
 
                     if (this.levelGame === 2 || this.levelGame === 3) {
                         let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
@@ -738,7 +859,7 @@ const myGame = (function () {
                 }
 
                 // враг 3 ур
-                if (this.frame !== 0 && this.frame % 700 === 0 && this.score < this.winningScore) {
+                if (this.frame !== 0 && this.frame % 590 === 0 && this.score < this.winningScore) {
 
                     if (this.levelGame === 3) {
                         let verticalPosition = Math.floor(Math.random() * 4 + 3) * this.cellSize + this.cellGap; // 3 - т.к. контролбар занимает 3 ячейки, 4 - т.к. нужно что бы движение шло только по 4 полосам после контролбара 
@@ -776,7 +897,7 @@ const myGame = (function () {
             }
 
 
-            // ------ защитники
+            // ----------------------- защитники
 
             // функция создания и логики защитников
             this.handleDefenders = () => {
@@ -833,7 +954,7 @@ const myGame = (function () {
                 }
             }
 
-            // ------ снаряды
+            // ------------------------- снаряды
 
             this.handleProjectiles = () => {
                 for (let i = 0; i < this.projectiles.length; i++) { // перебирает массив снарядов и вызывает их методы перерисовки и смещения
@@ -856,7 +977,7 @@ const myGame = (function () {
                 }
             }
 
-            // ------ ресурсы
+            // -------------------------- ресурсы
 
             this.handleResources = () => {
 
@@ -877,7 +998,7 @@ const myGame = (function () {
                 }
             }
 
-            // ------ Задний фон (горы с тучами)
+            // ---------------------------------------- Задний фон (горы с тучами)
 
             this.handlegameBackground = () => {
                 this.gameBackground.draw();
@@ -909,6 +1030,7 @@ const myGame = (function () {
                     this.score += (this.numberOfResources / 10); // добавить очки от оставшейся энергии
                     this.numberOfResources = 0; // обнулить энергию
                     let leader = false; // что бы не сработал или не сработал if ниже
+                    this.view.continueBlock(false) // задизейблить кнопку "продолжить"
 
                     for (let i = 0; i < this.arrUsers.length; i++) {
                         if (this.score > +this.arrUsers[i].points) {
@@ -974,28 +1096,39 @@ const myGame = (function () {
             return new Cell(x, y, model)
         }
 
-        newNavCell(x, y, model) {
+        newNavCell(x, y, model, button, img) {
             class NavCell { // Класс который создаст ячейку сетки
-                constructor(x, y) {
+                constructor(x, y, model, button, img) {
                     this.x = x;
                     this.y = y;
                     this.width = 50;
                     this.height = 50;
                     this.choice = false;
+                    this.isButton = button; // menu или pause
+                    this.imgButton = img;
                 }
                 draw() {
-                    if (model.mouse.x && model.mouse.y && model.collision(this, model.mouse)) { // если мышка над полем канвас и над сеткой поля, рисует
+                    // debugger
+                    // ячейки выбора персонажа
+                    if (model.mouse.x && model.mouse.y && model.collision(this, model.mouse) && !this.isButton) { // если мышка над полем канвас и над сеткой поля, рисует
                         model.view.drawNavCell(this.x, this.y, this.width, this.height, "white");
                     }
-                    if (this.choice) {
+                    if (this.choice && !this.isButton) {
                         model.view.drawNavCell(this.x, this.y, this.width, this.height, "gold");
+                    }
+                    // ячейки кнопки меню
+                    if (this.isButton === "menu") {
+                        this.choice ? model.view.drawNavButton(img, 60, 0, 60, 60, this.x, this.y, this.width, this.height) : model.view.drawNavButton(img, 0, 0, 60, 60, this.x, this.y, this.width, this.height);
+                    }
+                    if (this.isButton === "pause") {
+                        this.choice ? model.view.drawNavButton(img, 60, 60, 60, 60, this.x, this.y, this.width, this.height) : model.view.drawNavButton(img, 0, 60, 60, 60, this.x, this.y, this.width, this.height);
                     }
                 }
             }
-            return new NavCell(x, y, model)
+            return new NavCell(x, y, model, button, img)
         }
 
-        // Создание сетки
+        // Создание сетки поля и создание ячее навбара
         createGrid() {
             for (let y = this.cellSize * 3; y < this.canvasHeight - this.cellSize; y += this.cellSize) { // y = cellSize, т.к. начинаю не сначала поля, после поля управления
                 for (let x = 0; x < this.canvasWidth; x += this.cellSize) {
@@ -1003,9 +1136,12 @@ const myGame = (function () {
                 }
             }
 
-            this.navGrid.push(this.newNavCell(300, 3, this)); // две ячейки навбара
-            this.navGrid.push(this.newNavCell(300, 56, this));
+            this.navGrid.push(this.newNavCell(300, 3, this, false, false)); // две ячейки навбара выбора героя
+            this.navGrid.push(this.newNavCell(300, 56, this, false, false));
             this.navGrid[0].choice = true; // что бы изначально игрок видел какой защитник выбран
+
+            this.navGrid.push(this.newNavCell(840, 3, this, "menu", this.images.nav_game_button)); // две ячейки навбара меню и пауза
+            this.navGrid.push(this.newNavCell(840, 56, this, "pause", this.images.nav_game_button));
         }
 
         // ------------------------------------------------------ враги
@@ -1250,10 +1386,12 @@ const myGame = (function () {
 
         // клик по канвасу
         click(clickPosition) {
-            // debugger
-            if (clickPosition.y > this.controlsBar.height && clickPosition.y < this.canvasHeight - this.cellSize) { // клик был на игровой сетке
+            //------------------ новый защитник
+            if (clickPosition.y > this.controlsBar.height && clickPosition.y < this.canvasHeight - this.cellSize && this.navGrid[3].choice === false) { // клик был на игровой сетке
                 this.createDefender();
-            } else if (clickPosition.x > 300 && clickPosition.x < 350) { // выбран wraith
+
+                // ---- клик по защитнику (апгрейд)
+            } else if (clickPosition.x > 300 && clickPosition.x < 350 && this.navGrid[3].choice === false) { // выбран wraith
                 if (clickPosition.y > 3 && clickPosition.y < 53) {
                     this.navGrid[0].choice = true; // меняю флаг выделения выбранного защитника
                     this.navGrid[1].choice = false;
@@ -1263,6 +1401,35 @@ const myGame = (function () {
                     this.navGrid[1].choice = true; // меняю флаг выделения выбранного защитника
                     this.navGrid[0].choice = false;
                     this.choiceDefender = "reaper_Man";
+                }
+                // ---------меню в игре
+            } else if (clickPosition.x > 840 && clickPosition.x < 890) {
+
+                // выбрана кнопка меню
+                if (clickPosition.y > 3 && clickPosition.y < 53) {
+                    this.navGrid[2].choice == true ? this.navGrid[2].choice = false : this.navGrid[2].choice = true; // меняю флаг выделения
+
+                    // поставить на пузу
+                    this.navGrid[3].choice = true; // меняю флаг выделения
+                    cancelAnimationFrame(this.animateID); // остановить анимацию, игра на паузе
+                    this.handleNavGrid(); // сетка навбара рисую еще раз что бы отрисовалась кнопка в активном состоянии
+                    this.view.continueBlock(true) // раздизейблить кнопку "продолжить"
+                    this.view.start(false); // спрятать игру и показать главное меню
+                }
+
+                // выбрана кнопка пауза
+                if (clickPosition.y > 56 && clickPosition.y < 106) {
+                    if (this.navGrid[3].choice === false) {
+
+                        this.navGrid[3].choice = true; // меняю флаг выделения
+                        cancelAnimationFrame(this.animateID); // остановить анимацию, игра на паузе
+                        this.handleNavGrid(); // сетка навбара рисую еще раз что бы отрисовалась кнопка в активном состоянии
+                    } else {
+
+                        // debugger
+                        this.navGrid[3].choice = false; // меняю флаг выделения
+                        this.animateID = requestAnimationFrame(this.animate); // возобновить анимацию, игра не на паузе
+                    }
                 }
             }
         }
@@ -1493,6 +1660,10 @@ const myGame = (function () {
 
         start() {
 
+            this.navGrid[2].choice = false; // сбрасываю флаг выделения меню в игре
+            this.navGrid[3].choice = false; // сбрасываю флаг выделения пауза в игре
+            this.view.continueBlock(false) // задизейблить кнопку "продолжить"
+
             cancelAnimationFrame(this.animateID);
             this.enemiesInterval = 600; // интервал появления врагов
             this.frame = 0; // кадры - как долго идет игра
@@ -1519,6 +1690,17 @@ const myGame = (function () {
             this.view.start(true); // плавно отобразить окно с игрой
             setTimeout(this.animate(), 1000); // запустить игру через 1 сек (это время на появления окна с игрой)
         }
+
+        // продолжить
+        continue () {
+
+            this.navGrid[2].choice = false;
+            this.handleNavGrid(); // сетка навбара рисую еще раз что бы отрисовалась кнопка в  неактивном состоянии
+            this.view.start(true);
+        }
+
+        // ------------------------------------------- СЕРВЕРНАЯ ЧАСТЬ ------------------------------------------
+
 
         // Удалить с сервера худшего игрока из таблицы лидеров
         deleteUser(id) {
@@ -1587,7 +1769,7 @@ const myGame = (function () {
         }
 
 
-        // ------------------------------------------------- Звуки ------------------------------------------------
+        // ------------------------------------------------- ЗВУКИ ------------------------------------------------
 
         playAudioBack() {
             this.view.playAudioBack();
@@ -1601,12 +1783,9 @@ const myGame = (function () {
             this.view.playAudioGame();
         }
 
-        // mutedAudioGame(stay) {
-        //     this.view.mutedAudioGame(stay);
-        // }
-
         isMuted(stay) {
             this.view.isMuted(stay);
+            this.view.closeSaund(stay);
         }
     };
     /* -------- end model -------- */
@@ -1679,13 +1858,19 @@ const myGame = (function () {
 
                 // старт
                 if (target.className === 'new__game') {
+                    // если еще не было клика по странице, то сначала ключаю саунд бэка, что пристарте он уже был и было выключать (без этого ошибка)
+                    if (!this.audioBack) {
+                        this.playAudioBack();
+                        this.audioBack = true;
+                    }
+
                     this.start();
                     this.playAudioGame();
 
                 }
 
                 // вкл/выкл звук
-                if (target.className === 'sound') {
+                if (target.id === 'sound') {
                     if (this.muted) {
                         this.muted = false;
                         this.mutedAudioBack(false);
@@ -1708,6 +1893,19 @@ const myGame = (function () {
                     window.localStorage.setItem("Funny_Defenders_Undead", JSON.stringify(visitInfo));
 
                     this.model.userName = inputName.value;
+
+                };
+
+                // продолжить
+                if (target.id === 'continue') {
+
+                    let continueButton = this.container.querySelector(".save__true");
+                    // console.log(continueButton);
+                    if (!continueButton) {
+                        this.playAudioGame();
+                        this.model.continue();
+                    }
+
 
                 };
             })

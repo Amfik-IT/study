@@ -171,3 +171,49 @@ a {
       width: 100%;
       color: #a61cec;
       text-shadow: 1px 1px 7px black; }
+
+.save__true {
+  color: #ffffff5e;
+  text-shadow: 1px 1px 7px #b955f36e; }
+  .save__true:hover {
+    color: #ffffff5e;
+    text-shadow: 1px 1px 7px #b955f36e; }
+
+li {
+  position: relative; }
+
+.saund__off-top {
+  height: 50px;
+  width: 80px;
+  border-top: solid 3px red;
+  display: inline-block;
+  position: absolute;
+  border-radius: 50%;
+  top: -21px;
+  left: 120px;
+  -webkit-transform: rotate(0deg) translateX(50%);
+          transform: rotate(0deg) translateX(50%);
+  z-index: 0;
+  opacity: 0; }
+
+.saund__off-bottom {
+  height: 50px;
+  width: 80px;
+  border-bottom: solid 3px red;
+  display: inline-block;
+  position: absolute;
+  border-radius: 50%;
+  top: 20px;
+  left: 120px;
+  -webkit-transform: rotate(0deg) translateX(50%);
+          transform: rotate(0deg) translateX(50%);
+  z-index: 0;
+  opacity: 0; }
+
+.sound {
+  position: relative;
+  z-index: 1; }
+
+.red {
+  text-shadow: 1px 1px 25px red;
+  color: #ec1c1c; }
