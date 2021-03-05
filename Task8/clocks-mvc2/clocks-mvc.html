@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/clocks-mvc.css'>
+</head>
+
+<body>
+    <div class="row">
+        <div class="clock__modyle" data-method="DOM" data-timezone="-5">
+            <div class="rov clock__nav">
+                <button class="nav__button stop">Стоп</button>
+                <button class="nav__button start">Старт</button>
+                <div class="nav__info">Нью-Йорк (GMT-5)</div>
+            </div>
+            <div class="clock" id="DOM-5"></div>
+        </div>
+        <div class="clock__modyle" data-method="SVG" data-timezone="0">
+            <div class="rov clock__nav">
+                <button class="nav__button stop">Стоп</button>
+                <button class="nav__button start">Старт</button>
+                <div class="nav__info">Лондон (GMT)</div>
+            </div>
+            <div class="clock" id="SVG0"></div>
+        </div>
+        <div class="clock__modyle" data-method="Canvas" data-timezone="1">
+            <div class="rov clock__nav">
+                <button class="nav__button stop">Стоп</button>
+                <button class="nav__button start">Старт</button>
+                <div class="nav__info">Берлин (GMT+1)</div>
+            </div>
+            <div class="clock" id="Canvas1"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="clock__modyle" data-method="DOM" data-timezone="3">
+            <div class="rov clock__nav">
+                <button class="nav__button stop">Стоп</button>
+                <button class="nav__button start">Старт</button>
+                <div class="nav__info">Минск (GMT+3)</div>
+            </div>
+            <div class="clock" id="DOM3"></div>
+        </div>
+        <div class="clock__modyle" data-method="SVG" data-timezone="9">
+            <div class="rov clock__nav">
+                <button class="nav__button stop">Стоп</button>
+                <button class="nav__button start">Старт</button>
+                <div class="nav__info">Токио (GMT+9)</div>
+            </div>
+            <div class="clock" id="SVG9"></div>
+        </div>
+        <div class="clock__modyle" data-method="Canvas" data-timezone="10">
+            <div class="rov clock__nav">
+                <button class="nav__button stop">Стоп</button>
+                <button class="nav__button start">Старт</button>
+                <div class="nav__info">Владивосток (GMT+10)</div>
+            </div>
+            <div class="clock" id="Canvas10"></div>
+        </div>
+    </div>
+
+    <script src='js/ClockViewCanvas.js'></script>
+    <script src='js/ClockViewSVG.js'></script>
+    <script src='js/ClockViewDOM.js'></script>
+    <script src='js/Clock.js'></script>
+    <script src='js/ClockControllerButtons.js'></script>
+    <script src='js/clocks-mvc.js'></script>
+</body>
+
+</html>

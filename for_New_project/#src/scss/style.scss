@@ -1,3 +1,18 @@
+@mixin font($font_name, $file_name, $weight, $style) {
+
+    @font-face {
+    font-family: $font_name;
+    font-display: swap;
+    src: url("../fonts/#{$file_name}.woff") format("woff"), url("../fonts/#{$file_name}.woff2") format("woff2");
+    font-weight: #{$weight};
+    font-style: #{$style};
+    }
+}
+
+@import 'fonts';
+@import 'reset';
+@import 'normalize';
+
 * {
     box-sizing: border-box;
 }
@@ -49,6 +64,7 @@ body {
 }
 
 .menuWindow {
+    // background-color: #00000066;
     width: 400px;
     height: 440px;
 }
@@ -114,6 +130,8 @@ a {
     color: #ec1c1c;
     text-shadow: 1px 1px 8px black;
     padding-left: 16px;
+    // border-bottom: 1px solid #b955f3;
+    // border-bottom-left-radius: 27px;
     letter-spacing: 5px;
 }
 
@@ -126,6 +144,7 @@ a {
     display: inline-block;
     text-align: left;
     letter-spacing: 5px;
+    // border-bottom-right-radius: 27px;
     font-weight: bold;
 }
 
@@ -247,7 +266,7 @@ li {
     color: #ec1c1c;
 }
 
-.leaders-page, .getName-page, .menu-page, .rules-page, .addLeader-page, .default-page {
+.leaders-page, .getName-page, .menu-page, .rules-page {
     opacity: 0;
     transition-property: opacity;
     transition-duration: 1.5s;

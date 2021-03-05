@@ -48,7 +48,12 @@ body {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  z-index: 3; }
+  z-index: 3;
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  transition-property: opacity;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s; }
 
 .menuWindow {
   width: 400px;
@@ -217,3 +222,10 @@ li {
 .red {
   text-shadow: 1px 1px 25px red;
   color: #ec1c1c; }
+
+.leaders-page, .getName-page, .menu-page, .rules-page, .addLeader-page, .default-page {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  transition-property: opacity;
+  -webkit-transition-duration: 1.5s;
+          transition-duration: 1.5s; }

@@ -21,6 +21,7 @@ const myGame = (function () {
             this.audioBack = null;
             this.audioGame = null;
             this.muted = false;
+            this.pause = false;
 
             // страничка с меню (главная)
             this.HomeComponent = {
@@ -450,7 +451,7 @@ const myGame = (function () {
                 })
 
             } else if (!stay) {
-
+                // debugger
                 closeButton.classList.toggle('red');
                 setTimeout(() => {
                     spanCloseTop.style.opacity = '0';
@@ -515,7 +516,26 @@ const myGame = (function () {
             window.document.title = this.router[routeName].title;
             let main = document.querySelector("#main");
             main.innerHTML = this.router[routeName].render(`${routeName}-page menuWindow`);
+            main.style.opacity = 1; // для палвного появления окна main
 
+            // для палвного появления окон меню (выкидываю из стека задач, что бы сначало успело отрендерить вкладку)
+            setTimeout(() => {
+                // debugger
+                let sectionСhoice = main.querySelector(`.${routeName}-page`);
+                sectionСhoice !== null ? sectionСhoice.style.opacity = 1 : main.querySelector(`.addLeader-page`).style.opacity = 1;
+                // if (routeName !== "default") {
+                //     debugger
+                //     let sectionСhoice = main.querySelector(`.${routeName}-page`);
+                //     sectionСhoice.style.opacity = 1;
+                // } else {
+                //     debugger
+                //     let sectionСhoice = main.querySelector(`.menu-page`);
+                //     sectionСhoice.style.opacity = 1;
+                // }
+            }, 0);
+
+            if (routeName === "menu" && this.muted) this.closeSaund(true); // для блока кнопки музыка при переходе между вкладками
+            if (routeName === "menu" && this.pause) this.continueBlock(true); // для разблока кнопки продолжить при переходе между вкладками
         }
 
         // start / end 
@@ -746,6 +766,7 @@ const myGame = (function () {
                     this.win = true; // что бы отрисовало что игрок победил
                     let leader = false; // что бы не сработал или не сработал if ниже
                     this.view.continueBlock(false) // задизейблить кнопку "продолжить"
+                    this.view.pause = false; // сообщаю вив о паузе что бы при ререндере в меню не сбрасывало кнопку продолжть
 
                     for (let i = 0; i < this.arrUsers.length; i++) {
                         if (Math.round(this.score) > +this.arrUsers[i].points) { // если очки игрока превышают отчки хотябы одного игрока из таблицы лидеров тот это игрок попадает в таблицу лидеров
@@ -1027,10 +1048,11 @@ const myGame = (function () {
                 } else { // иначе сравнивает кол-во очков игрока с рейтингом очков и добавляет или нет результат в таблицу
 
                     cancelAnimationFrame(this.animateID);
-                    this.score += (this.numberOfResources / 10); // добавить очки от оставшейся энергии
+                    this.score += (Math.ceil(this.numberOfResources / 10)); // добавить очки от оставшейся энергии
                     this.numberOfResources = 0; // обнулить энергию
                     let leader = false; // что бы не сработал или не сработал if ниже
                     this.view.continueBlock(false) // задизейблить кнопку "продолжить"
+                    this.view.pause = false; // сообщаю вив о паузе что бы при ререндере в меню не сбрасывало кнопку продолжть
 
                     for (let i = 0; i < this.arrUsers.length; i++) {
                         if (this.score > +this.arrUsers[i].points) {
@@ -1411,6 +1433,7 @@ const myGame = (function () {
 
                     // поставить на пузу
                     this.navGrid[3].choice = true; // меняю флаг выделения
+                    this.view.pause = true; // сообщаю вив о паузе что бы при ререндере в меню не сбрасывало кнопку продолжть
                     cancelAnimationFrame(this.animateID); // остановить анимацию, игра на паузе
                     this.handleNavGrid(); // сетка навбара рисую еще раз что бы отрисовалась кнопка в активном состоянии
                     this.view.continueBlock(true) // раздизейблить кнопку "продолжить"
@@ -1422,12 +1445,14 @@ const myGame = (function () {
                     if (this.navGrid[3].choice === false) {
 
                         this.navGrid[3].choice = true; // меняю флаг выделения
+                        this.view.pause = true; // сообщаю вив о паузе что бы при ререндере в меню не сбрасывало кнопку продолжть
                         cancelAnimationFrame(this.animateID); // остановить анимацию, игра на паузе
                         this.handleNavGrid(); // сетка навбара рисую еще раз что бы отрисовалась кнопка в активном состоянии
                     } else {
 
                         // debugger
                         this.navGrid[3].choice = false; // меняю флаг выделения
+                        this.view.pause = false; // сообщаю вив о репаузе что бы при ререндере в меню не сбрасывало кнопку продолжть
                         this.animateID = requestAnimationFrame(this.animate); // возобновить анимацию, игра не на паузе
                     }
                 }
@@ -1856,13 +1881,14 @@ const myGame = (function () {
             main.addEventListener('click', (e) => {
                 let target = e.target;
 
+                // если еще не было клика по странице, то сначала ключаю саунд бэка, что пристарте он уже был и было выключать (без этого ошибка)
+                if (!this.audioBack) {
+                    this.playAudioBack();
+                    this.audioBack = true;
+                }
+
                 // старт
                 if (target.className === 'new__game') {
-                    // если еще не было клика по странице, то сначала ключаю саунд бэка, что пристарте он уже был и было выключать (без этого ошибка)
-                    if (!this.audioBack) {
-                        this.playAudioBack();
-                        this.audioBack = true;
-                    }
 
                     this.start();
                     this.playAudioGame();

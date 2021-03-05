@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'Play Bold', sans-serif;
+  src: local('Play-Bold'), url(../font/Play-Bold.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Play', sans-serif;
+  src: local('Play-Regular'), url(../font/Play-Regular.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Play', sans-serif;
+  font-size: 14px;
+  line-height: 1.28;
+}
+
+main {
+  text-align: center;
+  color: blue;
+
+  h1 {
+    color: red;
+  }
+
+  h2 {
+    font-family: 'Play Bold', sans-serif;
+    color: gray;
+  }
+
+  svg {
+    color: orange;
+    margin: 25px;
+  }
+}

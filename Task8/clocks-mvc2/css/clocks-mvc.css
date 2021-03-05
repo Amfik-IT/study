@@ -1,0 +1,171 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: wrap;
+    background: url('http://fe.it-academy.by/Sites/0030837/JS/Task8/clocks-mvc/b3.jpg');
+    background-size: cover;
+    margin: 50px 0px 0px;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: wrap;
+    flex-direction: row;
+}
+
+.clock__modyle {
+    width: 250px;
+    height: 300px;
+    margin: 0px 30px 30px 0px;
+}
+
+.clock__nav {
+    height: 50px;
+}
+
+.nav__button {
+    cursor: pointer;
+    width: 49%;
+    color: #afafaf;
+    background-color: #000000;
+    border-radius: 10px;
+    box-shadow: 0px 0px 7px #b1b1b1;
+    transition-duration: 0.6s;
+}
+
+.nav__button:hover {
+    box-shadow: 0px 0px 7px #983c4c;
+    color: #ca4d61;
+}
+
+.nav__button:focus {
+    outline-color: inherit;
+    outline-style: none;
+    outline-width: 0px;
+}
+
+.nav__info {
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    color: #afafaf;
+    text-shadow: black 0px 0px 15px;
+}
+
+.clock {
+    width: 250px;
+    height: 250px;
+}
+
+.circleBig {
+    border: #00000078 solid 1px;
+    position: relative;
+    border-radius: 50%;
+    background: url('http://fe.it-academy.by/Sites/0030837/JS/Task8/clocks-mvc/catOne.png') no-repeat 50% 50%;
+    background-color: #292929;
+    background-size: 50%;
+    box-shadow: 1px 1px 10px #d8cdcf;
+}
+
+.circleSmall {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 50%;
+    color: #afafaf;
+    font-weight: 900;
+    text-shadow: 0px 0px 10px #000000;
+}
+
+.hourHand {
+    position: absolute;
+    background-color: #afafaf;
+    width: 6px;
+    border: solid black 1px;
+    border-radius: 5px;
+    transform-origin: bottom center;
+    box-shadow: 0px -1px 3px #000000;
+}
+
+.minuteHand {
+    position: absolute;
+    background-color: #afafaf;
+    width: 4px;
+    border: solid black 1px;
+    border-radius: 5px;
+    transform-origin: bottom center;
+    box-shadow: 0px -1px 3px #000000;
+    z-index: 1;
+}
+
+.secondHand {
+    position: absolute;
+    background-color: #afafaf;
+    width: 3px;
+    border: solid black 1px;
+    border-radius: 1px;
+    transform-origin: bottom center;
+    box-shadow: 0px -1px 3px #000000;
+    z-index: 1;
+}
+
+.dotSmall {
+    position: absolute;
+    background-color: #000000c2;
+    border-radius: 50%;
+}
+
+.dotBig {
+    position: absolute;
+    background-color: #000000c2;
+    border-radius: 50%;
+}
+
+.litleCenterCircle {
+    position: absolute;
+    background-color: #afafaf;
+    border: solid black 1px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px #000000;
+    z-index: 1;
+}
+
+svg {
+    border: #00000078 solid 1px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 10px #d8cdcf;
+    background: url('http://fe.it-academy.by/Sites/0030837/JS/Task8/clocks-mvc/catOne.png') no-repeat 50% 50%;
+    background-color: #292929;
+    background-size: 50%;
+}
+
+.circleSvgBig {
+    fill: transparent;
+}
+
+.numeral {
+    width: 50px;
+    height: 50px;
+    fill: #afafaf;
+    font-weight: 900;
+    text-shadow: 0px 0px 10px #000000;
+    text-align: center;
+}
+
+#photo {
+    display: none;
+}
+
+.clock__canvas {
+    border-radius: 50%;
+    box-shadow: 1px 1px 10px #d8cdcf;
+}
